@@ -11,7 +11,8 @@ Github Instructions:
 	"       git add (filename)            "   OR   " git add .  "
 	"       git commit -m "(message)"     "
 	"	git push		      "
-
+-If github has file you don't have type:
+        " git restore ." OR "git restore (filename)"
 
 
 
