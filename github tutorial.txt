@@ -1,0 +1,19 @@
+Github Instructions:
+
+-In the directory type:
+	"git clone (link)"
+-If cloned for the first time go into the file you just cloned and type:
+	"git init"
+-To compare to the version in GitHub type:
+	"git status"
+
+-Back to GitHub type:
+	"       git add (filename)            "   OR   " git add .  "
+	"       git commit -m "(message)"     "
+	"	git push		      "
+
+
+
+
+
+
