@@ -14,7 +14,10 @@ Github Instructions:
 -If github has file you don't have type:
         " git restore ." OR "git restore (filename)"
 
-Testing
+-To update file:
+	" git pull"
+
+(WTF is the difference between "pull", "restore", "fetch", and "reset")
 
 
 
