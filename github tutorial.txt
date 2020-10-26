@@ -19,6 +19,8 @@ Github Instructions:
 
 (WTF is the difference between "pull", "restore", "fetch", and "reset")
 
+Indeed!
+
 
 
 
