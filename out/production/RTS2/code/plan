@@ -1,0 +1,14 @@
+Program plan(RESTART PROJECT):
+
+1) Remove threads
+2) Animation calls rocket class
+3) Make earth spherical
+4) Layered winds 1,2,3 different directions
+5) Multistage rocket
+
+a) Real-time data
+b) After program statistics
+c) Save settings / Load settings at the beginning of the programme
+
+note:
+-use abstract flyingobject class
