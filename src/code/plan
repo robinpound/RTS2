@@ -6,9 +6,9 @@ Program plan(RESTART PROJECT):
 4) Layered winds 1,2,3 different directions
 5) Multistage rocket
 
-a) Real-time data
-b) After program statistics
-c) Save settings / Load settings at the beginning of the programme
+
+a) After program statistics
+b) Save settings / Load settings at the beginning of the programme
 
 note:
 -use abstract flyingobject class
