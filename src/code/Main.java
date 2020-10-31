@@ -57,34 +57,54 @@ public class Main extends Application {
 
     public void mainMenu(){
 
-        //sets up Stage
+        //set up Stage
         Stage secondaryStage = new Stage();
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
         secondaryStage.setTitle("Main Menu");
 
-        //sets up GridPane
+        //set up GridPane
         GridPane menuGrid = new GridPane();
         menuGrid.setAlignment(Pos.TOP_CENTER);
         menuGrid.setHgap(10);
         menuGrid.setVgap(10);
 
-        //sets up Button
-        NormalButton new_btn = new NormalButton(0,0,"   New Simulation   ",menuGrid);
-        NormalButton load_btn = new NormalButton(1,1,"   Load Simulation   ",menuGrid);
-        NormalButton exit_btn = new NormalButton(2,2,"   Exit Simulation   ",menuGrid);
-        NormalButton help_btn = new NormalButton(3,3,"?",menuGrid);
+        //set up Text
+        Text title = new Text("3D-Rocket Trajectory Simulator:");
+        title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
+        menuGrid.add(title,1,0,1,1);
 
+        //set up Buttons
+        NormalButton new_btn = new NormalButton(1,1,1,1,"   New Simulation   ",menuGrid);
+        NormalButton load_btn = new NormalButton(1,2,1,1,"   Load Simulation   ",menuGrid);
+        NormalButton exit_btn = new NormalButton(1,3,1,1,"   Exit Simulation   ",menuGrid);
+        NormalButton help_btn = new NormalButton(7,7,1,1,"?",menuGrid);
+
+        //adding Buttons
         new_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(new_btn.Gettext() + "was clicked");
             }
         });
-
-
-
-
-
+        load_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(load_btn.Gettext() + "was clicked");
+            }
+        });
+        exit_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(exit_btn.Gettext() + "was clicked");
+                System.exit(0);
+            }
+        });
+        help_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(help_btn.Gettext() + "was clicked");
+            }
+        });
 
         //sets up Scene
         Scene menuScene = new Scene(menuGrid);

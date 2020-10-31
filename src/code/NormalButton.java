@@ -7,10 +7,10 @@ public class NormalButton {
     private Button btn;
     private String text;
 
-    NormalButton(int collumn, int row, String text, GridPane grid){
+    NormalButton(int collumn, int row, int columnSpan, int rowSpan, String text, GridPane grid){
         this.text = text;
         btn = new Button(text);
-        grid.add(btn,collumn,row);
+        grid.add(btn,collumn,row,columnSpan,rowSpan);
     }
     public Button GetButton(){
         return btn;
