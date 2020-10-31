@@ -24,10 +24,10 @@ public class NormalTextBox {
         addsobjects(grid);
 
     }
-    private void addsobjects(GridPane thegrid){
-        thegrid.add(thing, column, row);
-        thegrid.add(thing2, column+1, row);
-        thegrid.add(thing3,column+2, row);
+    private void addsobjects(GridPane grid){
+        grid.add(thing, column, row);
+        grid.add(thing2, column+1, row);
+        grid.add(thing3,column+2, row);
     }
 }
 
