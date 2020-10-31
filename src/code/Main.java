@@ -31,30 +31,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         mainMenu();
-
-
-        /*
-        //Inputs UI (JavaFx)
-        Stage secondaryStage = new Stage();
-        secondaryStage.initModality(Modality.APPLICATION_MODAL);
-        double[] values = inputmethod(secondaryStage);
-        //Simulation
-        Simulation sim = new Simulation();
-        sim.set_state(values[0],values[1],values[2]); //double time_step, double wind_speed, double wind_angle
-        List<List> arraylist2D = sim.run_simulation(values[3],values[4],values[5],values[6],values[7],values[8],values[9],values[10]);
-            // double fuel_mass,double dry_mass,double drag_coefficient,double nose_diameter,double engine_thrust,double burn_rate,double altitude,double azimuth
-        // OUTPUT
-            //display the rocket launch
-        AnimationWindow ani = new AnimationWindow();
-        ani.animationstart(primaryStage, arraylist2D);
-            //graphs will be called by the animation window
-         */
-
+        userInterface ui = new userInterface(primaryStage);
 
     }
-
     public void mainMenu(){
 
         //set up Stage
@@ -111,9 +91,7 @@ public class Main extends Application {
         secondaryStage.setScene(menuScene);
         secondaryStage.showAndWait();
 
-
     }
-
     public static void main(String[] args) {
         launch(args);
     }

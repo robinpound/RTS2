@@ -14,14 +14,14 @@ public class NormalTextBox {
     TextField thing2 = new TextField();
     Label thing3 = new Label();
 
-    NormalTextBox(String name, int column, int row, GridPane thegrid, String units){
+    NormalTextBox(String name, int column, int row, GridPane grid, String units){
         this.name = name;
         this.column = column;
         this.row = row;
         this.thing.setText(name+":");
         this.thing3.setText(units);
 
-        addsobjects(thegrid);
+        addsobjects(grid);
 
     }
     private void addsobjects(GridPane thegrid){
