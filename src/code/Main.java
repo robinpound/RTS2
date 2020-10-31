@@ -31,14 +31,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        mainMenu();
-        userInterface ui = new userInterface(primaryStage);
+        Stage secondaryStage = new Stage();
+        mainMenu(secondaryStage);
+        userInterface ui = new userInterface(secondaryStage);
 
     }
-    public void mainMenu(){
+    public void mainMenu(Stage secondaryStage){
 
         //set up Stage
-        Stage secondaryStage = new Stage();
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
         secondaryStage.setTitle("Main Menu");
 
@@ -54,10 +54,10 @@ public class Main extends Application {
         menuGrid.add(title,1,0,1,1);
 
         //set up Buttons
-        NormalButton new_btn = new NormalButton(1,1,1,1,"   New Simulation   ",menuGrid);
-        NormalButton load_btn = new NormalButton(1,2,1,1,"   Load Simulation   ",menuGrid);
-        NormalButton exit_btn = new NormalButton(1,3,1,1,"   Exit Simulation   ",menuGrid);
-        NormalButton help_btn = new NormalButton(7,7,1,1,"?",menuGrid);
+        NormalButton new_btn = new NormalButton("   New Simulation   ",1,1,1,1,menuGrid);
+        NormalButton load_btn = new NormalButton("   Load Simulation   ",1,2,1,1,menuGrid);
+        NormalButton exit_btn = new NormalButton("   Exit Simulation   ",1,3,1,1,menuGrid);
+        NormalButton help_btn = new NormalButton("?",7,7,1,1,menuGrid);
 
         //adding Buttons
         new_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
