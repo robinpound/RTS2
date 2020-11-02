@@ -1,5 +1,7 @@
 Github Instructions:
 
+test
+
 -In the directory type:
 	"git clone (link)"
 -If cloned for the first time go into the file you just cloned and type:
