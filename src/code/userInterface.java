@@ -26,7 +26,6 @@ public class userInterface {
     userInterface(Stage secondaryStage){
         secondaryStage.setFullScreen(true);
         // 3D
-
         PerspectiveCamera camera = new PerspectiveCamera(true);
         Group root = new Group(camera);
         SubScene subScene = new SubScene(root, 1050, 700, true, SceneAntialiasing.BALANCED);
@@ -34,8 +33,6 @@ public class userInterface {
         subScene.setCamera(camera);
 
         // 2D
-
-
         GridPane thegrid = new GridPane();
         Text title = new Text("Real Time Data:");
         title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
@@ -58,12 +55,10 @@ public class userInterface {
         pane.setLeft(thegrid);
         pane.setPrefSize(0,0);
 
-
         Scene scene = new Scene(pane);
 
         secondaryStage.setScene(scene);
         secondaryStage.setTitle("3D-Rocket Trajectory Simulator");
         secondaryStage.show();
     }
-
 }
