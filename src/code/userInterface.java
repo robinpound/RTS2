@@ -24,7 +24,7 @@ public class userInterface {
     //make new constructor with same name for preset values if needed
 
     userInterface(Stage secondaryStage){
-        secondaryStage.setFullScreen(true);
+        //secondaryStage.setFullScreen(true);
         // 3D
         PerspectiveCamera camera = new PerspectiveCamera(true);
         Group root = new Group(camera);

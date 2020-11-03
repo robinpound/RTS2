@@ -36,6 +36,8 @@ public class Main extends Application {
         userInterface ui = new userInterface(secondaryStage);
 
     }
+    Boolean CloseClicked = false;
+
     public void mainMenu(Stage secondaryStage){
 
         //set up Stage
@@ -64,12 +66,15 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(new_btn.Gettext() + "was clicked");
+                secondaryStage.close();
             }
         });
         load_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(load_btn.Gettext() + "was clicked");
+                //CALL LOADING FUNCITON
+                secondaryStage.close();
             }
         });
         exit_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -83,9 +88,11 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(help_btn.Gettext() + "was clicked");
+                //CALL HELP FUNCITON
+                secondaryStage.close();
             }
         });
-
+        
         //sets up Scene
         Scene menuScene = new Scene(menuGrid);
         secondaryStage.setScene(menuScene);
