@@ -22,59 +22,29 @@ test
 (WTF is the difference between "pull", "restore", "fetch", and "reset")
 
 
+-To make git remember login credentials:
+    $ git config --global credential.helper store
+
+
 -To sync changes in the original into a fork:
 
-	List the current configured remote repository for your fork.
+    Specify a new remote upstream repository that will be synced with the fork.
 	
-	$ git remote -v
-	> origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-	> origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
-	
-	Specify a new remote upstream repository that will be synced with the fork.
-	
-	$ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
-	
-	Verify the new upstream repository you've specified for your fork.
-	
-	$ git remote -v
-	> origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-	> origin    https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
-	> upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (fetch)
-	> upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (push)
+    $ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
 
     Fetch the branches and their respective commits from the upstream repository. Commits to main will be stored in a local branch, upstream/main.
 
     $ git fetch upstream
-    > remote: Counting objects: 75, done.
-    > remote: Compressing objects: 100% (53/53), done.
-    > remote: Total 62 (delta 27), reused 44 (delta 9)
-    > Unpacking objects: 100% (62/62), done.
-    > From https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY
-    >  * [new branch]      main     -> upstream/main
 
     Check out your fork's local main branch.
 
     $ git checkout main
-    > Switched to branch 'main'
 
     Merge the changes from upstream/main into your local main branch. This brings your fork's main branch into sync with the upstream repository, without losing your local changes.
 
     $ git merge upstream/main
-    > Updating a422352..5fdff0f
-    > Fast-forward
-    >  README                    |    9 -------
-    >  README.md                 |    7 ++++++
-    >  2 files changed, 7 insertions(+), 9 deletions(-)
-    >  delete mode 100644 README
-    >  create mode 100644 README.md
 
-    If your local branch didn't have any unique commits, Git will instead perform a "fast-forward":
+    Tip: Syncing your fork only updates your local copy of the repository. To update your fork on GitHub, you must push your changes.
 
-    $ git merge upstream/main
-    > Updating 34e91da..16c56ad
-    > Fast-forward
-    >  README.md                 |    5 +++--
-    >  1 file changed, 3 insertions(+), 2 deletions(-)
 
-	Tip: Syncing your fork only updates your local copy of the repository. To update your fork on GitHub, you must push your changes.
 
