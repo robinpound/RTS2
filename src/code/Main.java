@@ -92,7 +92,7 @@ public class Main extends Application {
                 secondaryStage.close();
             }
         });
-        
+
         //sets up Scene
         Scene menuScene = new Scene(menuGrid);
         secondaryStage.setScene(menuScene);

@@ -44,7 +44,6 @@ public class userInterface {
         exitbutton.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
                 System.exit(0);
             }
         });
