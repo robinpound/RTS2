@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -38,7 +39,7 @@ public class Main extends Application {
     }
     Boolean CloseClicked = false;
 
-    public void mainMenu(Stage secondaryStage){
+    private void mainMenu(Stage secondaryStage){
 
         //set up Stage
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -98,6 +99,13 @@ public class Main extends Application {
         secondaryStage.setScene(menuScene);
         secondaryStage.showAndWait();
 
+    }
+    private void mainMenu2(Stage secondaryStage){
+        VBox vBox = new VBox(new Label("A JavaFX Label"));
+        Scene scene = new Scene(vBox);
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
     }
     public static void main(String[] args) {
         launch(args);
