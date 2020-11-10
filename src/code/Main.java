@@ -1,30 +1,19 @@
 package code;
 
-import javafx.animation.PathTransition;
+
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.*;
-import javafx.util.Duration;
-
 import java.util.List;
 
 public class Main extends Application {
@@ -36,7 +25,9 @@ public class Main extends Application {
         userInterface ui = new userInterface(secondaryStage);
 
     }
-    public void mainMenu(Stage secondaryStage){
+    Boolean CloseClicked = false;
+
+    private void mainMenu(Stage secondaryStage){
 
         //set up Stage
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -64,12 +55,15 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(new_btn.Gettext() + "was clicked");
+                secondaryStage.close();
             }
         });
         load_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(load_btn.Gettext() + "was clicked");
+                //CALL LOADING FUNCITON
+                secondaryStage.close();
             }
         });
         exit_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -83,6 +77,8 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(help_btn.Gettext() + "was clicked");
+                //CALL HELP FUNCITON
+                secondaryStage.close();
             }
         });
 
@@ -91,6 +87,13 @@ public class Main extends Application {
         secondaryStage.setScene(menuScene);
         secondaryStage.showAndWait();
 
+    }
+    private void mainMenu2(Stage secondaryStage){
+        VBox vBox = new VBox(new Label("A JavaFX Label"));
+        Scene scene = new Scene(vBox);
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
     }
     public static void main(String[] args) {
         launch(args);

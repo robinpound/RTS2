@@ -1,5 +1,7 @@
 Github Instructions:
 
+test
+
 -In the directory type:
 	"git clone (link)"
 -If cloned for the first time go into the file you just cloned and type:
@@ -8,11 +10,11 @@ Github Instructions:
 	"git status"
 
 -Back to GitHub type:
-	"       git add (filename)            "   OR   " git add .  "
-	"       git commit -m "(message)"     "
+	"       git add (filename)            "   OR   "   git add .     "
+	"       git commit -m "message"       "
 	"	git push		      "
 -If github has file you don't have type:
-        " git restore ." OR "git restore (filename)"
+        "       git restore (filename)        "   OR   "   git restore . "
 
 -To update file:
 	" git pull"
