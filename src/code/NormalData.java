@@ -3,7 +3,10 @@ package code;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -24,8 +27,8 @@ public class NormalData {
         this.name = name;
         this.column = column;
         this.row = row;
-        this.thing.setText(name+":");
-        this.thing3.setText(" - " + units);
+        this.thing.setText(name + ": ");
+        this.thing3.setText(" " + units);
         addsobjects(grid);
     }
     public void setText(double number){
@@ -39,9 +42,17 @@ public class NormalData {
     }
     private void addsobjects(GridPane grid){
         grid.add(thing, column, row);
-        thing2.setTextAlignment(TextAlignment.RIGHT); //doesn't work!!!
-        grid.add(thing2, column+1, row);
+        grid.add(thing2,column+1, row);
         grid.add(thing3,column+2, row);
-        //grid.getColumnConstraints().get(1).setHalignment(HPos.RIGHT);  //trying to set alignment of box within column - crashes
+        ColumnConstraints defaultconstraints = new ColumnConstraints(); // default constraints
+        ColumnConstraints thing2constraints = new ColumnConstraints();  // constraints to right justify data fields
+        thing2constraints.setMaxWidth(Double.MAX_VALUE);                //
+        thing2constraints.setFillWidth(true);                           //
+        thing2constraints.setHalignment(HPos.RIGHT);                    //
+        grid.getColumnConstraints().removeAll();                        // tidy up any previous constraints that may have been set up
+        for(int i=0; i<=column; i++) {
+            grid.getColumnConstraints().add(i, defaultconstraints);     // add empty constraints for preceding columns
+        }
+        grid.getColumnConstraints().add(column+1, thing2constraints);   // add constraints for data column
     }
 }

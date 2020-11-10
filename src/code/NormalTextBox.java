@@ -1,8 +1,14 @@
 package code;
 
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import sun.swing.MenuItemLayoutHelper;
 
 public class NormalTextBox {
 
@@ -26,7 +32,7 @@ public class NormalTextBox {
     }
     private void addsobjects(GridPane grid){
         grid.add(thing, column, row);
-        grid.add(thing2, column+1, row);
+        grid.add(thing2,column+1, row);
         grid.add(thing3,column+2, row);
     }
 }
