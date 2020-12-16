@@ -49,7 +49,7 @@ public class userInterface {
         NormalTextBox textbox3 = new NormalTextBox("fuel",0,2,thegrid,"%");
         NormalTextBox textbox4 = new NormalTextBox("Speed",0,3,thegrid,"m/s");
          */
-
+        /*
         NormalData TimeElapsed = new NormalData("Time Elapsed", 0,1,thegrid,"s");
         NormalData Position = new NormalData("Position(X,Y,Z)", 0,2,thegrid,"m");
         NormalData Velocity = new NormalData("Velocity", 0,3,thegrid,"m/s");
@@ -62,9 +62,13 @@ public class userInterface {
         NormalData Atmosphere = new NormalData("Atmosphere", 0,10,thegrid,"kg/m^3");
         NormalData Gravity = new NormalData("Gravity", 0,11,thegrid,"N");
 
+
+
         Fuel.setText(1.000);
         Thrust.setText(123123.1231);
         Position.setText(100,100,100);
+
+
         NormalButton exitbutton = new NormalButton("Exit",0,13,1,1,thegrid);
         exitbutton.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -72,6 +76,8 @@ public class userInterface {
                 System.exit(0);
             }
         });
+
+         */
     }
     private SubScene displaySimulation() {
         //3D

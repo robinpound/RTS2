@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 public class NormalData {
 
     String name;
-    int column;
+    int column = 0;
     int row;
 
     Label thing = new Label();
@@ -23,9 +23,8 @@ public class NormalData {
     Label thing3 = new Label();
     DecimalFormat df2 = new DecimalFormat("#.##");
 
-    NormalData(String name, int column, int row, GridPane grid, String units){
+    NormalData(String name, int row, GridPane grid, String units){
         this.name = name;
-        this.column = column;
         this.row = row;
         this.thing.setText(name + ": ");
         this.thing3.setText(" " + units);

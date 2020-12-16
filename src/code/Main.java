@@ -22,7 +22,26 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Stage secondaryStage = new Stage();
         mainMenu(secondaryStage);
-        userInterface ui = new userInterface(secondaryStage);
+        //userInterface ui = new userInterface(secondaryStage);
+
+        NormalUserInterface ui = new NormalUserInterface(650, 950,secondaryStage);
+
+        ui.createGridPane(250);
+        ui.addStageDimensions();
+        ui.addCameraAndSubscene();
+        ui.setSimulation();
+        ui.FunctionNameHere();
+        ui.addNormalDataToTheGrid("bob", "semi-retired");
+        ui.addNormalDataToTheGrid("robin", "bubbles");
+        ui.NormalDataHashMap.get("robin").setText(4.2343242432432,7.374637248632874,2.2310957325692318748321964);
+        ui.addNormalDataToTheGrid("steve", "bald");
+        ui.NormalDataHashMap.get("steve").setText(4.2,7.3,2.2);
+        ui.addNormalDataToTheGrid("mum", "old");
+        ui.addNormalDataToTheGrid("alan", "semi-retired");
+        ui.addButtonToTheGrid("exit", 2,2);
+        ui.NormalButtonHashMap.get("exit").SetColumn(5);
+
+
 
     }
     Boolean CloseClicked = false;
@@ -45,10 +64,16 @@ public class Main extends Application {
         menuGrid.add(title,1,0,1,1);
 
         //set up Buttons
-        NormalButton new_btn = new NormalButton("   New Simulation   ",1,1,1,1,menuGrid);
-        NormalButton load_btn = new NormalButton("   Load Simulation   ",1,2,1,1,menuGrid);
-        NormalButton exit_btn = new NormalButton("   Exit Simulation   ",1,3,1,1,menuGrid);
-        NormalButton help_btn = new NormalButton("?",7,7,1,1,menuGrid);
+
+        NormalButton new_btn = new NormalButton("   New Simulation   ",1,1,1,menuGrid);
+        NormalButton load_btn = new NormalButton("   Load Simulation   ",2,1,1,menuGrid);
+        NormalButton exit_btn = new NormalButton("   Exit Simulation   ",3,1,1,menuGrid);
+        NormalButton help_btn = new NormalButton("?",7,1,1,menuGrid);
+        new_btn.SetColumn(1);
+        load_btn.SetColumn(1);
+        exit_btn.SetColumn(1);
+        help_btn.SetColumn(7);
+
 
         //adding Buttons
         new_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -81,6 +106,8 @@ public class Main extends Application {
                 secondaryStage.close();
             }
         });
+
+
 
         //sets up Scene
         Scene menuScene = new Scene(menuGrid);
