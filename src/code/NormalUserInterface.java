@@ -27,7 +27,7 @@ public class NormalUserInterface {
     SubScene subScene;
 
 
-    NormalUserInterface(int windowHeight, int windowWidth, Stage secondaryStage){
+    NormalUserInterface(int windowHeight, int windowWidth, Stage secondaryStage){ //constructor
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.secondaryStage = secondaryStage;
@@ -73,4 +73,5 @@ public class NormalUserInterface {
         NormalButtonHashMap.put(name, new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid));
         rowCounter ++;
     };
+    
 }

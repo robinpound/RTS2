@@ -18,35 +18,18 @@ import java.util.List;
 
 public class Main extends Application {
 
+    Boolean CloseClicked = false;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Stage secondaryStage = new Stage();
-        mainMenu(secondaryStage);
-        //userInterface ui = new userInterface(secondaryStage);
-
-        NormalUserInterface ui = new NormalUserInterface(650, 950,secondaryStage);
-
-        ui.createGridPane(250);
-        ui.addStageDimensions();
-        ui.addCameraAndSubscene();
-        ui.setSimulation();
-        ui.FunctionNameHere();
-        ui.addNormalDataToTheGrid("bob", "semi-retired");
-        ui.addNormalDataToTheGrid("robin", "bubbles");
-        ui.NormalDataHashMap.get("robin").setText(4.2343242432432,7.374637248632874,2.2310957325692318748321964);
-        ui.addNormalDataToTheGrid("steve", "bald");
-        ui.NormalDataHashMap.get("steve").setText(4.2,7.3,2.2);
-        ui.addNormalDataToTheGrid("mum", "old");
-        ui.addNormalDataToTheGrid("alan", "semi-retired");
-        ui.addButtonToTheGrid("exit", 2,2);
-        ui.NormalButtonHashMap.get("exit").SetColumn(5);
-
-
+        loginMenu(secondaryStage);
+        BuildingMenu(secondaryStage);
+        SimulationMenu(secondaryStage);
 
     }
-    Boolean CloseClicked = false;
 
-    private void mainMenu(Stage secondaryStage){
+
+    private void loginMenu(Stage secondaryStage){
 
         //set up Stage
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -115,13 +98,31 @@ public class Main extends Application {
         secondaryStage.showAndWait();
 
     }
-    private void mainMenu2(Stage secondaryStage){
-        VBox vBox = new VBox(new Label("A JavaFX Label"));
-        Scene scene = new Scene(vBox);
+    public void BuildingMenu(Stage secondaryStage){
+        NormalUserInterface FirstUI = new NormalUserInterface(650, 950,secondaryStage);
 
-        Stage stage = new Stage();
-        stage.setScene(scene);
+        FirstUI.createGridPane(250);
+        FirstUI.addStageDimensions();
+        FirstUI.addCameraAndSubscene();
+        FirstUI.setSimulation();
+        FirstUI.FunctionNameHere();
+
+        FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
+        FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
+        FirstUI.addNormalDataToTheGrid("burn_rate", "kg/s");
+        FirstUI.addNormalDataToTheGrid("drag-coefficient", "none");
+        FirstUI.addNormalDataToTheGrid("something", "?");
+
+        FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
+
+        FirstUI.addButtonToTheGrid("exit", 2,2);
+        FirstUI.NormalButtonHashMap.get("exit").SetColumn(5);
+
+
     }
+    private void SimulationMenu(Stage secondaryStage) {
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

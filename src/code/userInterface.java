@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/*
 public class userInterface {
     //make new constructor with same name for preset values if needed
 
@@ -48,8 +48,8 @@ public class userInterface {
         NormalTextBox textbox2 = new NormalTextBox("Altitude",0,1,thegrid,"m");
         NormalTextBox textbox3 = new NormalTextBox("fuel",0,2,thegrid,"%");
         NormalTextBox textbox4 = new NormalTextBox("Speed",0,3,thegrid,"m/s");
-         */
-        /*
+         \*
+
         NormalData TimeElapsed = new NormalData("Time Elapsed", 0,1,thegrid,"s");
         NormalData Position = new NormalData("Position(X,Y,Z)", 0,2,thegrid,"m");
         NormalData Velocity = new NormalData("Velocity", 0,3,thegrid,"m/s");
@@ -77,7 +77,7 @@ public class userInterface {
             }
         });
 
-         */
+
     }
     private SubScene displaySimulation() {
         //3D
@@ -98,3 +98,6 @@ public class userInterface {
         return secondaryStage;
     }
 }
+
+ */
+
