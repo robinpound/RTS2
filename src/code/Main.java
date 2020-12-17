@@ -105,18 +105,29 @@ public class Main extends Application {
         FirstUI.addStageDimensions();
         FirstUI.addCameraAndSubscene();
         FirstUI.setSimulation();
-        FirstUI.FunctionNameHere();
+        FirstUI.Configure();
+
+        FirstUI.addText("Launching Statistics:", 20, 3, 1);
 
         FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
         FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
         FirstUI.addNormalDataToTheGrid("burn_rate", "kg/s");
         FirstUI.addNormalDataToTheGrid("drag-coefficient", "none");
         FirstUI.addNormalDataToTheGrid("something", "?");
+        //FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
 
-        FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
+        FirstUI.addText("________________", 1, 3, 1);
+        FirstUI.addText("Edit:", 20, 3, 1);
 
-        FirstUI.addButtonToTheGrid("exit", 2,2);
-        FirstUI.NormalButtonHashMap.get("exit").SetColumn(5);
+        FirstUI.addButtonToTheGrid("Rocket", 0,0);
+        FirstUI.NormalButtonHashMap.get("Rocket").SetColumn(1);
+        FirstUI.addButtonToTheGrid("Environment", 0,0);
+        FirstUI.NormalButtonHashMap.get("Environment").SetColumn(1);
+        FirstUI.addButtonToTheGrid("exit", 0,0);
+        FirstUI.NormalButtonHashMap.get("exit").SetColumn(1);
+
+
+
 
 
     }

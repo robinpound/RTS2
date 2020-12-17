@@ -4,6 +4,9 @@ import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Dictionary;
@@ -55,7 +58,7 @@ public class NormalUserInterface {
         subScene.setHeight(windowHeight);
         subScene.setWidth(windowWidth-gridPaneWidth);
     }
-    public void FunctionNameHere(){
+    public void Configure(){
         BorderPane pane = new BorderPane();
         pane.setRight(subScene);
         pane.setLeft(thegrid);
@@ -73,5 +76,11 @@ public class NormalUserInterface {
         NormalButtonHashMap.put(name, new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid));
         rowCounter ++;
     };
-    
+    public void addText(String text, int size, int colspan, int rowspan){
+        Text title = new Text(text);
+        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
+        thegrid.add(title, 0, rowCounter,3,1);
+        rowCounter++;
+    }
+
 }
