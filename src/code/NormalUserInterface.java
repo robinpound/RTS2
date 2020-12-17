@@ -1,8 +1,10 @@
 package code;
 
+import javafx.geometry.VPos;
 import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -74,6 +76,7 @@ public class NormalUserInterface {
 
     public void addButtonToTheGrid(String name, int columnSpan, int rowSpan){
         NormalButtonHashMap.put(name, new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid));
+        //String text, int row, int columnSpan, int rowSpan, GridPane grid
         rowCounter ++;
     };
     public void addText(String text, int size, int colspan, int rowspan){

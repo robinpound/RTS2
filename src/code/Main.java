@@ -119,12 +119,12 @@ public class Main extends Application {
         FirstUI.addText("________________", 1, 3, 1);
         FirstUI.addText("Edit:", 20, 3, 1);
 
-        FirstUI.addButtonToTheGrid("Rocket", 0,0);
-        FirstUI.NormalButtonHashMap.get("Rocket").SetColumn(1);
-        FirstUI.addButtonToTheGrid("Environment", 0,0);
+        FirstUI.addButtonToTheGrid("Rocket", 1,1);
+        FirstUI.NormalButtonHashMap.get("Rocket").SetColumn(0);
+        FirstUI.addButtonToTheGrid("Environment", 1,1);
         FirstUI.NormalButtonHashMap.get("Environment").SetColumn(1);
-        FirstUI.addButtonToTheGrid("exit", 0,0);
-        FirstUI.NormalButtonHashMap.get("exit").SetColumn(1);
+        FirstUI.addButtonToTheGrid("exit", 1,1);
+        FirstUI.NormalButtonHashMap.get("exit").SetColumn(2);
 
 
 
