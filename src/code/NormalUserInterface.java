@@ -25,27 +25,27 @@ public class NormalUserInterface {
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<String, NormalButton>();
 
 
-    Stage secondaryStage;
+    Stage theStage;
     GridPane thegrid;
     PerspectiveCamera camera;
     Group root;
     SubScene subScene;
 
 
-    NormalUserInterface(int windowHeight, int windowWidth, Stage secondaryStage){ //constructor
+    NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
-        this.secondaryStage = secondaryStage;
+        this.theStage = theStage;
     }
     public void createGridPane(int gridPaneWidth){
         thegrid = new GridPane();
         this.gridPaneWidth = gridPaneWidth;
     }
     public void addStageDimensions(){
-        secondaryStage.setMinHeight(windowHeight);
-        secondaryStage.setMinWidth(windowWidth);
-        secondaryStage.setMaxHeight(windowHeight);
-        secondaryStage.setMaxWidth(windowWidth);
+        theStage.setMinHeight(windowHeight);
+        theStage.setMinWidth(windowWidth);
+        theStage.setMaxHeight(windowHeight);
+        theStage.setMaxWidth(windowWidth);
 
     }
     public void addCameraAndSubscene() {
@@ -65,9 +65,9 @@ public class NormalUserInterface {
         pane.setRight(subScene);
         pane.setLeft(thegrid);
         Scene scene = new Scene(pane);
-        secondaryStage.setScene(scene);
-        secondaryStage.setTitle("3D-Rocket Trajectory Simulator");
-        secondaryStage.show();
+        theStage.setScene(scene);
+        theStage.setTitle("3D-Rocket Trajectory Simulator");
+        theStage.show();
     }
     public void addNormalDataToTheGrid(String name, String units){
         NormalDataHashMap.put(name,new NormalData(name,rowCounter,thegrid,units));

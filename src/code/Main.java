@@ -148,7 +148,9 @@ public class Main extends Application {
             }
         });
 
+
         thirdStage.showAndWait();
+
     }
     private void SimulationMenu(Stage fourthStage) {
         NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, fourthStage);
