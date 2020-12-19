@@ -42,21 +42,20 @@ public class Main extends Application {
         menuGrid.setVgap(10);
 
         //set up Text
-        Text title = new Text("3D-Rocket Trajectory Simulator:");
+        Text title = new Text("3D-Rocket Trajectory Simulator(all wrong and unfinished):");
         title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
         menuGrid.add(title,1,0,1,1);
 
         //set up Buttons
 
-        NormalButton new_btn = new NormalButton("   New Simulation   ",1,1,1,menuGrid);
-        NormalButton load_btn = new NormalButton("   Load Simulation   ",2,1,1,menuGrid);
-        NormalButton exit_btn = new NormalButton("   Exit Simulation   ",3,1,1,menuGrid);
+        NormalButton new_btn = new NormalButton("   thing   ",1,1,1,menuGrid);
+        NormalButton load_btn = new NormalButton("   thing2   ",2,1,1,menuGrid);
+        NormalButton exit_btn = new NormalButton("   Exit   ",3,1,1,menuGrid);
         NormalButton help_btn = new NormalButton("?",7,1,1,menuGrid);
         new_btn.SetColumn(1);
         load_btn.SetColumn(1);
         exit_btn.SetColumn(1);
         help_btn.SetColumn(7);
-
 
         //adding Buttons
         new_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -90,8 +89,6 @@ public class Main extends Application {
             }
         });
 
-
-
         //sets up Scene
         Scene menuScene = new Scene(menuGrid);
         secondaryStage.setScene(menuScene);
@@ -112,7 +109,7 @@ public class Main extends Application {
         FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
         FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
         FirstUI.addNormalDataToTheGrid("burn_rate", "kg/s");
-        FirstUI.addNormalDataToTheGrid("drag-coefficient", "none");
+        FirstUI.addNormalDataToTheGrid("drag-coefficient", "none"); //can we do this as just drag?
         FirstUI.addNormalDataToTheGrid("something", "?");
         //FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
 
@@ -122,13 +119,11 @@ public class Main extends Application {
         FirstUI.addButtonToTheGrid("Rocket", 1,1);
         FirstUI.NormalButtonHashMap.get("Rocket").SetColumn(0);
         FirstUI.addButtonToTheGrid("Environment", 1,1);
-        FirstUI.NormalButtonHashMap.get("Environment").SetColumn(1);
+        FirstUI.NormalButtonHashMap.get("Environment").SetColumn(0);
+        FirstUI.addButtonToTheGrid("Launch", 1,1);
+        FirstUI.NormalButtonHashMap.get("Launch").SetColumn(0);
         FirstUI.addButtonToTheGrid("exit", 1,1);
-        FirstUI.NormalButtonHashMap.get("exit").SetColumn(2);
-
-
-
-
+        FirstUI.NormalButtonHashMap.get("exit").SetColumn(0);
 
     }
     private void SimulationMenu(Stage secondaryStage) {
