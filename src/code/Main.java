@@ -23,12 +23,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Stage secondaryStage = new Stage();
         loginMenu(secondaryStage);
-        BuildingMenu(secondaryStage);
-        SimulationMenu(secondaryStage);
+        Stage thirdStage = new Stage();
+        BuildingMenu(thirdStage);
+        Stage fourthStage = new Stage();
+        SimulationMenu(fourthStage);
 
     }
-
-
     private void loginMenu(Stage secondaryStage){
 
         //set up Stage
@@ -95,8 +95,8 @@ public class Main extends Application {
         secondaryStage.showAndWait();
 
     }
-    public void BuildingMenu(Stage secondaryStage){
-        NormalUserInterface FirstUI = new NormalUserInterface(650, 950,secondaryStage);
+    public void BuildingMenu(Stage thirdStage){
+        NormalUserInterface FirstUI = new NormalUserInterface(650, 950,thirdStage);
 
         FirstUI.createGridPane(250);
         FirstUI.addStageDimensions();
@@ -104,8 +104,7 @@ public class Main extends Application {
         FirstUI.setSimulation();
         FirstUI.Configure();
 
-        FirstUI.addText("Launching Statistics:", 20, 3, 1);
-
+        FirstUI.addText("Launching Statistics:", 30, 3, 1);
         FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
         FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
         FirstUI.addNormalDataToTheGrid("burn_rate", "kg/s");
@@ -114,19 +113,109 @@ public class Main extends Application {
         //FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
 
         FirstUI.addText("________________", 1, 3, 1);
-        FirstUI.addText("Edit:", 20, 3, 1);
-
+        FirstUI.addText("Edit:", 30, 3, 1);
         FirstUI.addButtonToTheGrid("Rocket", 1,1);
-        FirstUI.NormalButtonHashMap.get("Rocket").SetColumn(0);
+        FirstUI.NormalButtonHashMap.get("Rocket").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(FirstUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
+                //Rocket settings here
+            }
+        });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
-        FirstUI.NormalButtonHashMap.get("Environment").SetColumn(0);
+        FirstUI.NormalButtonHashMap.get("Environment").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(FirstUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
+                //Environment Settings here
+            }
+        });
         FirstUI.addButtonToTheGrid("Launch", 1,1);
-        FirstUI.NormalButtonHashMap.get("Launch").SetColumn(0);
-        FirstUI.addButtonToTheGrid("exit", 1,1);
-        FirstUI.NormalButtonHashMap.get("exit").SetColumn(0);
+        FirstUI.NormalButtonHashMap.get("Launch").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                thirdStage.close();
+                System.out.println(FirstUI.NormalButtonHashMap.get("Launch").Gettext() + " was clicked");
+            }
+        });
+        FirstUI.addButtonToTheGrid("Exit", 1,1);
+        FirstUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                thirdStage.close();
+                System.out.println(FirstUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
+                System.exit(0);
+            }
+        });
 
+        thirdStage.showAndWait();
     }
-    private void SimulationMenu(Stage secondaryStage) {
+    private void SimulationMenu(Stage fourthStage) {
+        NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, fourthStage);
+
+        SecondUI.createGridPane(250);
+        SecondUI.addStageDimensions();
+        SecondUI.addCameraAndSubscene();
+        SecondUI.setSimulation();
+        SecondUI.Configure();
+
+        SecondUI.addText("Real Time Data:", 30, 3, 1);
+        SecondUI.addNormalDataToTheGrid("Location", "m");
+        SecondUI.addNormalDataToTheGrid("Velocity", "m/s");
+        SecondUI.addNormalDataToTheGrid("Acceleration", ",,");
+        SecondUI.addNormalDataToTheGrid("---", ",,");
+        SecondUI.addNormalDataToTheGrid("---", ",,");
+        //SecondUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
+
+        SecondUI.addText("________________", 1, 3, 1);
+        SecondUI.addText("Options:", 30, 3, 1);
+        SecondUI.addButtonToTheGrid("Rocket", 1,1);
+        SecondUI.NormalButtonHashMap.get("Rocket").SetColumn(0);
+        SecondUI.NormalButtonHashMap.get("Rocket").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(SecondUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
+                //Rocket settings here
+            }
+        });
+        SecondUI.addButtonToTheGrid("Environment", 1,1);
+        SecondUI.NormalButtonHashMap.get("Environment").SetColumn(0);
+        SecondUI.NormalButtonHashMap.get("Environment").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(SecondUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
+                //Environment Settings here
+            }
+        });
+        SecondUI.addButtonToTheGrid("Analysis", 1,1);
+        SecondUI.NormalButtonHashMap.get("Analysis").SetColumn(0);
+        SecondUI.NormalButtonHashMap.get("Analysis").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(SecondUI.NormalButtonHashMap.get("Analysis").Gettext() + " was clicked");
+                //launch here
+            }
+        });
+        SecondUI.addButtonToTheGrid("Restart", 1,1);
+        SecondUI.NormalButtonHashMap.get("Restart").SetColumn(0);
+        SecondUI.NormalButtonHashMap.get("Restart").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(SecondUI.NormalButtonHashMap.get("Restart").Gettext() + " was clicked");
+                //restart here
+            }
+        });
+        SecondUI.addButtonToTheGrid("Exit", 1,1);
+        SecondUI.NormalButtonHashMap.get("Exit").SetColumn(0);
+        SecondUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                fourthStage.close();
+                System.out.println(SecondUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
+                System.exit(0);
+            }
+        });
+
     }
 
     public static void main(String[] args) {
