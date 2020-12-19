@@ -1,0 +1,50 @@
+Github Instructions:
+
+test
+
+-In the directory type:
+	"git clone (link)"
+-If cloned for the first time go into the file you just cloned and type:
+	"git init"
+-To compare to the version in GitHub type:
+	"git status"
+
+-Back to GitHub type:
+	"       git add (filename)            "   OR   "   git add .     "
+	"       git commit -m "message"       "
+	"	git push		      "
+-If github has file you don't have type:
+        "       git restore (filename)        "   OR   "   git restore . "
+
+-To update file:
+	" git pull"
+
+(WTF is the difference between "pull", "restore", "fetch", and "reset")
+
+
+-To make git remember login credentials:
+    $ git config --global credential.helper store
+
+
+-To sync changes in the original into a fork:
+
+    Specify a new remote upstream repository that will be synced with the fork.
+	
+    $ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+
+    Fetch the branches and their respective commits from the upstream repository. Commits to main will be stored in a local branch, upstream/main.
+
+    $ git fetch upstream
+
+    Check out your fork's local main branch.
+
+    $ git checkout main
+
+    Merge the changes from upstream/main into your local main branch. This brings your fork's main branch into sync with the upstream repository, without losing your local changes.
+
+    $ git merge upstream/main
+
+    Tip: Syncing your fork only updates your local copy of the repository. To update your fork on GitHub, you must push your changes.
+
+
+

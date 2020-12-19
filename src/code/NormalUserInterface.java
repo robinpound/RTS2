@@ -1,9 +1,14 @@
 package code;
 
+import javafx.geometry.VPos;
 import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Dictionary;
@@ -20,27 +25,27 @@ public class NormalUserInterface {
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<String, NormalButton>();
 
 
-    Stage secondaryStage;
+    Stage theStage;
     GridPane thegrid;
     PerspectiveCamera camera;
     Group root;
     SubScene subScene;
 
 
-    NormalUserInterface(int windowHeight, int windowWidth, Stage secondaryStage){ //constructor
+    NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
-        this.secondaryStage = secondaryStage;
+        this.theStage = theStage;
     }
     public void createGridPane(int gridPaneWidth){
         thegrid = new GridPane();
         this.gridPaneWidth = gridPaneWidth;
     }
     public void addStageDimensions(){
-        secondaryStage.setMinHeight(windowHeight);
-        secondaryStage.setMinWidth(windowWidth);
-        secondaryStage.setMaxHeight(windowHeight);
-        secondaryStage.setMaxWidth(windowWidth);
+        theStage.setMinHeight(windowHeight);
+        theStage.setMinWidth(windowWidth);
+        theStage.setMaxHeight(windowHeight);
+        theStage.setMaxWidth(windowWidth);
 
     }
     public void addCameraAndSubscene() {
@@ -55,14 +60,14 @@ public class NormalUserInterface {
         subScene.setHeight(windowHeight);
         subScene.setWidth(windowWidth-gridPaneWidth);
     }
-    public void FunctionNameHere(){
+    public void Configure(){
         BorderPane pane = new BorderPane();
         pane.setRight(subScene);
         pane.setLeft(thegrid);
         Scene scene = new Scene(pane);
-        secondaryStage.setScene(scene);
-        secondaryStage.setTitle("3D-Rocket Trajectory Simulator");
-        secondaryStage.show();
+        theStage.setScene(scene);
+        theStage.setTitle("3D-Rocket Trajectory Simulator");
+        theStage.show();
     }
     public void addNormalDataToTheGrid(String name, String units){
         NormalDataHashMap.put(name,new NormalData(name,rowCounter,thegrid,units));
@@ -71,7 +76,14 @@ public class NormalUserInterface {
 
     public void addButtonToTheGrid(String name, int columnSpan, int rowSpan){
         NormalButtonHashMap.put(name, new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid));
+        //String text, int row, int columnSpan, int rowSpan, GridPane grid
         rowCounter ++;
     };
-    
+    public void addText(String text, int size, int colspan, int rowspan){
+        Text title = new Text(text);
+        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
+        thegrid.add(title, 0, rowCounter,3,1);
+        rowCounter++;
+    }
+
 }
