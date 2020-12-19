@@ -154,6 +154,7 @@ public class Main extends Application {
         });
 
 
+        FirstUI.GetStage().showAndWait();
 
     }
     private void SimulationMenu(Stage secondaryStage) {

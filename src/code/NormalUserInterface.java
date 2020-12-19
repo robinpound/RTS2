@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Dictionary;
@@ -25,7 +26,7 @@ public class NormalUserInterface {
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<String, NormalButton>();
 
 
-    Stage theStage;
+    private Stage theStage;
     GridPane thegrid;
     PerspectiveCamera camera;
     Group root;
@@ -33,6 +34,7 @@ public class NormalUserInterface {
 
 
     NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
+        theStage.initModality(Modality.APPLICATION_MODAL);
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.theStage = theStage;
@@ -87,5 +89,7 @@ public class NormalUserInterface {
         thegrid.add(title, 0, rowCounter,3,1);
         rowCounter++;
     }
-
+    public Stage GetStage(){
+        return theStage;
+    }
 }
