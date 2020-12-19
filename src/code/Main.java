@@ -21,18 +21,15 @@ public class Main extends Application {
     Boolean CloseClicked = false;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Stage secondaryStage = new Stage();
-        loginMenu(secondaryStage);
-        Stage thirdStage = new Stage();
-        BuildingMenu(thirdStage);
-        Stage fourthStage = new Stage();
-        SimulationMenu(fourthStage);
-
+        LoginMenu();
+        BuildingMenu();
+        SimulationMenu();
     }
-    private void loginMenu(Stage secondaryStage){
+    private void LoginMenu(){
+        Stage secondaryStage = new Stage();
 
         //set up Stage
-        secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.initModality(Modality.WINDOW_MODAL);
         secondaryStage.setTitle("Main Menu");
 
         //set up GridPane
@@ -93,9 +90,13 @@ public class Main extends Application {
         Scene menuScene = new Scene(menuGrid);
         secondaryStage.setScene(menuScene);
         secondaryStage.showAndWait();
+        secondaryStage.close();
 
     }
-    public void BuildingMenu(Stage thirdStage){
+    public void BuildingMenu(){
+        Stage thirdStage = new Stage();
+        thirdStage.initModality(Modality.WINDOW_MODAL);
+
         NormalUserInterface FirstUI = new NormalUserInterface(650, 950,thirdStage);
 
         FirstUI.createGridPane(250);
@@ -150,9 +151,12 @@ public class Main extends Application {
 
 
         thirdStage.showAndWait();
+        thirdStage.close();
 
     }
-    private void SimulationMenu(Stage fourthStage) {
+    private void SimulationMenu() {
+        Stage fourthStage = new Stage();
+        fourthStage.initModality(Modality.WINDOW_MODAL);
         NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, fourthStage);
 
         SecondUI.createGridPane(250);
@@ -217,6 +221,9 @@ public class Main extends Application {
                 System.exit(0);
             }
         });
+
+        fourthStage.showAndWait();
+        fourthStage.close();
 
     }
 
