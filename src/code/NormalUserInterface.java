@@ -39,10 +39,8 @@ public class NormalUserInterface {
         this.windowWidth = windowWidth;
         this.theStage = theStage;
     }
-    public void createGridPane(int gridPaneWidth, int Hgap, int Vgap){
+    public void createGridPane(int gridPaneWidth){
         thegrid = new GridPane();
-        thegrid.setHgap(Hgap);
-        thegrid.setVgap(Vgap);
         this.gridPaneWidth = gridPaneWidth;
     }
     public void addStageDimensions(){
