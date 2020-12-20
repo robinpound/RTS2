@@ -1,5 +1,6 @@
 package code;
 
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
@@ -40,12 +41,14 @@ public class NormalUserInterface {
         this.windowWidth = windowWidth;
         this.theStage = new Stage();
         this.theStage.initOwner(theStage);
-        this.theStage.initModality(Modality.WINDOW_MODAL);
+        this.theStage.initModality(Modality.APPLICATION_MODAL);
     }
     public void createGridPane(int gridPaneWidth, int Hgap, int Vgap){
         thegrid = new GridPane();
         thegrid.setHgap(Hgap);
         thegrid.setVgap(Vgap);
+        Insets ins = new Insets(8.0,16.0,8.8,16.0);
+        thegrid.setPadding(ins);
         this.gridPaneWidth = gridPaneWidth;
     }
     public void addStageDimensions(){
@@ -84,7 +87,9 @@ public class NormalUserInterface {
     };
 
     public void addButtonToTheGrid(String name, int columnSpan, int rowSpan){
-        NormalButtonHashMap.put(name, new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid));
+        NormalButton button = new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid);
+        button.GetButton().setMinSize(110.0,30.0);
+        NormalButtonHashMap.put(name, button);
         rowCounter ++;
     };
     public void addFieldToTheGrid(String name, String units){

@@ -125,7 +125,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(FirstUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                HashMap<String,Double> fields = RocketParameterMenu(primaryStage);
+                HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
             }
         });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
@@ -133,7 +133,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(FirstUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
-                //Environment Settings here
+                HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
             }
         });
         FirstUI.addButtonToTheGrid("Launch", 1,1);
@@ -159,6 +159,7 @@ public class Main extends Application {
 
     }
     private void SimulationMenu(Stage primaryStage) {
+        System.out.println("Simulation Menu");
         NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, primaryStage);
         SecondUI.GetStage().setTitle("Simulation");
 
@@ -184,7 +185,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                //Rocket settings here
+                HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
             }
         });
         SecondUI.addButtonToTheGrid("Environment", 1,1);
@@ -193,7 +194,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
-                //Environment Settings here
+                HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
             }
         });
         SecondUI.addButtonToTheGrid("Analysis", 1,1);
@@ -229,21 +230,47 @@ public class Main extends Application {
     }
 
     private HashMap<String,Double> RocketParameterMenu(Stage primaryStage) {
-        NormalUserInterface ThirdUI = new NormalUserInterface(700, 1000, primaryStage);
-        ThirdUI.GetStage().setTitle("Robet Buulding Menu");
-        ThirdUI.createGridPane(250,0,2);
+        NormalUserInterface ThirdUI = new NormalUserInterface(500, 350, primaryStage);
+        ThirdUI.GetStage().setTitle("Rocket Building Menu");
+        ThirdUI.createGridPane(250,2,2);
         ThirdUI.addStageDimensions();
 
         ThirdUI.addFieldToTheGrid("Fuel Mass","kg");
         ThirdUI.addFieldToTheGrid("Dry Mass","kg");
         ThirdUI.addFieldToTheGrid("Nose Diameter","m");
         ThirdUI.addFieldToTheGrid("Engine Thrust","N");
-        ThirdUI.addFieldToTheGrid("Burn Rate","");
+        ThirdUI.addFieldToTheGrid("Burn Rate","kg/s");
         ThirdUI.addFieldToTheGrid("Altitude","*");
         ThirdUI.addFieldToTheGrid("Azimuth","*");
 
+        ThirdUI.addButtonToTheGrid("LOAD",1,1);
+        ThirdUI.addButtonToTheGrid("SAVE",1,1);
+        ThirdUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
+        ThirdUI.addButtonToTheGrid("ACCEPT",1,1);
+        
         ThirdUI.Configure2D();
         ThirdUI.GetStage().showAndWait();
+        return null;
+    }
+    private HashMap<String,Double> EnvironmentParameterMenu(Stage primaryStage) {
+        NormalUserInterface FourthUI = new NormalUserInterface(500, 350, primaryStage);
+        FourthUI.GetStage().setTitle("Environment Building Menu");
+        FourthUI.createGridPane(250,2,2);
+        FourthUI.addStageDimensions();
+
+        FourthUI.addFieldToTheGrid("Wind Speed","m/s");
+        FourthUI.addFieldToTheGrid("Wind angle","*");
+        FourthUI.addFieldToTheGrid("Time Step","s");
+        FourthUI.addFieldToTheGrid("Drag Coefficient","-");
+
+
+        FourthUI.addButtonToTheGrid("LOAD",1,1);
+        FourthUI.addButtonToTheGrid("SAVE",1,1);
+        FourthUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
+        FourthUI.addButtonToTheGrid("ACCEPT",1,1);
+
+        FourthUI.Configure2D();
+        FourthUI.GetStage().showAndWait();
         return null;
     }
 
