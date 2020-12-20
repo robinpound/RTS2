@@ -1,0 +1,36 @@
+Main things:
+
+Time,
+Fuel mass,
+Position 3DVector,
+Orientation 3DVector,
+Velocity 3DVector,
+Acceleration 3DVector,
+Thrust 3DVector,
+Drag 3DVector,
+Wind 3DVector,
+
+Other things:
+
+Total Mass,
+Magnitude - speed, acceleration, thrust, drag, wind,
+Engine On (display, don't tell),
+Altitude,
+Gravity,
+Density,
+Burn rate (if we do multiple stages)
+
+
+
+
+
+
+
+
+
+
+
+Remember to display drag_factor
+
+
+

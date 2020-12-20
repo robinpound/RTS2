@@ -12,23 +12,26 @@ import sun.swing.MenuItemLayoutHelper;
 
 public class NormalTextBox {
 
-    String name;
-    int column;
-    int row;
+    private String name;
+    private int column = 0;
+    private int row;
 
-    Label thing = new Label();
-    TextField thing2 = new TextField();
-    Label thing3 = new Label();
+    private Label thing = new Label();
+    private TextField thing2 = new TextField();
+    private Label thing3 = new Label();
 
-    NormalTextBox(String name, int column, int row, GridPane grid, String units){
+    NormalTextBox(String name, int row, GridPane grid, String units){
         this.name = name;
-        this.column = column;
+
         this.row = row;
         this.thing.setText(name+":");
         this.thing3.setText(units);
 
         addsobjects(grid);
 
+    }
+    public void setColumn(int column){
+        this.column = column;
     }
     private void addsobjects(GridPane grid){
         grid.add(thing, column, row);

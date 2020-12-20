@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Main extends Application {
@@ -23,13 +24,14 @@ public class Main extends Application {
     Boolean CloseClicked = false;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Stage secondaryStage = new Stage();
-        LoginMenu(secondaryStage);
-        BuildingMenu(secondaryStage);
-        SimulationMenu(secondaryStage);
+        LoginMenu(primaryStage);
+        BuildingMenu(primaryStage);
+        SimulationMenu(primaryStage);
     }
-    private void LoginMenu(Stage secondaryStage){
+    private void LoginMenu(Stage primaryStage){
 
+        Stage secondaryStage = new Stage();
+        secondaryStage.initOwner(primaryStage);
         //set up Stage
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
         secondaryStage.setTitle("Main Menu");
@@ -95,14 +97,12 @@ public class Main extends Application {
 
 
     }
-    private void BuildingMenu(Stage secondaryStage){
+    private void BuildingMenu(Stage primaryStage){
 
         //set up Stage
-        //thirdStage.initModality(Modality.APPLICATION_MODAL);
 
-
-        NormalUserInterface FirstUI = new NormalUserInterface(650, 950, secondaryStage);
-        secondaryStage.setTitle("Building Menu");
+        NormalUserInterface FirstUI = new NormalUserInterface(650, 950, primaryStage);
+        FirstUI.GetStage().setTitle("Building Menu");
         //Initial configurations
         FirstUI.createGridPane(250, 0, 2);
         FirstUI.addStageDimensions();
@@ -125,7 +125,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(FirstUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                //Rocket settings here
+                HashMap<String,Double> fields = RocketParameterMenu(primaryStage);
             }
         });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
@@ -140,7 +140,7 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Launch").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                secondaryStage.close();
+                FirstUI.GetStage().close();
                 System.out.println(FirstUI.NormalButtonHashMap.get("Launch").Gettext() + " was clicked");
             }
         });
@@ -148,7 +148,7 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                secondaryStage.close();
+                FirstUI.GetStage().close();
                 System.out.println(FirstUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
@@ -158,8 +158,9 @@ public class Main extends Application {
         FirstUI.GetStage().showAndWait();
 
     }
-    private void SimulationMenu(Stage secondaryStage) {
-        NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, secondaryStage);
+    private void SimulationMenu(Stage primaryStage) {
+        NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, primaryStage);
+        SecondUI.GetStage().setTitle("Simulation");
 
         SecondUI.createGridPane(250,0,2);
         SecondUI.addStageDimensions();
@@ -218,13 +219,34 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                secondaryStage.close();
+                SecondUI.GetStage().close();
                 System.out.println(SecondUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
         });
 
+        SecondUI.GetStage().showAndWait();
     }
+
+    private HashMap<String,Double> RocketParameterMenu(Stage primaryStage) {
+        NormalUserInterface ThirdUI = new NormalUserInterface(700, 1000, primaryStage);
+        ThirdUI.GetStage().setTitle("Robet Buulding Menu");
+        ThirdUI.createGridPane(250,0,2);
+        ThirdUI.addStageDimensions();
+
+        ThirdUI.addFieldToTheGrid("Fuel Mass","kg");
+        ThirdUI.addFieldToTheGrid("Dry Mass","kg");
+        ThirdUI.addFieldToTheGrid("Nose Diameter","m");
+        ThirdUI.addFieldToTheGrid("Engine Thrust","N");
+        ThirdUI.addFieldToTheGrid("Burn Rate","");
+        ThirdUI.addFieldToTheGrid("Altitude","*");
+        ThirdUI.addFieldToTheGrid("Azimuth","*");
+
+        ThirdUI.Configure2D();
+        ThirdUI.GetStage().showAndWait();
+        return null;
+    }
+
 
     public static void main(String[] args) {
         launch(args);
