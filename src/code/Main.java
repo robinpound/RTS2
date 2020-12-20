@@ -93,15 +93,16 @@ public class Main extends Application {
         secondaryStage.setScene(menuScene);
         secondaryStage.showAndWait();
 
+
     }
     private void BuildingMenu(Stage secondaryStage){
 
         //set up Stage
         //thirdStage.initModality(Modality.APPLICATION_MODAL);
-        secondaryStage.setTitle("Building Menu");
+
 
         NormalUserInterface FirstUI = new NormalUserInterface(650, 950, secondaryStage);
-
+        secondaryStage.setTitle("Building Menu");
         //Initial configurations
         FirstUI.createGridPane(250, 0, 2);
         FirstUI.addStageDimensions();
