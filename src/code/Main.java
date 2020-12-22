@@ -247,7 +247,7 @@ public class Main extends Application {
         ThirdUI.addButtonToTheGrid("SAVE",1,1);
         ThirdUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         ThirdUI.addButtonToTheGrid("ACCEPT",1,1);
-        
+
         ThirdUI.Configure2D();
         ThirdUI.GetStage().showAndWait();
         return null;
