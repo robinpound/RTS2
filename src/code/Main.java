@@ -16,6 +16,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,8 +88,8 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(help_btn.Gettext() + "was clicked");
-                //CALL HELP FUNCITON
-                secondaryStage.close();
+                OpenHTMLWebsite();
+
             }
         });
 
@@ -273,7 +276,15 @@ public class Main extends Application {
         FourthUI.GetStage().showAndWait();
         return null;
     }
+    private void OpenHTMLWebsite(){
+        File f = new File ("src/code/HelpPage.html");
+        try{
+            Desktop.getDesktop().browse(f.toURI());
+        }catch(IOException e){
+            System.out.println(e);
+        }
 
+    }
 
     public static void main(String[] args) {
         launch(args);
