@@ -3,6 +3,7 @@ package code;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -28,14 +29,14 @@ public class NormalUserInterface {
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<String, NormalButton>();
     HashMap<String, NormalTextBox> NormalFieldHashMap = new HashMap<String, NormalTextBox>();
 
+    protected Stage theStage;
+    protected GridPane thegrid;
+    protected PerspectiveCamera camera;
+    protected Group root;
+    protected SubScene subScene;
+    protected Scene scene;
 
-    private Stage theStage;
-    GridPane thegrid;
-    PerspectiveCamera camera;
-    Group root;
-    SubScene subScene;
-
-
+//-----------------------------------------------------------------------------------------------
     NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
@@ -60,8 +61,7 @@ public class NormalUserInterface {
     }
     public void addCameraAndSubscene() {//if 3d
         //3D
-        PerspectiveCamera camera = new PerspectiveCamera(true);
-        Group root = new Group(camera);
+        camera = new PerspectiveCamera(true);
         subScene = new SubScene(root, 0,0, true, SceneAntialiasing.BALANCED);
     }
     public void setSimulation(){//if 3d
@@ -74,9 +74,32 @@ public class NormalUserInterface {
         BorderPane pane = new BorderPane();
         pane.setRight(subScene);
         pane.setLeft(thegrid);
-        Scene scene = new Scene(pane);
+        scene = new Scene(pane);
         theStage.setScene(scene);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------
     public void Configure2D(){
         Scene scene = new Scene(thegrid);
         theStage.setScene(scene);
@@ -105,4 +128,5 @@ public class NormalUserInterface {
     public Stage GetStage(){
         return theStage;
     }
+    //-----------------------------------------------------------------------------------------------
 }

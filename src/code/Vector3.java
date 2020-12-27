@@ -1,17 +1,16 @@
 package code;
 
 public class Vector3 {
-    double VecX,VecY,VecZ;
+    private double VecX,VecY,VecZ;
 
     public Vector3 (double VecX, double VecY, double VecZ){
-            this.VecX = VecX;
-            this.VecY = VecY;
-            this.VecZ = VecZ;
-        }
+        setState(VecX, VecY, VecZ);
+    }
+    public Vector3 (double altitude, double azimuth){
+        setState(altitude, azimuth);
+    }
     public Vector3 (){
-            VecX = 0;
-            VecY = 0;
-            VecZ = 0;
+        setState(0, 0, 0);
     }
 
     public double getXVec(){ return VecX; }
@@ -30,6 +29,20 @@ public class Vector3 {
         this.VecX = VecX;
         this.VecY = VecY;
         this.VecZ = VecZ;
+    }
+
+    public void setState(Vector3 vec){
+        VecX = vec.getXVec();
+        VecY = vec.getYVec();
+        VecZ = vec.getZVec();
+    }
+
+    public void setState(double altitude, double azimuth) {
+        double vecX = Math.cos(Math.toRadians(azimuth));
+        double vecY = Math.sin(Math.toRadians(azimuth));
+        double vecZ = Math.sin(Math.toRadians(altitude));
+        double sclXY = Math.cos(Math.toRadians(altitude));
+        setState(vecX*sclXY, vecY*sclXY, vecZ);
     }
 
     public Vector3 times(double scalar){

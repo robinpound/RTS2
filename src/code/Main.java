@@ -28,8 +28,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         LoginMenu(primaryStage);
-        BuildingMenu(primaryStage);
-        SimulationMenu(primaryStage);
+        HashMap<String, Double> inputs = BuildingMenu(primaryStage);
+        Rocket theRocket = CalculateTrajectory(inputs);
+        SimulationMenu(primaryStage, theRocket);
     }
     private void LoginMenu(Stage primaryStage){
 
@@ -100,7 +101,9 @@ public class Main extends Application {
 
 
     }
-    private void BuildingMenu(Stage primaryStage){
+    private HashMap<String, Double> BuildingMenu(Stage primaryStage){
+
+        HashMap<String, Double> inputs = new HashMap<String, Double>();
 
         //set up Stage
 
@@ -159,11 +162,22 @@ public class Main extends Application {
 
 
         FirstUI.GetStage().showAndWait();
+        return inputs;
 
     }
-    private void SimulationMenu(Stage primaryStage) {
+    private Rocket CalculateTrajectory(HashMap<String, Double> inputs){
+
+
+        Simulation sim = new Simulation();
+        double[] values = {0.01, 0.0, 0.0, 0.0, 4.077, 4.0, 0.31, 0.2, 1419.0, 0.474, 90.0, 0.0, 90.0, 0.0};
+        sim.run_simulation(values);//hardcode values for now! Change this to hashmap
+
+        return sim.getRocket();
+    }
+
+    private void SimulationMenu(Stage primaryStage, Rocket theRocket) {
         System.out.println("Simulation Menu");
-        NormalUserInterface SecondUI = new NormalUserInterface(700, 1000, primaryStage);
+        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket);
         SecondUI.GetStage().setTitle("Simulation");
 
         SecondUI.createGridPane(250,0,2);
@@ -171,6 +185,15 @@ public class Main extends Application {
         SecondUI.addCameraAndSubscene();
         SecondUI.setSimulation();
         SecondUI.Configure();
+        SecondUI.SetRocketPosition();
+        SecondUI.SetCamera();
+        SecondUI.SetGround();
+        SecondUI.movement();
+        SecondUI.RocketMovement();
+
+
+
+
 
         SecondUI.addText("Real Time Data:", 30, 3, 1);
         SecondUI.addNormalDataToTheGrid("Location", "m");
@@ -255,7 +278,6 @@ public class Main extends Application {
         ThirdUI.GetStage().showAndWait();
         return null;
     }
-    //hi
     private HashMap<String,Double> EnvironmentParameterMenu(Stage primaryStage) {
         NormalUserInterface FourthUI = new NormalUserInterface(500, 350, primaryStage);
         FourthUI.GetStage().setTitle("Environment Building Menu");

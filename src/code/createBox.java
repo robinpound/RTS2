@@ -28,11 +28,9 @@ public class createBox {
 
     }
     public Box getobject(){
-            return box;
+        return box;
     }
-    public void setcolourgreen(){
-        phong.setDiffuseColor(Color.LIGHTGREEN);
-    }
+    public void setcolourgreen(){ phong.setDiffuseColor(Color.LIGHTGREEN); }
     public void setcolourred(){
         phong.setDiffuseColor(Color.RED);
     }
@@ -43,10 +41,10 @@ public class createBox {
         phong.setDiffuseColor(Color.GREY);
     }
     public void settexture(){
-        phong.setDiffuseMap(new Image(getClass().getResourceAsStream("multigrass.png")));
+        phong.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/multigrass.png")));
     }
     public void setillumination(){
-        //phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("white.png")));
+        phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("../pictures/white.png")));
     }
     public void boxsetmaterial(){
         box.setMaterial(phong);

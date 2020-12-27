@@ -22,7 +22,6 @@ public class NormalTextBox {
 
     NormalTextBox(String name, int row, GridPane grid, String units){
         this.name = name;
-
         this.row = row;
         this.thing.setText(name+":");
         this.thing3.setText(units);
