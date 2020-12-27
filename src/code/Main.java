@@ -238,13 +238,13 @@ public class Main extends Application {
         ThirdUI.createGridPane(250,2,2);
         ThirdUI.addStageDimensions();
 
+        ThirdUI.addText("Rocket:", 3, 3, 1);
         ThirdUI.addFieldToTheGrid("Fuel Mass","kg");
         ThirdUI.addFieldToTheGrid("Dry Mass","kg");
-        ThirdUI.addFieldToTheGrid("Nose Diameter","m");
         ThirdUI.addFieldToTheGrid("Engine Thrust","N");
         ThirdUI.addFieldToTheGrid("Burn Rate","kg/s");
-        ThirdUI.addFieldToTheGrid("Altitude","*");
-        ThirdUI.addFieldToTheGrid("Azimuth","*");
+        ThirdUI.addFieldToTheGrid("Nose Diameter","m");
+        ThirdUI.addFieldToTheGrid("Drag Coefficient","-");
 
         ThirdUI.addButtonToTheGrid("LOAD",1,1);
         ThirdUI.addButtonToTheGrid("SAVE",1,1);
@@ -255,16 +255,26 @@ public class Main extends Application {
         ThirdUI.GetStage().showAndWait();
         return null;
     }
+    //hi
     private HashMap<String,Double> EnvironmentParameterMenu(Stage primaryStage) {
         NormalUserInterface FourthUI = new NormalUserInterface(500, 350, primaryStage);
         FourthUI.GetStage().setTitle("Environment Building Menu");
         FourthUI.createGridPane(250,2,2);
         FourthUI.addStageDimensions();
 
-        FourthUI.addFieldToTheGrid("Wind Speed","m/s");
-        FourthUI.addFieldToTheGrid("Wind angle","*");
+        FourthUI.addText("Simulation:", 3, 3, 1);
         FourthUI.addFieldToTheGrid("Time Step","s");
-        FourthUI.addFieldToTheGrid("Drag Coefficient","-");
+        FourthUI.addFieldToTheGrid("Playback Speed","-");
+        FourthUI.addText("Wind:", 3, 3, 1);
+        FourthUI.addFieldToTheGrid("Wind Speed","m/s");
+        FourthUI.addFieldToTheGrid("Wind Angle","*");
+        FourthUI.addText("Orientation:", 3, 3, 1);
+        FourthUI.addFieldToTheGrid("Altitude","*");
+        FourthUI.addFieldToTheGrid("Azimuth","*");
+        FourthUI.addText("Position:", 3, 3, 1);
+        FourthUI.addFieldToTheGrid("Latitude","*");
+        FourthUI.addFieldToTheGrid("Longitude","*");
+
 
 
         FourthUI.addButtonToTheGrid("LOAD",1,1);
