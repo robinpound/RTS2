@@ -1,21 +1,15 @@
 package code;
 
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.Dictionary;
 import java.util.HashMap;
 
 public class NormalUserInterface {
@@ -25,12 +19,12 @@ public class NormalUserInterface {
     int gridPaneWidth;
 
     int rowCounter = 0;
-    HashMap<String, NormalData> NormalDataHashMap = new HashMap<String, NormalData>();
-    HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<String, NormalButton>();
-    HashMap<String, NormalTextBox> NormalFieldHashMap = new HashMap<String, NormalTextBox>();
+    HashMap<String, NormalData> NormalDataHashMap = new HashMap<>();
+    HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<>();
+    HashMap<String, NormalTextBox> NormalFieldHashMap = new HashMap<>();
 
     protected Stage theStage;
-    protected GridPane thegrid;
+    protected GridPane theGrid;
     protected PerspectiveCamera camera;
     protected Group root;
     protected SubScene subScene;
@@ -45,11 +39,11 @@ public class NormalUserInterface {
         this.theStage.initModality(Modality.APPLICATION_MODAL);
     }
     public void createGridPane(int gridPaneWidth, int Hgap, int Vgap){
-        thegrid = new GridPane();
-        thegrid.setHgap(Hgap);
-        thegrid.setVgap(Vgap);
+        theGrid = new GridPane();
+        theGrid.setHgap(Hgap);
+        theGrid.setVgap(Vgap);
         Insets ins = new Insets(8.0,16.0,8.8,16.0);
-        thegrid.setPadding(ins);
+        theGrid.setPadding(ins);
         this.gridPaneWidth = gridPaneWidth;
     }
     public void addStageDimensions(){
@@ -62,10 +56,11 @@ public class NormalUserInterface {
     public void addCameraAndSubscene() {//if 3d
         //3D
         camera = new PerspectiveCamera(true);
+        root = new Group();
         subScene = new SubScene(root, 0,0, true, SceneAntialiasing.BALANCED);
     }
     public void setSimulation(){//if 3d
-        subScene.setFill(Color.BLUE);
+        subScene.setFill(Color.BLACK);
         subScene.setCamera(camera);
         subScene.setHeight(windowHeight);
         subScene.setWidth(windowWidth-gridPaneWidth);
@@ -73,56 +68,36 @@ public class NormalUserInterface {
     public void Configure(){ //if 3d
         BorderPane pane = new BorderPane();
         pane.setRight(subScene);
-        pane.setLeft(thegrid);
+        pane.setLeft(theGrid);
+
         scene = new Scene(pane);
         theStage.setScene(scene);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-----------------------------------------------------------------------------------------------
     public void Configure2D(){
-        Scene scene = new Scene(thegrid);
+        Scene scene = new Scene(theGrid);
         theStage.setScene(scene);
     }
     public void addNormalDataToTheGrid(String name, String units){
-        NormalDataHashMap.put(name,new NormalData(name,rowCounter,thegrid,units));
+        NormalDataHashMap.put(name,new NormalData(name,rowCounter,theGrid,units));
         rowCounter ++;
-    };
+    }
 
     public void addButtonToTheGrid(String name, int columnSpan, int rowSpan){
-        NormalButton button = new NormalButton(name,rowCounter,columnSpan,rowSpan,thegrid);
+        NormalButton button = new NormalButton(name,rowCounter,columnSpan,rowSpan,theGrid);
         button.GetButton().setMinSize(110.0,30.0);
         NormalButtonHashMap.put(name, button);
         rowCounter ++;
-    };
+    }
     public void addFieldToTheGrid(String name, String units){
-        NormalFieldHashMap.put(name, new NormalTextBox(name, rowCounter, thegrid, units));
+        NormalFieldHashMap.put(name, new NormalTextBox(name, rowCounter, theGrid, units));
         rowCounter ++;
-    };
+    }
     public void addText(String text, int size, int colspan, int rowspan){
         Text title = new Text(text);
         title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
-        thegrid.add(title, 0, rowCounter,3,1);
+        theGrid.add(title, 0, rowCounter,3,1);
         rowCounter++;
     }
     public Stage GetStage(){

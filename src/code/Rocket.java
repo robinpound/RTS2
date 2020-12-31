@@ -93,7 +93,7 @@ public class Rocket {
             fuel_used = burn_rate * time_step;
         }else{ //else thrust = 0
             thrust.setState(0,0,0);
-            fuel_used = 0;
+            fuel_used = fuel_mass;
         }
 
         //Calculate drag --

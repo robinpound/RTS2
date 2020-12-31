@@ -3,7 +3,6 @@ package code;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -54,8 +53,8 @@ public class TheAnimationWindow extends NormalUserInterface{
         rocket.setMaterial(rocketMat);
     }
     public void SetCamera(){
-        camera.setNearClip(0.1);
-        camera.setFarClip(1000*radius);
+        camera.setNearClip(1.0);
+        camera.setFarClip(10*radius);
         camera.translateZProperty().set(vecZ-16*ROCKETHEIGHT);
         camera.translateYProperty().set(vecY-4*ROCKETHEIGHT);
         camera.translateXProperty().set(vecX);

@@ -191,10 +191,6 @@ public class Main extends Application {
         SecondUI.movement();
         SecondUI.RocketMovement();
 
-
-
-
-
         SecondUI.addText("Real Time Data:", 30, 3, 1);
         SecondUI.addNormalDataToTheGrid("Location", "m");
         SecondUI.addNormalDataToTheGrid("Velocity", "m/s");
@@ -296,8 +292,6 @@ public class Main extends Application {
         FourthUI.addText("Position:", 3, 3, 1);
         FourthUI.addFieldToTheGrid("Latitude","*");
         FourthUI.addFieldToTheGrid("Longitude","*");
-
-
 
         FourthUI.addButtonToTheGrid("LOAD",1,1);
         FourthUI.addButtonToTheGrid("SAVE",1,1);
