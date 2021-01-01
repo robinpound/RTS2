@@ -3,28 +3,16 @@ package code;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 public class Main extends Application {
 
-    Boolean CloseClicked = false;
+    Boolean CloseClicked = false; //need to use to close windows using X
     @Override
     public void start(Stage primaryStage) throws Exception{
         LoginMenu(primaryStage);
@@ -32,109 +20,42 @@ public class Main extends Application {
         Rocket theRocket = CalculateTrajectory(inputs);
         SimulationMenu(primaryStage, theRocket);
     }
-    private void LoginMenu2(Stage primaryStage){
-
-        Stage secondaryStage = new Stage();
-        secondaryStage.initOwner(primaryStage);
-        //set up Stage
-        secondaryStage.initModality(Modality.APPLICATION_MODAL);
-        secondaryStage.setTitle("Main Menu");
-
-        //set up GridPane
-        GridPane menuGrid = new GridPane();
-        menuGrid.setAlignment(Pos.TOP_CENTER);
-        menuGrid.setHgap(10);
-        menuGrid.setVgap(10);
-
-        //set up Text
-        Text title = new Text("3D-Rocket Trajectory Simulator:");
-        title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
-        menuGrid.add(title,1,0,1,1);
-
-
-        Text SignIn = new Text("Sign In:");
-        SignIn.setFont(Font.font("Tahoma", FontWeight.NORMAL, 10));
-        menuGrid.add(SignIn,1,1,1,1);
-
-
-        //set up Buttons
-
-
-        NormalButton new_btn = new NormalButton("   thing   ",1,1,1,menuGrid);
-        NormalButton load_btn = new NormalButton("   thing2   ",2,1,1,menuGrid);
-        NormalButton exit_btn = new NormalButton("   Exit   ",3,1,1,menuGrid);
-        NormalButton help_btn = new NormalButton("?",7,1,1,menuGrid);
-        new_btn.SetColumn(1);
-        load_btn.SetColumn(1);
-        exit_btn.SetColumn(1);
-        help_btn.SetColumn(7);
-
-        //adding Buttons
-        new_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(new_btn.Gettext() + "was clicked");
-                secondaryStage.close();
-            }
-        });
-        load_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(load_btn.Gettext() + "was clicked");
-                //CALL LOADING FUNCITON
-                secondaryStage.close();
-            }
-        });
-        exit_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(exit_btn.Gettext() + "was clicked");
-                System.exit(0);
-            }
-        });
-        help_btn.GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(help_btn.Gettext() + "was clicked");
-                OpenHTMLWebsite();
-
-            }
-        });
-
-        //sets up Scene
-        Scene menuScene = new Scene(menuGrid);
-        secondaryStage.setScene(menuScene);
-        secondaryStage.showAndWait();
-
-
-    }
     private void LoginMenu(Stage primaryStage){
-        NormalUserInterface LoginUI = new NormalUserInterface(500, 350, primaryStage);
-        LoginUI.GetStage().setTitle("Environment Building Menu");
+        NormalUserInterface LoginUI = new NormalUserInterface(500, 650, primaryStage);
+        LoginUI.GetStage().setTitle("RTS-2");
         LoginUI.createGridPane(250,2,2);
         LoginUI.addStageDimensions();
+        int REGISTERCOLUMN = 3;
+        LoginUI.setGap(10,0);
+        LoginUI.addText("3D Rocket Trajectory Simulator - 2", 40, 3, 1);
 
-        LoginUI.addText("Login:", 3, 3, 1);
+        LoginUI.addText("Login:", 25, 1, 1);
         LoginUI.addFieldToTheGrid("Username"," ");
         LoginUI.addFieldToTheGrid("Password"," ");
         LoginUI.addButtonToTheGrid("LOGIN",1,1);
-        LoginUI.addText("Register:", 3, 3, 1);
+
+        LoginUI.addCoordinateText("Register:", 25,REGISTERCOLUMN,1,1,1);
+
         LoginUI.addFieldToTheGrid("New Username"," ");
-        LoginUI.addFieldToTheGrid("New Password"," ");
+        LoginUI.NormalFieldHashMap.get("New Username").setCoordinates(REGISTERCOLUMN, 2);
+
+        LoginUI.addFieldToTheGrid("New Password", " ");
+        LoginUI.NormalFieldHashMap.get("New Password").setCoordinates(REGISTERCOLUMN,3);
+
         LoginUI.addFieldToTheGrid("Re-type New Password"," ");
+        LoginUI.NormalFieldHashMap.get("Re-type New Password").setCoordinates(REGISTERCOLUMN,4);
+
         LoginUI.addButtonToTheGrid("REGISTER",1,1);
+        LoginUI.NormalButtonHashMap.get("REGISTER").setCoordinates(REGISTERCOLUMN, 5);
 
 
-
-        LoginUI.addText(" ", 40, 3, 3);
-        LoginUI.addText(" ", 40, 3, 3);
-        LoginUI.addText(" ", 40, 3, 3);
+        //LoginUI.addText(" ", 65, 3, 3);
         LoginUI.addButtonToTheGrid("Exit", 1,1);
+        LoginUI.NormalButtonHashMap.get("Exit").setCoordinates(4,7);
+        LoginUI.NormalButtonHashMap.get("Exit").translateObject(165,52);
         LoginUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                LoginUI.GetStage().close();
-                System.out.println(LoginUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
         });
@@ -194,7 +115,6 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                FirstUI.GetStage().close();
                 System.out.println(FirstUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
@@ -207,14 +127,12 @@ public class Main extends Application {
     }
     private Rocket CalculateTrajectory(HashMap<String, Double> inputs){
 
-
         Simulation sim = new Simulation();
         double[] values = {0.01, 0.0, 0.0, 0.0, 4.077, 4.0, 0.31, 0.2, 1419.0, 0.474, 90.0, 0.0, 90.0, 0.0};
         sim.run_simulation(values);//hardcode values for now! Change this to hashmap
 
         return sim.getRocket();
     }
-
     private void SimulationMenu(Stage primaryStage, Rocket theRocket) {
         System.out.println("Simulation Menu");
         TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket);
@@ -230,6 +148,7 @@ public class Main extends Application {
         SecondUI.SetGround();
         SecondUI.movement();
         SecondUI.RocketMovement();
+        SecondUI.createSun();
 
         SecondUI.addText("Real Time Data:", 30, 3, 1);
         SecondUI.addNormalDataToTheGrid("Location", "m");
@@ -282,7 +201,6 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                SecondUI.GetStage().close();
                 System.out.println(SecondUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
@@ -290,7 +208,6 @@ public class Main extends Application {
 
         SecondUI.GetStage().showAndWait();
     }
-
     private HashMap<String,Double> RocketParameterMenu(Stage primaryStage) {
         NormalUserInterface ThirdUI = new NormalUserInterface(500, 350, primaryStage);
         ThirdUI.GetStage().setTitle("Rocket Building Menu");

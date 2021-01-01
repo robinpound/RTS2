@@ -1,5 +1,6 @@
 package code;
 
+import com.sun.rowset.internal.Row;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +23,7 @@ public class NormalUserInterface {
     HashMap<String, NormalData> NormalDataHashMap = new HashMap<>();
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<>();
     HashMap<String, NormalTextBox> NormalFieldHashMap = new HashMap<>();
+    HashMap<String, Text> NormalTextHashMap = new HashMap<>();
 
     protected Stage theStage;
     protected GridPane theGrid;
@@ -73,6 +75,10 @@ public class NormalUserInterface {
         scene = new Scene(pane);
         theStage.setScene(scene);
     }
+    public void setGap(int vgap, int hgap){
+        theGrid.setVgap(vgap);
+        theGrid.setHgap(hgap);
+    }
 
 //-----------------------------------------------------------------------------------------------
     public void Configure2D(){
@@ -96,8 +102,16 @@ public class NormalUserInterface {
     }
     public void addText(String text, int size, int colspan, int rowspan){
         Text title = new Text(text);
-        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
-        theGrid.add(title, 0, rowCounter,3,1);
+        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, size));
+        theGrid.add(title, 0, rowCounter,colspan,rowspan);
+        NormalTextHashMap.put(text,title);
+        rowCounter++;
+    }
+    public void addCoordinateText(String text, int size, int Tcolumn, int Trow, int colspan, int rowspan){
+        Text title = new Text(text);
+        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, size));
+        theGrid.add(title, Tcolumn, Trow,colspan,rowspan);
+        NormalTextHashMap.put(text,title);
         rowCounter++;
     }
     public Stage GetStage(){

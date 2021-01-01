@@ -40,17 +40,16 @@ public class createSphere {
     public void setcolourgrey(){
         phong.setDiffuseColor(Color.GREY);
     }
-    public void settexture(){
-        phong.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/4k Earth.jpg")));
+    public void setcolourlightyellow(){
+        phong.setDiffuseColor(Color.LIGHTYELLOW);
     }
-    public void setillumination(){
-        phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("../pictures/4k Earth.jpg")));
+    public void settexture(String name){
+        phong.setDiffuseMap(new Image(getClass().getResourceAsStream(name)));
+    }
+    public void setillumination(String name){
+        phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream(name)));
     }
     public void spheresetmaterial(){
         sphere.setMaterial(phong);
-    }
-    public void insideSphere(){
-        phong.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/4k Earth.jpg")));
-        //continue tomorrow :)
     }
 }

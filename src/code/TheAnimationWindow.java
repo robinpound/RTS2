@@ -1,10 +1,13 @@
 package code;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -61,16 +64,24 @@ public class TheAnimationWindow extends NormalUserInterface{
         camera.setFieldOfView(60);
         subScene.setCamera(camera);
     }
-    public void SetGround(){
-        //Ground
-        createSphere ground = new createSphere(radius,0,0,0);
-        ground.settexture();
-        ground.setillumination();
-        ground.spheresetmaterial();
-        root.getChildren().add(ground.getobject());
+    public void createSun(){
+
+        createSphere sun = new createSphere(radius*100,1000000000,0,1000000000);
+        sun.settexture("../pictures/sun.jpg");
+        sun.setillumination("../pictures/sun.jpg");
+        sun.spheresetmaterial();
+        root.getChildren().add(sun.getobject());
     }
+    public void SetGround(){
+        createSphere earth = new createSphere(radius,0,0,0);
+        earth.settexture("../pictures/4k Earth.jpg");
+        earth.setillumination("../pictures/4k Earth.jpg");
+        earth.spheresetmaterial();
+        root.getChildren().add(earth.getobject());
+    }
+
     public void movement(){
-        theStage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
+        subScene.setOnKeyPressed(event ->{
             double angle = Math.toRadians(horizontal_cam);
             double sinangle = Math.sin(-angle);
             double cosangle = Math.cos(angle);
@@ -79,39 +90,47 @@ public class TheAnimationWindow extends NormalUserInterface{
                 case W://forward
                     camera.translateZProperty().set(camera.getTranslateZ() + movementSpeed * cosangle);
                     camera.translateXProperty().set(camera.getTranslateX() + movementSpeed * sinangle);
+                    event.consume();
                     break;
 
                 case S://backwards
                     camera.translateZProperty().set(camera.getTranslateZ() - movementSpeed * cosangle);
                     camera.translateXProperty().set(camera.getTranslateX() - movementSpeed * sinangle);
+                    event.consume();
                     break;
 
                 case A://left
                     camera.translateXProperty().set(camera.getTranslateX() - movementSpeed * cosangle);
                     camera.translateZProperty().set(camera.getTranslateZ() + movementSpeed * sinangle);
+                    event.consume();
                     break;
 
                 case D://right
                     camera.translateXProperty().set(camera.getTranslateX() + movementSpeed * cosangle);
                     camera.translateZProperty().set(camera.getTranslateZ() - movementSpeed * sinangle);
+                    event.consume();
                     break;
 
                 case SPACE://up
                     camera.translateYProperty().set(camera.getTranslateY() - movementSpeed);
+                    event.consume();
                     break;
 
                 case C://down
                     camera.translateYProperty().set(camera.getTranslateY() + movementSpeed);
+                    event.consume();
                     break;
 
                 case LEFT:
                     horizontal_cam += 2;
                     matrixRotateNode(camera,0,Math.toRadians(vertical_cam),Math.toRadians(horizontal_cam));
+                    event.consume();
                     break;
 
                 case RIGHT:
                     horizontal_cam -= 2;
                     matrixRotateNode(camera,0,Math.toRadians(vertical_cam),Math.toRadians(horizontal_cam));
+                    event.consume();
                     break;
 
                 case UP:
@@ -119,6 +138,7 @@ public class TheAnimationWindow extends NormalUserInterface{
                         vertical_cam -= 1;
                         matrixRotateNode(camera,0,Math.toRadians(vertical_cam),Math.toRadians(horizontal_cam));
                     }
+                    event.consume();
                     break;
 
                 case DOWN:
@@ -126,10 +146,11 @@ public class TheAnimationWindow extends NormalUserInterface{
                         vertical_cam += 1;
                         matrixRotateNode(camera,0,Math.toRadians(vertical_cam),Math.toRadians(horizontal_cam));
                     }
+                    event.consume();
                     break;
             }
         });
-        theStage.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
+        subScene.setOnMouseDragged(event -> {
             if (mouse_x < event.getSceneX()){
                 horizontal_cam -= 1;
                 matrixRotateNode(camera,0,Math.toRadians(vertical_cam),Math.toRadians(horizontal_cam));
@@ -147,12 +168,13 @@ public class TheAnimationWindow extends NormalUserInterface{
 
             mouse_x = event.getSceneX();
             mouse_y = event.getSceneY();
+            event.consume();
             //System.out.println(String.format("%.3f",event.getSceneX()));
 
         });
     }
     public void RocketMovement(){
-        theStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+        subScene.setOnKeyReleased(event -> {
             switch (event.getCode()){
                 case P:
                     drop_pebble = true;
@@ -235,6 +257,7 @@ public class TheAnimationWindow extends NormalUserInterface{
                     rocket.setRotate(rotation_angle);
                 }
             };
+            subScene.requestFocus();
             timer.start();
         }catch(Exception e){
             System.out.println(e);
