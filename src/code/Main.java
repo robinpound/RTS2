@@ -32,7 +32,7 @@ public class Main extends Application {
         Rocket theRocket = CalculateTrajectory(inputs);
         SimulationMenu(primaryStage, theRocket);
     }
-    private void LoginMenu(Stage primaryStage){
+    private void LoginMenu2(Stage primaryStage){
 
         Stage secondaryStage = new Stage();
         secondaryStage.initOwner(primaryStage);
@@ -47,11 +47,18 @@ public class Main extends Application {
         menuGrid.setVgap(10);
 
         //set up Text
-        Text title = new Text("3D-Rocket Trajectory Simulator(all wrong and unfinished):");
+        Text title = new Text("3D-Rocket Trajectory Simulator:");
         title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
         menuGrid.add(title,1,0,1,1);
 
+
+        Text SignIn = new Text("Sign In:");
+        SignIn.setFont(Font.font("Tahoma", FontWeight.NORMAL, 10));
+        menuGrid.add(SignIn,1,1,1,1);
+
+
         //set up Buttons
+
 
         NormalButton new_btn = new NormalButton("   thing   ",1,1,1,menuGrid);
         NormalButton load_btn = new NormalButton("   thing2   ",2,1,1,menuGrid);
@@ -100,6 +107,39 @@ public class Main extends Application {
         secondaryStage.showAndWait();
 
 
+    }
+    private void LoginMenu(Stage primaryStage){
+        NormalUserInterface LoginUI = new NormalUserInterface(500, 350, primaryStage);
+        LoginUI.GetStage().setTitle("Environment Building Menu");
+        LoginUI.createGridPane(250,2,2);
+        LoginUI.addStageDimensions();
+
+        LoginUI.addText("Login:", 3, 3, 1);
+        LoginUI.addFieldToTheGrid("Username"," ");
+        LoginUI.addFieldToTheGrid("Password"," ");
+        LoginUI.addButtonToTheGrid("LOGIN",1,1);
+        LoginUI.addText("Register:", 3, 3, 1);
+        LoginUI.addFieldToTheGrid("New Username"," ");
+        LoginUI.addFieldToTheGrid("New Password"," ");
+        LoginUI.addFieldToTheGrid("Re-type New Password"," ");
+        LoginUI.addButtonToTheGrid("REGISTER",1,1);
+
+
+
+        LoginUI.addText(" ", 40, 3, 3);
+        LoginUI.addText(" ", 40, 3, 3);
+        LoginUI.addText(" ", 40, 3, 3);
+        LoginUI.addButtonToTheGrid("Exit", 1,1);
+        LoginUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                LoginUI.GetStage().close();
+                System.out.println(LoginUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
+                System.exit(0);
+            }
+        });
+        LoginUI.Configure2D();
+        LoginUI.GetStage().showAndWait();
     }
     private HashMap<String, Double> BuildingMenu(Stage primaryStage){
 
@@ -311,7 +351,6 @@ public class Main extends Application {
         }
 
     }
-
     public static void main(String[] args) {
         launch(args);
     }
