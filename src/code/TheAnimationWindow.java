@@ -78,6 +78,7 @@ public class TheAnimationWindow extends NormalUserInterface{
         earth.setillumination("../pictures/4k Earth.jpg");
         earth.spheresetmaterial();
         root.getChildren().add(earth.getobject());
+
     }
 
     public void movement(){
