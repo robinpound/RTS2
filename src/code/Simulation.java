@@ -14,30 +14,11 @@ public class Simulation {
         double launch_latitude = inputs.get("Latitude"), launch_longitude = inputs.get("Longitude");
         double launch_altitude = inputs.get("Altitude"), launch_azimuth = inputs.get("Azimuth");
         double wind_speed = inputs.get("Wind Speed"), wind_angle = inputs.get("Wind Angle");
-        double fuel_mass = inputs.get("Fuel Mass"), dry_mass = inputs.get("Dry Mass");
+        double fuel_mass = inputs.get("Fuel Mass"), dry_mass = (inputs.get("Hull Mass")+inputs.get("Engine Mass")+inputs.get("Payload Mass"));
         double drag_coefficient = inputs.get("Drag Coefficient"), nose_diameter = inputs.get("Nose Diameter");
         double engine_thrust = inputs.get("Engine Thrust"), burn_rate = inputs.get("Burn Rate");
-        /*
 
-        FourthUI.addFieldToTheGrid("Time Step","s");
-        FourthUI.addFieldToTheGrid("Playback Speed","-");
-        FourthUI.addText("Wind:", 20, 3, 1);
-        FourthUI.addFieldToTheGrid("Wind Speed","m/s");
-        FourthUI.addFieldToTheGrid("Wind Angle","*");
-        FourthUI.addText("Orientation:", 20, 3, 1);
-        FourthUI.addFieldToTheGrid("Altitude","*");
-        FourthUI.addFieldToTheGrid("Azimuth","*");
-        FourthUI.addText("Position:", 20, 3, 1);
-        FourthUI.addFieldToTheGrid("Latitude","*");
-        FourthUI.addFieldToTheGrid("Longitude","*");
-
-        ThirdUI.addFieldToTheGrid("Fuel Mass","kg");
-        ThirdUI.addFieldToTheGrid("Dry Mass","kg");
-        ThirdUI.addFieldToTheGrid("Engine Thrust","N");
-        ThirdUI.addFieldToTheGrid("Burn Rate","kg/s");
-        ThirdUI.addFieldToTheGrid("Nose Diameter","m");
-        ThirdUI.addFieldToTheGrid("Drag Coefficient","-");
-         */
+        //time_step, Simulation playback speed, duration
 
         Environment environment = new EarthEnvironment();
         System.out.println(launch_latitude + " " + launch_longitude);

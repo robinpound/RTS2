@@ -51,5 +51,9 @@ public class NormalTextBox {
     public String getValue(){
         return thing2.getCharacters().toString();
     }
+    public TextField getThing2(){
+        return thing2;
+    }
+
 }
 
