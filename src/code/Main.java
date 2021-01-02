@@ -139,7 +139,7 @@ public class Main extends Application {
     }
     private void SimulationMenu(Rocket theRocket) {
         System.out.println("Simulation Menu");
-        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket, playback_speed);
+        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1200, primaryStage, theRocket, playback_speed);
         SecondUI.GetStage().setTitle("Simulation");
 
         SecondUI.createGridPane(250,0,2);
@@ -159,16 +159,18 @@ public class Main extends Application {
 
 
         SecondUI.addText("Real Time Data:", 30, 3, 1);
-        SecondUI.addNormalDataToTheGrid("Location", "m");
+        SecondUI.addNormalDataToTheGrid("Time", "s");
+        SecondUI.addNormalDataToTheGrid("Location", "km");
         SecondUI.addNormalDataToTheGrid("Velocity", "m/s");
-        SecondUI.addNormalDataToTheGrid("Acceleration", ",,");
-        SecondUI.addNormalDataToTheGrid("---", ",,");
-        SecondUI.addNormalDataToTheGrid("---", ",,");
-        //SecondUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
+        SecondUI.addNormalDataToTheGrid("Acceleration", "m/s^2");
+        SecondUI.addNormalDataToTheGrid("Fuel", "kg");
+        SecondUI.addNormalDataToTheGrid("Atmospheric Density", "kg/m^3"); // do later
+        SecondUI.addNormalDataToTheGrid("Gravity", "kg/m^3"); // do later
+        SecondUI.addNormalDataToTheGrid("Drag", "N"); // do later
 
         SecondUI.addText("________________________", 20, 3, 1);
         SecondUI.addText("Options:", 30, 3, 1);
-        SecondUI.addButtonToTheGrid("Rocket", 1,1);
+        SecondUI.addButtonToTheGrid("Rocket", 3,1);
         SecondUI.NormalButtonHashMap.get("Rocket").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Rocket").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -177,7 +179,7 @@ public class Main extends Application {
                 //HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
             }
         });
-        SecondUI.addButtonToTheGrid("Environment", 1,1);
+        SecondUI.addButtonToTheGrid("Environment", 3,1);
         SecondUI.NormalButtonHashMap.get("Environment").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Environment").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -186,7 +188,7 @@ public class Main extends Application {
                 //HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
             }
         });
-        SecondUI.addButtonToTheGrid("Analysis", 1,1);
+        SecondUI.addButtonToTheGrid("Analysis", 3,1);
         SecondUI.NormalButtonHashMap.get("Analysis").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Analysis").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -195,7 +197,7 @@ public class Main extends Application {
                 //launch here
             }
         });
-        SecondUI.addButtonToTheGrid("Restart", 1,1);
+        SecondUI.addButtonToTheGrid("Restart", 3,1);
         SecondUI.NormalButtonHashMap.get("Restart").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Restart").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -204,7 +206,7 @@ public class Main extends Application {
                 //restart here
             }
         });
-        SecondUI.addButtonToTheGrid("Exit", 1,1);
+        SecondUI.addButtonToTheGrid("Exit", 3,1);
         SecondUI.NormalButtonHashMap.get("Exit").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -213,6 +215,7 @@ public class Main extends Application {
                 System.exit(0);
             }
         });
+
 
         SecondUI.GetStage().showAndWait();
     }

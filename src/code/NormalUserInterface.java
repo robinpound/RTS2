@@ -4,6 +4,7 @@ import com.sun.rowset.internal.Row;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -69,6 +70,12 @@ public class NormalUserInterface {
     }
     public void Configure(){ //if 3d
         BorderPane pane = new BorderPane();
+        /*
+        ColumnConstraints maxwidth = new ColumnConstraints(7);
+        theGrid.getColumnConstraints().add(maxwidth);
+
+         */
+
         pane.setRight(subScene);
         pane.setLeft(theGrid);
 

@@ -14,17 +14,16 @@ import java.text.DecimalFormat;
 
 public class NormalData {
 
-    String name;
-    int column = 0;
-    int row;
+    private final int column = 0;
+    private int row;
 
     Label thing = new Label();
-    Text thing2 = new Text();
+    Label thing2 = new Label();
     Label thing3 = new Label();
-    DecimalFormat df2 = new DecimalFormat("#.##");
+    DecimalFormat df2 = new DecimalFormat("#.00");
+
 
     NormalData(String name, int row, GridPane grid, String units){
-        this.name = name;
         this.row = row;
         this.thing.setText(name + ": ");
         this.thing3.setText(" " + units);
@@ -40,18 +39,24 @@ public class NormalData {
         thing2.setText(df2.format(one) + " | " + df2.format(two));
     }
     private void addsobjects(GridPane grid){
+
+        thing2.setMaxWidth(145);
+        thing2.setMinWidth(145);
+
+        grid.getColumnConstraints().removeAll();                          // tidy up any previous constraints that may have been set up
         grid.add(thing, column, row);
         grid.add(thing2,column+1, row);
         grid.add(thing3,column+2, row);
-        ColumnConstraints defaultconstraints = new ColumnConstraints(); // default constraints
-        ColumnConstraints thing2constraints = new ColumnConstraints();  // constraints to right justify data fields
-        thing2constraints.setMaxWidth(Double.MAX_VALUE);                //
+        ColumnConstraints defaultconstraints = new ColumnConstraints();   // default constraints
+        ColumnConstraints thing2constraints = new ColumnConstraints();    // constraints to right justify data fields
+
+
         thing2constraints.setFillWidth(true);                           //
-        thing2constraints.setHalignment(HPos.RIGHT);                    //
-        grid.getColumnConstraints().removeAll();                        // tidy up any previous constraints that may have been set up
-        for(int i=0; i<=column; i++) {
+        thing2constraints.setHalignment(HPos.RIGHT);                      //
+
+        for(int i=0; i<column+2; i++) {
             grid.getColumnConstraints().add(i, defaultconstraints);     // add empty constraints for preceding columns
         }
-        grid.getColumnConstraints().add(column+1, thing2constraints);   // add constraints for data column
+        grid.getColumnConstraints().add(1, thing2constraints);          // add special constraints for data column
     }
 }

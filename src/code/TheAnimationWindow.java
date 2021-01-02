@@ -88,13 +88,10 @@ public class TheAnimationWindow extends NormalUserInterface{
         }
         camera.setRotate(horizontal_cam);
 
-
-
-
     }
     public void createSun(){
 
-        createSphere sun = new createSphere(planetradius*100,1470000000.0,0,0);
+        createSphere sun = new createSphere(planetradius*100,14700000000.0,0,0);
         sun.settexture("../pictures/sun.jpg");
         sun.setillumination("../pictures/sun.jpg");
         sun.spheresetmaterial();
@@ -227,7 +224,6 @@ public class TheAnimationWindow extends NormalUserInterface{
                     if (start_timeNanosec == 0) {
                         start_timeNanosec = now;
                     }
-                    ///
                     if ((double) (now - start_timeNanosec) < (1.0e9/playback_speed)*current.get(0)) {
                         return;     //don't do anything until enough time's elapsed
                     }
@@ -270,6 +266,16 @@ public class TheAnimationWindow extends NormalUserInterface{
                     rocket.translateXProperty().set(current.get(3));
                     rocket.translateYProperty().set(-current.get(4));
                     rocket.translateZProperty().set(-current.get(2));
+
+                    //Real time data
+                    double CurrentVelocityMag = Math.sqrt(current.get(8)*current.get(8)+current.get(9)*current.get(9)+current.get(10)*current.get(10));
+                    double CurrentAccelerationMag = Math.sqrt(current.get(11)*current.get(11)+current.get(12)*current.get(12)+current.get(13)*current.get(13));
+
+                    NormalDataHashMap.get("Time").setText(current.get(0));
+                    NormalDataHashMap.get("Location").setText(current.get(2)/1000,current.get(3)/1000,current.get(4)/1000);
+                    NormalDataHashMap.get("Velocity").setText(CurrentVelocityMag);
+                    NormalDataHashMap.get("Acceleration").setText(CurrentAccelerationMag);
+                    NormalDataHashMap.get("Fuel").setText(current.get(1));
 
                     //orientation https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
 
