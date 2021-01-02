@@ -1,13 +1,8 @@
 package code;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -57,7 +52,7 @@ public class TheAnimationWindow extends NormalUserInterface{
     }
     public void SetCamera(){
         camera.setNearClip(1.0);
-        camera.setFarClip(10*radius);
+        camera.setFarClip(radius*10000);//10*radius
         camera.translateZProperty().set(vecZ-16*ROCKETHEIGHT);
         camera.translateYProperty().set(vecY-4*ROCKETHEIGHT);
         camera.translateXProperty().set(vecX);
@@ -66,7 +61,7 @@ public class TheAnimationWindow extends NormalUserInterface{
     }
     public void createSun(){
 
-        createSphere sun = new createSphere(radius*100,1000000000,0,1000000000);
+        createSphere sun = new createSphere(radius*100,147000000*1000,0,0);
         sun.settexture("../pictures/sun.jpg");
         sun.setillumination("../pictures/sun.jpg");
         sun.spheresetmaterial();
