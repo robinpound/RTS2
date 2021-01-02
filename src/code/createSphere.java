@@ -33,17 +33,11 @@ public class createSphere {
     public void setcolourred(){
         phong.setDiffuseColor(Color.RED);
     }
-    public void setcolourblack(){
-        phong.setDiffuseColor(Color.BLACK);
-    }
-    public void setcolourgrey(){
-        phong.setDiffuseColor(Color.GREY);
-    }
-    public void setcolourlightyellow(){
-        phong.setDiffuseColor(Color.LIGHTYELLOW);
-    }
     public void settexture(String name){
         phong.setDiffuseMap(new Image(getClass().getResourceAsStream(name)));
+    }
+    public void setBumpMap(String name){
+        phong.setBumpMap(new Image(getClass().getResourceAsStream(name)));
     }
     public void setillumination(String name){
         phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream(name)));

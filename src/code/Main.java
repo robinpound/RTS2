@@ -16,6 +16,7 @@ public class Main extends Application {
     private Boolean CloseClicked = false; //need to use to close windows using X
     private HashMap<String, Double> inputs = new HashMap<String, Double>();
     private Stage primaryStage;
+    private double playback_speed;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -102,7 +103,6 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Rocket").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(FirstUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
                 RocketParameterMenu(primaryStage);
             }
         });
@@ -110,7 +110,6 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Environment").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(FirstUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
                 EnvironmentParameterMenu(primaryStage);
             }
         });
@@ -119,14 +118,12 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 FirstUI.GetStage().close();
-                System.out.println(FirstUI.NormalButtonHashMap.get("Launch").Gettext() + " was clicked");
             }
         });
         FirstUI.addButtonToTheGrid("Exit", 1,1);
         FirstUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(FirstUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
                 System.exit(0);
             }
         });
@@ -136,26 +133,13 @@ public class Main extends Application {
 
     }
     private Rocket CalculateTrajectory(){
-
         Simulation sim = new Simulation();
-        //double[] values = {0.01, 0.0, 0.0, 90.0, 0.0, 60.0, 0.0, 50, 21, 0.31, 0.2, 6000.0, 0.474};
-        //double[] values={0.01, 0.0, 0.0, 0.0, 4.077, 4.0, 0.31, 0.2, 1419.0, 0.474, 90.0, 0.0, 90.0, 0.0};
-        sim.run_simulation(inputs);//hardcode values for now! Change this to hashmap
-        /*
-        double time_step = values[0];
-        double launch_latitude = values[1], launch_longitude = values[2];
-        double launch_altitude = values[3], launch_azimuth = values[4];
-        double wind_speed = values[5], wind_angle = values[6];
-        double fuel_mass = values[7], dry_mass = values[8];
-        double drag_coefficient = values[9], nose_diameter = values[10];
-        double engine_thrust = values[11], burn_rate = values[12];
-         */
-
+        sim.run_simulation(inputs);
         return sim.getRocket();
     }
     private void SimulationMenu(Rocket theRocket) {
         System.out.println("Simulation Menu");
-        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket);
+        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket, playback_speed);
         SecondUI.GetStage().setTitle("Simulation");
 
         SecondUI.createGridPane(250,0,2);
@@ -165,10 +149,14 @@ public class Main extends Application {
         SecondUI.Configure();
         SecondUI.SetRocketPosition();
         SecondUI.SetCamera();
-        SecondUI.SetGround();
+        //lights and large objects
+        SecondUI.createSun();
+        SecondUI.createGround();
+        SecondUI.createAmbientLight();
+        //movement
         SecondUI.movement();
         SecondUI.RocketMovement();
-        SecondUI.createSun();
+
 
         SecondUI.addText("Real Time Data:", 30, 3, 1);
         SecondUI.addNormalDataToTheGrid("Location", "m");
@@ -309,7 +297,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 inputs.put("Time Step", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Time Step").getValue()));
-                inputs.put("Playback Speed", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Playback Speed").getValue()));
+                playback_speed = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Playback Speed").getValue());
                 inputs.put("Simulation Duration", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Simulation Duration").getValue()));
                 inputs.put("Wind Speed", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Speed").getValue()));
                 inputs.put("Wind Angle", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Angle").getValue()));
@@ -317,6 +305,7 @@ public class Main extends Application {
                 inputs.put("Azimuth", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Azimuth").getValue()));
                 inputs.put("Latitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Latitude").getValue()));
                 inputs.put("Longitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Longitude").getValue()));
+
                 FourthUI.GetStage().close();
             }
         });
@@ -338,8 +327,8 @@ public class Main extends Application {
     }
     public void setDefaultsEnvironment(NormalUserInterface FourthUI){
         FourthUI.NormalFieldHashMap.get("Time Step").getThing2().setText("0.01");
-        FourthUI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5");
-        FourthUI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("300");;
+        FourthUI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("50");
+        FourthUI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("3000");;
         FourthUI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
         FourthUI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
         FourthUI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");

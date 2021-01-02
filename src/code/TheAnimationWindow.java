@@ -2,6 +2,7 @@ package code;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
+import javafx.scene.AmbientLight;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -16,7 +17,7 @@ public class TheAnimationWindow extends NormalUserInterface{
     private final int ROCKETHEIGHT = 12*ROCKETRADIUS;
     private final double PEBBLESECS = 2.0;     //number of realtime seconds between pebbles
     private final double PEBBLESIZE = 0.25;    //size of pebbles as fraction of space between them (based on velocity)
-    private final double TIMESREALTIME = 5.0;  //speed of animation relative to realtime
+    private final double playback_speed;  //speed of animation relative to realtime
     private final PhongMaterial rocketMat = new PhongMaterial();
     private Cylinder rocket = new Cylinder(ROCKETRADIUS,ROCKETHEIGHT);
 
@@ -28,14 +29,15 @@ public class TheAnimationWindow extends NormalUserInterface{
     private boolean drop_pebble = false;
 
     private Rocket theRocket;
-    private List<List<Double>> arraylist2D;
-    private double vecX, vecY, vecZ;
-    private double planetradius;
+    private final List<List<Double>> arraylist2D;
+    private final double vecX, vecY, vecZ;
+    private final double planetradius;
 
-    TheAnimationWindow(int windowHeight, int windowWidth, Stage theStage, Rocket theRocket) {
+    TheAnimationWindow(int windowHeight, int windowWidth, Stage theStage, Rocket theRocket, double playback_speed) {
         super(windowHeight, windowWidth, theStage);
         this.theRocket =theRocket;
         this.arraylist2D = theRocket.get_Arraylist();
+        this.playback_speed = playback_speed;
         List<Double> current = arraylist2D.get(0);
         vecX = current.get(3);
         vecY = -current.get(4);
@@ -43,7 +45,7 @@ public class TheAnimationWindow extends NormalUserInterface{
         planetradius = Math.sqrt(vecX*vecX+vecY*vecY+vecZ*vecZ); //Tells radius of earth bc we launch from surface of earth
     }
     //move camera coordinates, stopping just above surface of planet
-    private void movecamera(double x, double y, double z) {
+    private void MoveCamera(double x, double y, double z) {
         double newX = camera.getTranslateX()+x;                 //get target position
         double newY = camera.getTranslateY()+y;
         double newZ = camera.getTranslateZ()+z;
@@ -69,7 +71,7 @@ public class TheAnimationWindow extends NormalUserInterface{
         rocket.setMaterial(rocketMat);
     }
     public void SetCamera(){
-        camera.setNearClip(1.0);
+        camera.setNearClip(1000);
         camera.setFarClip(planetradius*10000);//10*radius
         camera.translateXProperty().set(vecX);
         camera.translateYProperty().set(vecY);
@@ -79,30 +81,35 @@ public class TheAnimationWindow extends NormalUserInterface{
         camera.setRotationAxis(p);
         if (vecZ > 0.0) {                               //if launch position is on far side of planet, rotate camera around
             horizontal_cam = 180;
-            movecamera(0,0,100*ROCKETHEIGHT);
+            MoveCamera(0,0,100*ROCKETHEIGHT);
         } else {
             horizontal_cam = 0;
-            movecamera(0, 0, -100 * ROCKETHEIGHT);
+            MoveCamera(0, 0, -100 * ROCKETHEIGHT);
         }
         camera.setRotate(horizontal_cam);
+
+
 
 
     }
     public void createSun(){
 
-        createSphere sun = new createSphere(planetradius*100,1470000000,0,0);
+        createSphere sun = new createSphere(planetradius*100,1470000000.0,0,0);
         sun.settexture("../pictures/sun.jpg");
         sun.setillumination("../pictures/sun.jpg");
         sun.spheresetmaterial();
         root.getChildren().add(sun.getobject());
     }
-    public void SetGround(){
+    public void createGround(){
         createSphere earth = new createSphere(planetradius,0,0,0);
         earth.settexture("../pictures/4k Earth.jpg");
-        earth.setillumination("../pictures/4k Earth.jpg");
         earth.spheresetmaterial();
         root.getChildren().add(earth.getobject());
-
+    }
+    public void createAmbientLight(){
+        AmbientLight light = new AmbientLight();
+        light.setColor(Color.WHITE);
+        root.getChildren().add(light);
     }
 
     public void movement(){
@@ -113,32 +120,32 @@ public class TheAnimationWindow extends NormalUserInterface{
 
             switch (event.getCode()){ //switch to if statements if you want to do multiple keys at once
                 case W://forward
-                    movecamera(movementSpeed * sinangle,0,movementSpeed * cosangle);
+                    MoveCamera(movementSpeed * sinangle,0,movementSpeed * cosangle);
                     event.consume();
                     break;
 
                 case S://backwards
-                    movecamera(-movementSpeed * sinangle,0,-movementSpeed * cosangle);
+                    MoveCamera(-movementSpeed * sinangle,0,-movementSpeed * cosangle);
                     event.consume();
                     break;
 
                 case A://left
-                    movecamera(-movementSpeed * cosangle,0,movementSpeed * sinangle);
+                    MoveCamera(-movementSpeed * cosangle,0,movementSpeed * sinangle);
                     event.consume();
                     break;
 
                 case D://right
-                    movecamera(movementSpeed * cosangle,0,-movementSpeed * sinangle);
+                    MoveCamera(movementSpeed * cosangle,0,-movementSpeed * sinangle);
                     event.consume();
                     break;
 
                 case SPACE://up
-                    movecamera(0,-movementSpeed,0);
+                    MoveCamera(0,-movementSpeed,0);
                     event.consume();
                     break;
 
                 case C://down
-                    movecamera(0,movementSpeed,0);
+                    MoveCamera(0,movementSpeed,0);
                     event.consume();
                     break;
 
@@ -220,10 +227,11 @@ public class TheAnimationWindow extends NormalUserInterface{
                     if (start_timeNanosec == 0) {
                         start_timeNanosec = now;
                     }
-                    if ((double) (now - start_timeNanosec) < (1.0e9/TIMESREALTIME)*current.get(0)) {
+                    ///
+                    if ((double) (now - start_timeNanosec) < (1.0e9/playback_speed)*current.get(0)) {
                         return;     //don't do anything until enough time's elapsed
                     }
-                    while ((double) (now - start_timeNanosec) >= (1.0e9/TIMESREALTIME)*current.get(0)) {
+                    while ((double) (now - start_timeNanosec) >= (1.0e9/playback_speed)*current.get(0)) {
                         array_index += 1;
                         if(array_index >= arraylist2D.size()){
                             stop();
@@ -235,13 +243,14 @@ public class TheAnimationWindow extends NormalUserInterface{
                             double velY = -current.get(10);
                             double velZ = -current.get(8);
                             int rr = 1 + (int) (PEBBLESIZE*PEBBLESECS*Math.sqrt(velX*velX+velY*velY+velZ*velZ));
-                            createBox pebble = new createBox(rr, rr, rr, (int) pebblex, (int) pebbley, (int) pebblez);
+                            //createBox pebble = new createBox(rr, rr, rr, (int) pebblex, (int) pebbley, (int) pebblez);
+                            createSphere pebble = new createSphere(rr, pebblex, pebbley, pebblez);
                             if (current.get(1) > 0.0) {
                                 pebble.setcolourgreen();
                             } else {
                                 pebble.setcolourred();
                             }
-                            pebble.boxsetmaterial();
+                            pebble.spheresetmaterial();
                             try {
                                 root.getChildren().add(pebble.getobject());
                             } catch (Exception e) {

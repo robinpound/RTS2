@@ -3,8 +3,9 @@ package code;
 //calculations that can be the same for all planets
 abstract class Environment {
 
-    protected double planet_radius = 0;
-    protected double time_step = 0;
+    protected double planet_radius;
+    protected double time_step;
+    //protected double playback_speed;
     protected Vector3 launch_orientation = new Vector3();
     protected Vector3 launch_position = new Vector3();
     protected Vector3 wind_velocity = new Vector3();
@@ -103,7 +104,7 @@ abstract class Environment {
     public void set_Timestep(double timestep) {
         this.time_step = timestep;
     }
-
+    //public void set_Playback_speed(double playback_speed){this.playback_speed =playback_speed;}
     //set launch orientation vector at zero latitude & longitude
     public void set_LaunchOrientation(double altitude, double azimuth) {
         launch_orientation.setState(altitude, azimuth);
@@ -120,6 +121,7 @@ abstract class Environment {
     public void setState(double timestep, double latitude, double longitude, double altitude, double azimuth,
                          double wind_speed, double wind_angle) {
         set_Timestep(timestep);
+        //et_Playback_speed(playback_speed);
         set_LaunchPosition(latitude, longitude);
         set_LaunchOrientation(altitude, azimuth);
         set_Wind(wind_speed, wind_angle);
