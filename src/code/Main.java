@@ -12,15 +12,18 @@ import java.util.HashMap;
 
 public class Main extends Application {
 
-    Boolean CloseClicked = false; //need to use to close windows using X
+    private Boolean CloseClicked = false; //need to use to close windows using X
+    private HashMap<String, Double> inputs = new HashMap<String, Double>();
+    private Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        LoginMenu(primaryStage);
-        HashMap<String, Double> inputs = BuildingMenu(primaryStage);
-        Rocket theRocket = CalculateTrajectory(inputs);
-        SimulationMenu(primaryStage, theRocket);
+        this.primaryStage = primaryStage;
+        LoginMenu();
+        BuildingMenu();
+        Rocket theRocket = CalculateTrajectory();
+        SimulationMenu(theRocket);//make theRocket member of the class (private)
     }
-    private void LoginMenu(Stage primaryStage){
+    private void LoginMenu(){
         NormalUserInterface LoginUI = new NormalUserInterface(500, 650, primaryStage);
         LoginUI.GetStage().setTitle("RTS-2");
         LoginUI.createGridPane(250,2,2);
@@ -48,11 +51,20 @@ public class Main extends Application {
         LoginUI.addButtonToTheGrid("REGISTER",1,1);
         LoginUI.NormalButtonHashMap.get("REGISTER").setCoordinates(REGISTERCOLUMN, 5);
 
+        LoginUI.addButtonToTheGrid("Run as Guest", 1,1);
+        LoginUI.NormalButtonHashMap.get("Run as Guest").setCoordinates(4,6);
+        LoginUI.NormalButtonHashMap.get("Run as Guest").translateObject(100,52);
+        LoginUI.NormalButtonHashMap.get("Run as Guest").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                LoginUI.GetStage().close();
+            }
+        });
 
-        //LoginUI.addText(" ", 65, 3, 3);
+
         LoginUI.addButtonToTheGrid("Exit", 1,1);
         LoginUI.NormalButtonHashMap.get("Exit").setCoordinates(4,7);
-        LoginUI.NormalButtonHashMap.get("Exit").translateObject(165,52);
+        LoginUI.NormalButtonHashMap.get("Exit").translateObject(100,52);
         LoginUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -62,9 +74,7 @@ public class Main extends Application {
         LoginUI.Configure2D();
         LoginUI.GetStage().showAndWait();
     }
-    private HashMap<String, Double> BuildingMenu(Stage primaryStage){
-
-        HashMap<String, Double> inputs = new HashMap<String, Double>();
+    private void BuildingMenu(){
 
         //set up Stage
 
@@ -92,7 +102,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(FirstUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
+                RocketParameterMenu(primaryStage);
             }
         });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
@@ -100,7 +110,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(FirstUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
-                HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
+                EnvironmentParameterMenu(primaryStage);
             }
         });
         FirstUI.addButtonToTheGrid("Launch", 1,1);
@@ -122,18 +132,27 @@ public class Main extends Application {
 
 
         FirstUI.GetStage().showAndWait();
-        return inputs;
 
     }
-    private Rocket CalculateTrajectory(HashMap<String, Double> inputs){
+    private Rocket CalculateTrajectory(){
 
         Simulation sim = new Simulation();
-        double[] values = {0.01, 0.0, 0.0, 0.0, 4.077, 4.0, 0.31, 0.2, 1419.0, 0.474, 90.0, 0.0, 90.0, 0.0};
-        sim.run_simulation(values);//hardcode values for now! Change this to hashmap
+        //double[] values = {0.01, 0.0, 0.0, 90.0, 0.0, 60.0, 0.0, 50, 21, 0.31, 0.2, 6000.0, 0.474};
+        //double[] values={0.01, 0.0, 0.0, 0.0, 4.077, 4.0, 0.31, 0.2, 1419.0, 0.474, 90.0, 0.0, 90.0, 0.0};
+        sim.run_simulation(inputs);//hardcode values for now! Change this to hashmap
+        /*
+        double time_step = values[0];
+        double launch_latitude = values[1], launch_longitude = values[2];
+        double launch_altitude = values[3], launch_azimuth = values[4];
+        double wind_speed = values[5], wind_angle = values[6];
+        double fuel_mass = values[7], dry_mass = values[8];
+        double drag_coefficient = values[9], nose_diameter = values[10];
+        double engine_thrust = values[11], burn_rate = values[12];
+         */
 
         return sim.getRocket();
     }
-    private void SimulationMenu(Stage primaryStage, Rocket theRocket) {
+    private void SimulationMenu(Rocket theRocket) {
         System.out.println("Simulation Menu");
         TheAnimationWindow SecondUI = new TheAnimationWindow(700,1000, primaryStage, theRocket);
         SecondUI.GetStage().setTitle("Simulation");
@@ -166,7 +185,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
+                //HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
             }
         });
         SecondUI.addButtonToTheGrid("Environment", 1,1);
@@ -175,7 +194,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
-                HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
+                //HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
             }
         });
         SecondUI.addButtonToTheGrid("Analysis", 1,1);
@@ -208,13 +227,13 @@ public class Main extends Application {
 
         SecondUI.GetStage().showAndWait();
     }
-    private HashMap<String,Double> RocketParameterMenu(Stage primaryStage) {
+    private void RocketParameterMenu(Stage primaryStage) {
         NormalUserInterface ThirdUI = new NormalUserInterface(500, 350, primaryStage);
         ThirdUI.GetStage().setTitle("Rocket Building Menu");
         ThirdUI.createGridPane(250,2,2);
         ThirdUI.addStageDimensions();
 
-        ThirdUI.addText("Rocket:", 3, 3, 1);
+        ThirdUI.addText("Rocket:", 20, 3, 1);
         ThirdUI.addFieldToTheGrid("Fuel Mass","kg");
         ThirdUI.addFieldToTheGrid("Dry Mass","kg");
         ThirdUI.addFieldToTheGrid("Engine Thrust","N");
@@ -226,27 +245,39 @@ public class Main extends Application {
         ThirdUI.addButtonToTheGrid("SAVE",1,1);
         ThirdUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         ThirdUI.addButtonToTheGrid("ACCEPT",1,1);
+        ThirdUI.NormalButtonHashMap.get("ACCEPT").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                inputs.put("Fuel Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Fuel Mass").getValue()));
+                inputs.put("Dry Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Dry Mass").getValue()));
+                inputs.put("Engine Thrust", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Thrust").getValue()));
+                inputs.put("Burn Rate", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Burn Rate").getValue()));
+                inputs.put("Nose Diameter", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue()));
+                inputs.put("Drag Coefficient", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue()));
+                ThirdUI.GetStage().close();
+            }
+        });
 
         ThirdUI.Configure2D();
         ThirdUI.GetStage().showAndWait();
-        return null;
     }
-    private HashMap<String,Double> EnvironmentParameterMenu(Stage primaryStage) {
+
+    private void EnvironmentParameterMenu(Stage primaryStage) {
         NormalUserInterface FourthUI = new NormalUserInterface(500, 350, primaryStage);
         FourthUI.GetStage().setTitle("Environment Building Menu");
         FourthUI.createGridPane(250,2,2);
         FourthUI.addStageDimensions();
 
-        FourthUI.addText("Simulation:", 3, 3, 1);
+        FourthUI.addText("Simulation:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Time Step","s");
         FourthUI.addFieldToTheGrid("Playback Speed","-");
-        FourthUI.addText("Wind:", 3, 3, 1);
+        FourthUI.addText("Wind:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Wind Speed","m/s");
         FourthUI.addFieldToTheGrid("Wind Angle","*");
-        FourthUI.addText("Orientation:", 3, 3, 1);
+        FourthUI.addText("Orientation:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Altitude","*");
         FourthUI.addFieldToTheGrid("Azimuth","*");
-        FourthUI.addText("Position:", 3, 3, 1);
+        FourthUI.addText("Position:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Latitude","*");
         FourthUI.addFieldToTheGrid("Longitude","*");
 
@@ -254,10 +285,24 @@ public class Main extends Application {
         FourthUI.addButtonToTheGrid("SAVE",1,1);
         FourthUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         FourthUI.addButtonToTheGrid("ACCEPT",1,1);
+        FourthUI.NormalButtonHashMap.get("ACCEPT").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                inputs.put("Time Step", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Time Step").getValue()));
+                inputs.put("Playback Speed", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Playback Speed").getValue()));
+                inputs.put("Wind Speed", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Speed").getValue()));
+                inputs.put("Wind Angle", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Angle").getValue()));
+                inputs.put("Altitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Altitude").getValue()));
+                inputs.put("Azimuth", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Azimuth").getValue()));
+                inputs.put("Latitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Latitude").getValue()));
+                inputs.put("Longitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Longitude").getValue()));
+                FourthUI.GetStage().close();
+            }
+        });
 
         FourthUI.Configure2D();
         FourthUI.GetStage().showAndWait();
-        return null;
+
     }
     private void OpenHTMLWebsite(){
         File f = new File ("src/code/HelpPage.html");

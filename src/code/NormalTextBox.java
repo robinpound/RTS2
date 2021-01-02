@@ -48,5 +48,8 @@ public class NormalTextBox {
         grid.add(thing2,column+1, row);
         grid.add(thing3,column+2, row);
     }
+    public String getValue(){
+        return thing2.getCharacters().toString();
+    }
 }
 

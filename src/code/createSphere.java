@@ -23,7 +23,6 @@ public class createSphere {
         sphere.setTranslateZ(z);
         sphere.setDrawMode(DrawMode.FILL);
 
-
     }
     public Sphere getobject(){
         return sphere;

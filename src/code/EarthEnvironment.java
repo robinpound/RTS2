@@ -2,18 +2,19 @@ package code;
 
 public class EarthEnvironment extends Environment {
 
+    //initialise default parameters specific to Earth
     public EarthEnvironment () {
         set_Planetradius(6378137.0);
         set_Timestep(0.01);
     }
 
-    public double get_AtmosphericDensity(PlanetCoordinates location){
+    public double get_AtmosphericDensity(PlanetCoordinates coordinates){
          /*
          convert height to atmospheric density using approximate rules from NASA:
          https://www.grc.nasa.gov/www/k-12/airplane/atmosmet.html
          */
 
-        double height = get_Altitude(location);
+        double height = get_Altitude(coordinates);
         double T, p; // temperature, pressure
 
         if (height > 25000.0) {                   // upper stratosphere
@@ -30,14 +31,14 @@ public class EarthEnvironment extends Environment {
         return p / (0.2869 * (T + 273.1));
     }
 
-    public Vector3 get_Gravity(PlanetCoordinates location){
+    public Vector3 get_Gravity(PlanetCoordinates coordinates){
          /*
          convert height to atmospheric density using nominal values for surface gravity and equatorial radius from NASA:
          https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
          */
-        double height = get_Altitude(location);
-        double magnitude = 9.798 * (1.0 - height / planetradius);
-        Vector3 direction = location.getVector3();
+        double height = get_Altitude(coordinates);
+        double magnitude = 9.798 * (1.0 - height / planet_radius);
+        Vector3 direction = coordinates.getVector3();
         direction = direction.div(direction.mag());
         return direction.times(magnitude);
     }

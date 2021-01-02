@@ -3,14 +3,19 @@ package code;
 public class Vector3 {
     private double VecX,VecY,VecZ;
 
+    //make zero vector
+    public Vector3 (){
+        setState(0, 0, 0);
+    }
+
+    //make vector with chosen coordinates
     public Vector3 (double VecX, double VecY, double VecZ){
         setState(VecX, VecY, VecZ);
     }
-    public Vector3 (double altitude, double azimuth){
+
+    //make unit vector with required altitude and azimuth
+    public Vector3 (double altitude, double azimuth) {
         setState(altitude, azimuth);
-    }
-    public Vector3 (){
-        setState(0, 0, 0);
     }
 
     public double getXVec(){ return VecX; }
@@ -25,24 +30,36 @@ public class Vector3 {
     public void setYVec(double amount){ VecY = amount;}
     public void setZVec(double amount){ VecZ = amount;}
 
+    //create vector from separate xyz coordinates
     public void setState(double VecX, double VecY, double VecZ){
         this.VecX = VecX;
         this.VecY = VecY;
         this.VecZ = VecZ;
     }
 
+    //create a copy of another vector
     public void setState(Vector3 vec){
         VecX = vec.getXVec();
         VecY = vec.getYVec();
         VecZ = vec.getZVec();
     }
 
+    //set vector to unit amplitude with specified altitude and azimuth angles
     public void setState(double altitude, double azimuth) {
-        double vecX = Math.cos(Math.toRadians(azimuth));
         double vecY = Math.sin(Math.toRadians(azimuth));
-        double vecZ = Math.sin(Math.toRadians(altitude));
-        double sclXY = Math.cos(Math.toRadians(altitude));
-        setState(vecX*sclXY, vecY*sclXY, vecZ);
+        double vecZ = Math.cos(Math.toRadians(azimuth));
+        double vecX = Math.sin(Math.toRadians(altitude));
+        double sclX = Math.cos(Math.toRadians(altitude));
+        setState(vecX, vecY*sclX, vecZ*sclX);
+    }
+
+    //set vector using radius, latitude and longitude
+    public void setStateFromCoordinates(double radius, double latitude, double longitude) {
+        double vecX = Math.cos(Math.toRadians(longitude));
+        double vecY = Math.sin(Math.toRadians(longitude));
+        double vecZ = Math.sin(Math.toRadians(latitude));
+        double sclZ = radius*Math.cos(Math.toRadians(latitude));
+        setState(vecX*sclZ, vecY*sclZ, vecZ*radius);
     }
 
     public Vector3 times(double scalar){

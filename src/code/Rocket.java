@@ -24,8 +24,7 @@ public class Rocket {
     List<List<Double>> arraylist = new ArrayList<>(); // 2D list of results
 
     public void set_State(double fuel_mass,     double dry_mass,    double drag_coefficient,    double nose_diameter,
-                          double engine_thrust, double burn_rate,   double altitude,            double azimuth,
-                          double latitude,      double longitude,   Environment environment){
+                          double engine_thrust, double burn_rate,   Environment environment){
 
         //initial settings (Things that shouldn't be 0 at the start)
         this.fuel_mass = fuel_mass;
@@ -35,15 +34,14 @@ public class Rocket {
         this.engine_thrust = engine_thrust;
         this.burn_rate = burn_rate;
 
-        //getting the orientation vector from angles
-        this.orientation.setState(altitude, azimuth);
-
         //if the rocket is used twice, this is to make sure ALL values are set back to normal
-        position.setState(environment.get_SurfaceCoordinates(latitude, longitude).getVector3());
+        position.setState(environment.get_LaunchPosition());
+        orientation.setState(environment.get_LaunchOrientation(position));
         velocity.setState(0,0,0);
         acceleration.setState(0,0,0);
         thrust.setState(0,0,0);
         drag.setState(0,0,0);
+        arraylist.clear();
         engine_on = false;
         time_elapsed = 0;
     }
@@ -71,14 +69,15 @@ public class Rocket {
         current.add(drag.getXVec());
         current.add(drag.getYVec());
         current.add(drag.getZVec());
-        current.add(environment.get_Wind().getXVec());
-        current.add(environment.get_Wind().getYVec());
-        current.add(environment.get_Wind().getZVec());
+        Vector3 wind = environment.get_Wind(position);
+        current.add(wind.getXVec());
+        current.add(wind.getYVec());
+        current.add(wind.getZVec());
 
         arraylist.add(current);
     }
 
-    public void run(Environment environment){
+    public void run(Environment environment){//PUT INTO DIFFERENT FUNCTIONS!!!!!!
         double fuel_used;
         double time_step = environment.get_Timestep();
 
@@ -97,7 +96,7 @@ public class Rocket {
         }
 
         //Calculate drag --
-        Vector3 atmospheric_velocity = velocity.sub(environment.get_Wind());
+        Vector3 atmospheric_velocity = velocity.sub(environment.get_Wind(position));
         Vector3 gravity = environment.get_Gravity(position);
         drag = atmospheric_velocity.times(drag_factor * environment.get_AtmosphericDensity(position) * atmospheric_velocity.mag());
         //Calculate acceleration --
