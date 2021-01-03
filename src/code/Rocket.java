@@ -114,11 +114,6 @@ public class Rocket {
 
         //check for hitting ground
         if (environment.get_Altitude(position) <= 0.0){
-            PlanetCoordinates planetcoordinates = new PlanetCoordinates(position);
-            double latitude = planetcoordinates.getLatitude();
-            double longitude = planetcoordinates.getLongitude();
-            Vector3 vector3 = environment.get_SurfaceCoordinates(latitude, longitude).getVector3();
-            position.setState(vector3);
             velocity.setState(0,0,0);
             acceleration.setState(0,0,0);
         }

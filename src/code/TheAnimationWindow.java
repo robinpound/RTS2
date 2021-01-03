@@ -8,8 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class TheAnimationWindow extends NormalUserInterface{
@@ -23,16 +21,19 @@ public class TheAnimationWindow extends NormalUserInterface{
     private Cylinder rocket = new Cylinder(ROCKETRADIUS,ROCKETHEIGHT);
 
     private double movementSpeed;
+    private double camera_start_distance;
     private double mouse_x = 0;
     private double mouse_y = 0;
     private double horizontal_cam = 0;
     private double vertical_cam = 0;
     private boolean drop_pebble = false;
+    private double rr;
 
     private Rocket theRocket;
     private final List<List<Double>> arraylist2D;
     private final double vecX, vecY, vecZ;
     private final double planetradius;
+
 
     private Environment environment;
 
@@ -47,7 +48,7 @@ public class TheAnimationWindow extends NormalUserInterface{
         vecY = -current.get(4);
         vecZ = -current.get(2);
         planetradius = Math.sqrt(vecX*vecX+vecY*vecY+vecZ*vecZ); //Tells radius of earth bc we launch from surface of earth
-        setMovementSpeed();
+        setCameraComparedToAltitude();
     }
     //move camera coordinates, stopping just above surface of planet
     private void MoveCamera(double x, double y, double z) {
@@ -76,7 +77,8 @@ public class TheAnimationWindow extends NormalUserInterface{
         rocket.setMaterial(rocketMat);
     }
     public void SetCamera(){
-        camera.setNearClip(1000);
+
+        camera.setNearClip(ROCKETHEIGHT);
         camera.setFarClip(planetradius*10000);//10*radius
         camera.translateXProperty().set(vecX);
         camera.translateYProperty().set(vecY);
@@ -86,10 +88,10 @@ public class TheAnimationWindow extends NormalUserInterface{
         camera.setRotationAxis(p);
         if (vecZ > 0.0) {                               //if launch position is on far side of planet, rotate camera around
             horizontal_cam = 180;
-            MoveCamera(0,0,100*ROCKETHEIGHT);
+            MoveCamera(0,0,camera_start_distance);
         } else {
             horizontal_cam = 0;
-            MoveCamera(0, 0, -100 * ROCKETHEIGHT);
+            MoveCamera(0, 0, -camera_start_distance);
         }
         camera.setRotate(horizontal_cam);
 
@@ -219,8 +221,7 @@ public class TheAnimationWindow extends NormalUserInterface{
                 int pebbley = 0;
                 int pebblez = 0;
                 int array_index = 0;
-                final double highest = getHighestAltitude();
-                final int rr = (int)(highest/1000);
+
                 @Override
                 public void handle(long now) {
                     if(array_index >= arraylist2D.size()){
@@ -333,11 +334,16 @@ public class TheAnimationWindow extends NormalUserInterface{
             List<Double> current = arraylist2D.get(i);
             highest = Math.max(highest, environment.get_Altitude(new Vector3(current.get(2), current.get(3), current.get(4))));
         }
-
         return highest;
     }
-    private void setMovementSpeed(){
-        movementSpeed = getHighestAltitude()*0.01;
+    private void setCameraComparedToAltitude(){
+        double highest = Math.min(10 * planetradius, getHighestAltitude());
+        movementSpeed = highest * 0.01;
+        camera_start_distance = highest *2;
+        rr = (highest/1000);
+    }
+    public void refocus(){
+        subScene.requestFocus();
     }
 
 }

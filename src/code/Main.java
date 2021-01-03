@@ -17,6 +17,26 @@ public class Main extends Application {
     private Stage primaryStage;
     private double playback_speed;
     private Environment environment;
+
+    private double saved_Fuel_Mass;
+    private double saved_Hull_Mass;
+    private double saved_Engine_Mass;
+    private double saved_Payload_Mass;
+    private double saved_Engine_Thrust;
+    private double saved_Burn_Rate;
+    private double saved_Nose_Diameter;
+    private double saved_Drag_Coefficient;
+
+    private double saved_Time_Step;
+    private double saved_Playback_Speed;
+    private double saved_Simulation_Duration;
+    private double saved_Wind_Speed;
+    private double saved_Wind_Angle;
+    private double saved_Altitude;
+    private double saved_Azimuth;
+    private double saved_Latitude;
+    private double saved_Longitude;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -175,8 +195,8 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Rocket").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(SecondUI.NormalButtonHashMap.get("Rocket").Gettext() + " was clicked");
-                //HashMap<String,Double> Rocketfields = RocketParameterMenu(primaryStage);
+                RocketParameterMenu(primaryStage);
+                SecondUI.refocus();
             }
         });
         SecondUI.addButtonToTheGrid("Environment", 3,1);
@@ -184,8 +204,8 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Environment").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(SecondUI.NormalButtonHashMap.get("Environment").Gettext() + " was clicked");
-                //HashMap<String,Double> Environmentfields = EnvironmentParameterMenu(primaryStage);
+                EnvironmentParameterMenu(primaryStage);
+                SecondUI.refocus();
             }
         });
         SecondUI.addButtonToTheGrid("Analysis", 3,1);
@@ -194,7 +214,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Analysis").Gettext() + " was clicked");
-                //launch here
+                SecondUI.refocus();
             }
         });
         SecondUI.addButtonToTheGrid("Restart", 3,1);
@@ -258,14 +278,86 @@ public class Main extends Application {
                 inputs.put("Burn Rate", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Burn Rate").getValue()));
                 inputs.put("Nose Diameter", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue()));
                 inputs.put("Drag Coefficient", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue()));
+
+
+                saved_Fuel_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Fuel Mass").getValue());
+                saved_Hull_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Hull Mass").getValue());
+                saved_Engine_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Mass").getValue());
+                saved_Payload_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Payload Mass").getValue());
+                saved_Engine_Thrust = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Thrust").getValue());
+                saved_Burn_Rate = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Burn Rate").getValue());
+                saved_Nose_Diameter = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue());
+                saved_Drag_Coefficient = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue());
+
                 ThirdUI.GetStage().close();
             }
         });
 
-        setDefaultsRocket(ThirdUI);
+        setSavedDefaultsRocket(ThirdUI);
         ThirdUI.Configure2D();
         ThirdUI.GetStage().showAndWait();
     }
+    public void setDefaultsRocket(NormalUserInterface UI){
+        UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("20.0");
+        UI.NormalFieldHashMap.get("Hull Mass").getThing2().setText("0.5");
+        UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("3.0");
+        UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("1.0");
+        UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("3000.0");
+        UI.NormalFieldHashMap.get("Burn Rate").getThing2().setText("0.474");
+        UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText("0.2");
+        UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText("0.31");
+    } //default values in here
+    public void setSavedDefaultsRocket(NormalUserInterface UI){
+        if (saved_Fuel_Mass != 0){
+            String x = Double.toString(saved_Fuel_Mass);
+            UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("20");
+        }
+        if (saved_Hull_Mass != 0){
+            String x = Double.toString(saved_Hull_Mass);
+            UI.NormalFieldHashMap.get("Hull Mass").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Hull Mass").getThing2().setText("0.5");
+        }
+        if (saved_Engine_Mass != 0){
+            String x = Double.toString(saved_Engine_Mass);
+            UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("3");
+        }
+        if (saved_Payload_Mass != 0){
+            String x = Double.toString(saved_Payload_Mass);
+            UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("1");
+        }
+        if (saved_Engine_Thrust != 0){
+            String x = Double.toString(saved_Engine_Thrust);
+            UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("3000");
+        }
+        if (saved_Burn_Rate != 0){
+            String x = Double.toString(saved_Burn_Rate);
+            UI.NormalFieldHashMap.get("Burn Rate").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Burn Rate").getThing2().setText("0.474");
+        }
+        if (saved_Nose_Diameter != 0){
+            String x = Double.toString(saved_Nose_Diameter);
+            UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText("0.2");
+        }
+        if (saved_Drag_Coefficient != 0){
+            String x = Double.toString(saved_Drag_Coefficient);
+            UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText("0.31");
+        }
+    }//and in here
+
     private void EnvironmentParameterMenu(Stage primaryStage) {
         NormalUserInterface FourthUI = new NormalUserInterface(540, 350, primaryStage);
         FourthUI.GetStage().setTitle("Environment Building Menu");
@@ -309,36 +401,93 @@ public class Main extends Application {
                 inputs.put("Latitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Latitude").getValue()));
                 inputs.put("Longitude", Double.parseDouble(FourthUI.NormalFieldHashMap.get("Longitude").getValue()));
 
+                saved_Time_Step = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Time Step").getValue());
+                saved_Playback_Speed = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Playback Speed").getValue());
+                saved_Simulation_Duration = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Simulation Duration").getValue());
+                saved_Wind_Speed = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Speed").getValue());
+                saved_Wind_Angle = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Wind Angle").getValue());
+                saved_Altitude = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Altitude").getValue());
+                saved_Azimuth = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Azimuth").getValue());
+                saved_Latitude = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Latitude").getValue());
+                saved_Longitude = Double.parseDouble(FourthUI.NormalFieldHashMap.get("Longitude").getValue());
+
                 FourthUI.GetStage().close();
             }
         });
 
-        setDefaultsEnvironment(FourthUI);
+        setSavedDefaultsEnvironment(FourthUI);
         FourthUI.Configure2D();
         FourthUI.GetStage().showAndWait();
 
     }
-    public void setDefaultsRocket(NormalUserInterface ThirdUI){
-        ThirdUI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("20");
-        ThirdUI.NormalFieldHashMap.get("Hull Mass").getThing2().setText("0.5");
-        ThirdUI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("3");
-        ThirdUI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("1");
-        ThirdUI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("3000");
-        ThirdUI.NormalFieldHashMap.get("Burn Rate").getThing2().setText("0.474");
-        ThirdUI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText("0.2");
-        ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText("0.31");
-    }
-    public void setDefaultsEnvironment(NormalUserInterface FourthUI){
-        FourthUI.NormalFieldHashMap.get("Time Step").getThing2().setText("0.01");
-        FourthUI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("50");
-        FourthUI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("3000");;
-        FourthUI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
-        FourthUI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
-        FourthUI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");
-        FourthUI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0");
-        FourthUI.NormalFieldHashMap.get("Latitude").getThing2().setText("0");
-        FourthUI.NormalFieldHashMap.get("Longitude").getThing2().setText("0");
-    }
+    public void setDefaultsEnvironment(NormalUserInterface UI){
+        UI.NormalFieldHashMap.get("Time Step").getThing2().setText("0.01");
+        UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5");
+        UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000");;
+        UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
+        UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
+        UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");
+        UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0");
+        UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0");
+        UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0");
+    } //default values in here
+    public void setSavedDefaultsEnvironment(NormalUserInterface UI){
+
+        if (saved_Time_Step != 0){
+            String x = Double.toString(saved_Time_Step);
+            UI.NormalFieldHashMap.get("Time Step").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Time Step").getThing2().setText("0.01");
+        }
+        if (saved_Playback_Speed != 0){
+            String x = Double.toString(saved_Playback_Speed);
+            UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5");
+        }
+        if (saved_Simulation_Duration != 0){
+            String x = Double.toString(saved_Simulation_Duration);
+            UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000");
+        }
+        if (saved_Wind_Speed!= 0){
+            String x = Double.toString(saved_Wind_Speed);
+            UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
+        }
+        if (saved_Wind_Angle != 0){
+            String x = Double.toString(saved_Wind_Angle);
+            UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
+        }
+        if (saved_Altitude != 0){
+            String x = Double.toString(saved_Altitude);
+            UI.NormalFieldHashMap.get("Altitude").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");
+        }
+        if (saved_Azimuth != 0){
+            String x = Double.toString(saved_Azimuth);
+            UI.NormalFieldHashMap.get("Azimuth").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0");
+        }
+        if (saved_Latitude != 0){
+            String x = Double.toString(saved_Latitude);
+            UI.NormalFieldHashMap.get("Latitude").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0");
+        }
+        if (saved_Longitude != 0){
+            String x = Double.toString(saved_Longitude);
+            UI.NormalFieldHashMap.get("Longitude").getThing2().setText(x);
+        }else{
+            UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0");
+        }
+    } //and in here
 
     private void OpenHTMLWebsite(){
         File f = new File ("src/code/HelpPage.html");
