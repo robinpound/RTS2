@@ -20,7 +20,7 @@ public class NormalData {
     Label thing = new Label();
     Label thing2 = new Label();
     Label thing3 = new Label();
-    DecimalFormat df2 = new DecimalFormat("#.00");
+    DecimalFormat df2 = new DecimalFormat("0.00");
 
 
     NormalData(String name, int row, GridPane grid, String units){

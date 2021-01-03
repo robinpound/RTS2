@@ -6,9 +6,13 @@ import java.util.List;
 public class Simulation {
 
     private double time_elapsed = 0.0;           //time since launch
+    private Environment environment;
 
     private Rocket rocket = new Rocket();
 
+    public Environment Get_environment(){
+        return environment;
+    }
     public void run_simulation(HashMap<String, Double> inputs) {
         double time_step = inputs.get("Time Step");
         double simulation_duration = inputs.get("Simulation Duration");
@@ -20,7 +24,7 @@ public class Simulation {
         double drag_coefficient = inputs.get("Drag Coefficient"), nose_diameter = inputs.get("Nose Diameter");
         double engine_thrust = inputs.get("Engine Thrust"), burn_rate = inputs.get("Burn Rate");
 
-        Environment environment = new EarthEnvironment();
+        environment = new EarthEnvironment();
         System.out.println(launch_latitude + " " + launch_longitude);
         environment.setState(time_step, launch_latitude,launch_longitude,launch_altitude,launch_azimuth,wind_speed,wind_angle);
 

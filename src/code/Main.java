@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Formattable;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -17,6 +16,7 @@ public class Main extends Application {
     private HashMap<String, Double> inputs = new HashMap<String, Double>();
     private Stage primaryStage;
     private double playback_speed;
+    private Environment environment;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -128,18 +128,18 @@ public class Main extends Application {
             }
         });
 
-
         FirstUI.GetStage().showAndWait();
 
     }
     private Rocket CalculateTrajectory(){
         Simulation sim = new Simulation();
         sim.run_simulation(inputs);
+        environment = sim.Get_environment();
         return sim.getRocket();
     }
     private void SimulationMenu(Rocket theRocket) {
         System.out.println("Simulation Menu");
-        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1200, primaryStage, theRocket, playback_speed);
+        TheAnimationWindow SecondUI = new TheAnimationWindow(700,1200, primaryStage, theRocket, playback_speed, environment);
         SecondUI.GetStage().setTitle("Simulation");
 
         SecondUI.createGridPane(250,0,2);

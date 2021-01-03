@@ -9,6 +9,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TheAnimationWindow extends NormalUserInterface{
@@ -21,7 +22,7 @@ public class TheAnimationWindow extends NormalUserInterface{
     private final PhongMaterial rocketMat = new PhongMaterial();
     private Cylinder rocket = new Cylinder(ROCKETRADIUS,ROCKETHEIGHT);
 
-    private final double movementSpeed = 40000;
+    private double movementSpeed;
     private double mouse_x = 0;
     private double mouse_y = 0;
     private double horizontal_cam = 0;
@@ -33,16 +34,20 @@ public class TheAnimationWindow extends NormalUserInterface{
     private final double vecX, vecY, vecZ;
     private final double planetradius;
 
-    TheAnimationWindow(int windowHeight, int windowWidth, Stage theStage, Rocket theRocket, double playback_speed) {
+    private Environment environment;
+
+    TheAnimationWindow(int windowHeight, int windowWidth, Stage theStage, Rocket theRocket, double playback_speed, Environment environment) {
         super(windowHeight, windowWidth, theStage);
         this.theRocket =theRocket;
         this.arraylist2D = theRocket.get_Arraylist();
         this.playback_speed = playback_speed;
+        this.environment = environment;
         List<Double> current = arraylist2D.get(0);
         vecX = current.get(3);
         vecY = -current.get(4);
         vecZ = -current.get(2);
         planetradius = Math.sqrt(vecX*vecX+vecY*vecY+vecZ*vecZ); //Tells radius of earth bc we launch from surface of earth
+        setMovementSpeed();
     }
     //move camera coordinates, stopping just above surface of planet
     private void MoveCamera(double x, double y, double z) {
@@ -214,6 +219,8 @@ public class TheAnimationWindow extends NormalUserInterface{
                 int pebbley = 0;
                 int pebblez = 0;
                 int array_index = 0;
+                final double highest = getHighestAltitude();
+                final int rr = (int)(highest/1000);
                 @Override
                 public void handle(long now) {
                     if(array_index >= arraylist2D.size()){
@@ -234,11 +241,9 @@ public class TheAnimationWindow extends NormalUserInterface{
                             return;
                         }
 
+                        //find highest point which affects the movement and pebble size
+
                         if (current.get(0) >= pebble_timeSecs+PEBBLESECS || drop_pebble) {
-                            double velX = current.get(9);
-                            double velY = -current.get(10);
-                            double velZ = -current.get(8);
-                            int rr = 1 + (int) (PEBBLESIZE*PEBBLESECS*Math.sqrt(velX*velX+velY*velY+velZ*velZ));
                             //createBox pebble = new createBox(rr, rr, rr, (int) pebblex, (int) pebbley, (int) pebblez);
                             createSphere pebble = new createSphere(rr, pebblex, pebbley, pebblez);
                             if (current.get(1) > 0.0) {
@@ -270,12 +275,17 @@ public class TheAnimationWindow extends NormalUserInterface{
                     //Real time data
                     double CurrentVelocityMag = Math.sqrt(current.get(8)*current.get(8)+current.get(9)*current.get(9)+current.get(10)*current.get(10));
                     double CurrentAccelerationMag = Math.sqrt(current.get(11)*current.get(11)+current.get(12)*current.get(12)+current.get(13)*current.get(13));
+                    double CurrentGravityMag = Math.sqrt(current.get(23)*current.get(23)+current.get(24)*current.get(24)+current.get(25)*current.get(25));
+                    double CurrentDragMag = Math.sqrt(current.get(17)*current.get(17)+current.get(18)*current.get(18)+current.get(19)*current.get(19));
 
                     NormalDataHashMap.get("Time").setText(current.get(0));
                     NormalDataHashMap.get("Location").setText(current.get(2)/1000,current.get(3)/1000,current.get(4)/1000);
                     NormalDataHashMap.get("Velocity").setText(CurrentVelocityMag);
                     NormalDataHashMap.get("Acceleration").setText(CurrentAccelerationMag);
                     NormalDataHashMap.get("Fuel").setText(current.get(1));
+                    NormalDataHashMap.get("Atmospheric Density").setText(current.get(26));   //17-19, 23-25,  26
+                    NormalDataHashMap.get("Gravity").setText(CurrentGravityMag);
+                    NormalDataHashMap.get("Drag").setText(CurrentDragMag);
 
                     //orientation https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
 
@@ -316,6 +326,18 @@ public class TheAnimationWindow extends NormalUserInterface{
             n.setRotationAxis(p);
             n.setRotate(Math.toDegrees(d));
         }
+    }
+    private double getHighestAltitude(){
+        double highest = 0;
+        for (int i = 0; i < arraylist2D.size(); i++){
+            List<Double> current = arraylist2D.get(i);
+            highest = Math.max(highest, environment.get_Altitude(new Vector3(current.get(2), current.get(3), current.get(4))));
+        }
+
+        return highest;
+    }
+    private void setMovementSpeed(){
+        movementSpeed = getHighestAltitude()*0.01;
     }
 
 }

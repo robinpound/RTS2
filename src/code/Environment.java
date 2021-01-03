@@ -5,7 +5,6 @@ abstract class Environment {
 
     protected double planet_radius;
     protected double time_step;
-    //protected double playback_speed;
     protected Vector3 launch_orientation = new Vector3();
     protected Vector3 launch_position = new Vector3();
     protected Vector3 wind_velocity = new Vector3();

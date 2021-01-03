@@ -48,7 +48,7 @@ public class Rocket {
 
     public void update_Arraylist(Environment environment){
         List<Double> current = new ArrayList<>();
-
+        //USE HASHMAP!!!
         current.add(time_elapsed);
         current.add(fuel_mass);
         current.add(position.getXVec());
@@ -59,20 +59,26 @@ public class Rocket {
         current.add(orientation.getZVec());
         current.add(velocity.getXVec());
         current.add(velocity.getYVec());
-        current.add(velocity.getZVec());
+        current.add(velocity.getZVec()); //10
         current.add(acceleration.getXVec());
         current.add(acceleration.getYVec());
         current.add(acceleration.getZVec());
         current.add(thrust.getXVec());
         current.add(thrust.getYVec());
         current.add(thrust.getZVec());
-        current.add(drag.getXVec());
-        current.add(drag.getYVec());
-        current.add(drag.getZVec());
+        current.add(drag.getXVec()); //17
+        current.add(drag.getYVec()); //18
+        current.add(drag.getZVec()); //19
         Vector3 wind = environment.get_Wind(position);
-        current.add(wind.getXVec());
+        current.add(wind.getXVec()); //20
         current.add(wind.getYVec());
         current.add(wind.getZVec());
+        Vector3 gravity = environment.get_Gravity(position);
+        current.add(gravity.getXVec()); //23
+        current.add(gravity.getYVec());
+        current.add(gravity.getZVec());
+        double atmospheric_density = environment.get_AtmosphericDensity(position);
+        current.add(atmospheric_density); //26
 
         arraylist.add(current);
     }
