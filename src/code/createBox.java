@@ -7,9 +7,9 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 
 public class createBox {
-    private int d,w,h,x,y,z;
-    private Box box = new Box();
-    private PhongMaterial phong = new PhongMaterial();
+    private final int d,w,h,x,y,z;
+    private final Box box = new Box();
+    private final PhongMaterial phong = new PhongMaterial();
     createBox(int d, int w, int h, int x, int y, int z){
         this.d = d;
         this.w = w;

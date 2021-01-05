@@ -18,7 +18,7 @@ public class Main extends Application {
     private double playback_speed;
     private Environment environment;
 
-    private double saved_Fuel_Mass;
+    private double saved_Fuel_Mass; //TURN TO HASHMAP!!!
     private double saved_Hull_Mass;
     private double saved_Engine_Mass;
     private double saved_Payload_Mass;
@@ -27,7 +27,7 @@ public class Main extends Application {
     private double saved_Nose_Diameter;
     private double saved_Drag_Coefficient;
 
-    private double saved_Time_Step;
+    private double saved_Time_Step;  //TURN TO HASHMAP!!!
     private double saved_Playback_Speed;
     private double saved_Simulation_Duration;
     private double saved_Wind_Speed;
@@ -43,7 +43,7 @@ public class Main extends Application {
         LoginMenu();
         BuildingMenu();
         Rocket theRocket = CalculateTrajectory();
-        SimulationMenu(theRocket);//make theRocket member of the class (private)
+        SimulationMenu(theRocket); //make theRocket member of the class (private)
     }
     private void LoginMenu(){
         NormalUserInterface LoginUI = new NormalUserInterface(500, 650, primaryStage);
@@ -112,9 +112,20 @@ public class Main extends Application {
         FirstUI.addText("Launch Statistics:", 30, 3, 1);
         FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
         FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
-        FirstUI.addNormalDataToTheGrid("Burn_rate", "kg/s");
-        FirstUI.addNormalDataToTheGrid("Drag-coefficient", "none"); //can we do this as just drag?
-        FirstUI.addNormalDataToTheGrid("Something", "?");
+        FirstUI.addNormalDataToTheGrid("Burn Rate", "kg/s");
+        FirstUI.addNormalDataToTheGrid("Drag Coefficient", "none"); //can we do this as just drag?
+        FirstUI.addNormalDataToTheGrid("Engine Thrust", "N");
+        FirstUI.addNormalDataToTheGrid("Nose Radius", "m");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("X", "?");
         //FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(12345);
 
         FirstUI.addText("________________________", 20, 3, 1);
@@ -124,6 +135,11 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 RocketParameterMenu(primaryStage);
+                FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(saved_Engine_Mass+saved_Payload_Mass+saved_Hull_Mass+saved_Fuel_Mass);
+                FirstUI.NormalDataHashMap.get("Burn Rate").setText(saved_Burn_Rate);
+                FirstUI.NormalDataHashMap.get("Drag Coefficient").setText(saved_Drag_Coefficient);
+                FirstUI.NormalDataHashMap.get("Engine Thrust").setText(saved_Engine_Thrust);
+                FirstUI.NormalDataHashMap.get("Nose Radius").setText(saved_Nose_Diameter/2);
             }
         });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
@@ -372,8 +388,8 @@ public class Main extends Application {
         FourthUI.addFieldToTheGrid("Wind Speed","m/s");
         FourthUI.addFieldToTheGrid("Wind Angle","*");
         FourthUI.addText("Orientation:", 20, 3, 1);
-        FourthUI.addFieldToTheGrid("Altitude","*");
-        FourthUI.addFieldToTheGrid("Azimuth","*");
+        FourthUI.addFieldToTheGrid("Altitude","y-axis");
+        FourthUI.addFieldToTheGrid("Azimuth","x-axis");
         FourthUI.addText("Position:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Latitude","*");
         FourthUI.addFieldToTheGrid("Longitude","*");

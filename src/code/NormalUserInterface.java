@@ -70,11 +70,6 @@ public class NormalUserInterface {
     }
     public void Configure(){ //if 3d
         BorderPane pane = new BorderPane();
-        /*
-        ColumnConstraints maxwidth = new ColumnConstraints(7);
-        theGrid.getColumnConstraints().add(maxwidth);
-
-         */
 
         pane.setRight(subScene);
         pane.setLeft(theGrid);
