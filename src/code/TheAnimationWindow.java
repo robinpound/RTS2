@@ -16,7 +16,7 @@ public class TheAnimationWindow extends NormalUserInterface{
     private final int ROCKETHEIGHT = 12*ROCKETRADIUS;
     private final double PEBBLESECS = 2.0;     //number of realtime seconds between pebbles
     private final double PEBBLESIZE = 0.25;    //size of pebbles as fraction of space between them (based on velocity)
-    private final double playback_speed;  //speed of animation relative to realtime
+    private final double playback_speed;       //speed of animation relative to realtime
     private final PhongMaterial rocketMat = new PhongMaterial();
     private Cylinder rocket = new Cylinder(ROCKETRADIUS,ROCKETHEIGHT);
 
@@ -295,7 +295,7 @@ public class TheAnimationWindow extends NormalUserInterface{
                     double z_orientation = -current.get(5);
 
                     Point3D target_orientation = new Point3D(x_orientation,y_orientation,z_orientation).normalize();        //converting to Point3D
-                    Point3D original_orientation = new Point3D(0,-1,0).normalize();                               //original orientation of rocket
+                    Point3D original_orientation = new Point3D(0,-1,0).normalize();                                //original orientation of rocket
                     double rotation_angle = Math.toDegrees(Math.acos(original_orientation.dotProduct(target_orientation))); // finds angle between the two 3D vectors
                     Point3D rotation_axis = original_orientation.crossProduct(target_orientation).normalize();              // finds axis that is orthogonal (right angles) to both origonal and target orientation vectors
 

@@ -1,6 +1,5 @@
 package code;
 
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -51,31 +50,33 @@ public class Main extends Application {
         LoginUI.createGridPane(250,2,2);
         LoginUI.addStageDimensions();
         int REGISTERCOLUMN = 3;
+        int REGISTERROW = 2;
         LoginUI.setGap(10,0);
         LoginUI.addText("3D Rocket Trajectory Simulator - 2", 40, 3, 1);
+        LoginUI.addText("                                  ", 40, 3, 1);
 
         LoginUI.addText("Login:", 25, 1, 1);
         LoginUI.addFieldToTheGrid("Username"," ");
         LoginUI.addFieldToTheGrid("Password"," ");
         LoginUI.addButtonToTheGrid("LOGIN",1,1);
 
-        LoginUI.addCoordinateText("Register:", 25,REGISTERCOLUMN,1,1,1);
+        LoginUI.addCoordinateText("Register:", 25,REGISTERCOLUMN,REGISTERROW,1,1);
 
         LoginUI.addFieldToTheGrid("New Username"," ");
-        LoginUI.NormalFieldHashMap.get("New Username").setCoordinates(REGISTERCOLUMN, 2);
+        LoginUI.NormalFieldHashMap.get("New Username").setCoordinates(REGISTERCOLUMN, REGISTERROW+1);
 
         LoginUI.addFieldToTheGrid("New Password", " ");
-        LoginUI.NormalFieldHashMap.get("New Password").setCoordinates(REGISTERCOLUMN,3);
+        LoginUI.NormalFieldHashMap.get("New Password").setCoordinates(REGISTERCOLUMN,REGISTERROW+2);
 
         LoginUI.addFieldToTheGrid("Re-type New Password"," ");
-        LoginUI.NormalFieldHashMap.get("Re-type New Password").setCoordinates(REGISTERCOLUMN,4);
+        LoginUI.NormalFieldHashMap.get("Re-type New Password").setCoordinates(REGISTERCOLUMN,REGISTERROW+3);
 
         LoginUI.addButtonToTheGrid("REGISTER",1,1);
-        LoginUI.NormalButtonHashMap.get("REGISTER").setCoordinates(REGISTERCOLUMN, 5);
+        LoginUI.NormalButtonHashMap.get("REGISTER").setCoordinates(REGISTERCOLUMN, REGISTERROW+4);
 
         LoginUI.addButtonToTheGrid("Run as Guest", 1,1);
         LoginUI.NormalButtonHashMap.get("Run as Guest").setCoordinates(4,6);
-        LoginUI.NormalButtonHashMap.get("Run as Guest").translateObject(100,52);
+        LoginUI.NormalButtonHashMap.get("Run as Guest").translateObject(70,52);
         LoginUI.NormalButtonHashMap.get("Run as Guest").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -86,11 +87,21 @@ public class Main extends Application {
 
         LoginUI.addButtonToTheGrid("Exit", 1,1);
         LoginUI.NormalButtonHashMap.get("Exit").setCoordinates(4,7);
-        LoginUI.NormalButtonHashMap.get("Exit").translateObject(100,52);
+        LoginUI.NormalButtonHashMap.get("Exit").translateObject(70,52);
         LoginUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.exit(0);
+            }
+        });
+
+        LoginUI.addButtonToTheGrid("?", 1,1);
+        LoginUI.NormalButtonHashMap.get("?").setCoordinates(4,8);
+        LoginUI.NormalButtonHashMap.get("?").translateObject(70,52);
+        LoginUI.NormalButtonHashMap.get("?").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                OpenHTMLWebsite();
             }
         });
         LoginUI.Configure2D();
@@ -328,7 +339,7 @@ public class Main extends Application {
             String x = Double.toString(saved_Fuel_Mass);
             UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("20");
+            UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("20.0");
         }
         if (saved_Hull_Mass != 0){
             String x = Double.toString(saved_Hull_Mass);
@@ -340,19 +351,19 @@ public class Main extends Application {
             String x = Double.toString(saved_Engine_Mass);
             UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("3");
+            UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("3.0");
         }
         if (saved_Payload_Mass != 0){
             String x = Double.toString(saved_Payload_Mass);
             UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("1");
+            UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("1.0");
         }
         if (saved_Engine_Thrust != 0){
             String x = Double.toString(saved_Engine_Thrust);
             UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("3000");
+            UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("3000.0");
         }
         if (saved_Burn_Rate != 0){
             String x = Double.toString(saved_Burn_Rate);
@@ -438,14 +449,14 @@ public class Main extends Application {
     }
     public void setDefaultsEnvironment(NormalUserInterface UI){
         UI.NormalFieldHashMap.get("Time Step").getThing2().setText("0.01");
-        UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5");
-        UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000");;
-        UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
-        UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
-        UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");
-        UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0");
-        UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0");
-        UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0");
+        UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5.0");
+        UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000.0");;
+        UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0.0");
+        UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0.0");
+        UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90.0");
+        UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0.0");
+        UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0.0");
+        UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0.0");
     } //default values in here
     public void setSavedDefaultsEnvironment(NormalUserInterface UI){
 
@@ -459,49 +470,49 @@ public class Main extends Application {
             String x = Double.toString(saved_Playback_Speed);
             UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5");
+            UI.NormalFieldHashMap.get("Playback Speed").getThing2().setText("5.0");
         }
         if (saved_Simulation_Duration != 0){
             String x = Double.toString(saved_Simulation_Duration);
             UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000");
+            UI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText("6000.0");
         }
         if (saved_Wind_Speed!= 0){
             String x = Double.toString(saved_Wind_Speed);
             UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0");
+            UI.NormalFieldHashMap.get("Wind Speed").getThing2().setText("0.0");
         }
         if (saved_Wind_Angle != 0){
             String x = Double.toString(saved_Wind_Angle);
             UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0");
+            UI.NormalFieldHashMap.get("Wind Angle").getThing2().setText("0.0");
         }
         if (saved_Altitude != 0){
             String x = Double.toString(saved_Altitude);
             UI.NormalFieldHashMap.get("Altitude").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90");
+            UI.NormalFieldHashMap.get("Altitude").getThing2().setText("90.0");
         }
         if (saved_Azimuth != 0){
             String x = Double.toString(saved_Azimuth);
             UI.NormalFieldHashMap.get("Azimuth").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0");
+            UI.NormalFieldHashMap.get("Azimuth").getThing2().setText("0.0");
         }
         if (saved_Latitude != 0){
             String x = Double.toString(saved_Latitude);
             UI.NormalFieldHashMap.get("Latitude").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0");
+            UI.NormalFieldHashMap.get("Latitude").getThing2().setText("0.0");
         }
         if (saved_Longitude != 0){
             String x = Double.toString(saved_Longitude);
             UI.NormalFieldHashMap.get("Longitude").getThing2().setText(x);
         }else{
-            UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0");
+            UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0.0");
         }
     } //and in here
 
