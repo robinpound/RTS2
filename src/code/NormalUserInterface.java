@@ -119,5 +119,7 @@ public class NormalUserInterface {
     public Stage GetStage(){
         return theStage;
     }
+    //get functions for hashmaps, to check for invalid data types
+
     //-----------------------------------------------------------------------------------------------
 }

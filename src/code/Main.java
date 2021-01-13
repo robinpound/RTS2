@@ -2,7 +2,11 @@ package code;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
@@ -240,7 +244,7 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Analysis").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(SecondUI.NormalButtonHashMap.get("Analysis").Gettext() + " was clicked");
+
                 SecondUI.refocus();
             }
         });
@@ -285,6 +289,12 @@ public class Main extends Application {
         ThirdUI.addFieldToTheGrid("Drag Coefficient"," ");
 
         ThirdUI.addButtonToTheGrid("LOAD",1,1);
+        ThirdUI.NormalButtonHashMap.get("LOAD").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                LoadingDatabase();
+            }
+        });
         ThirdUI.addButtonToTheGrid("SAVE",1,1);
         ThirdUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         ThirdUI.NormalButtonHashMap.get("SET TO DEFAULT").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -515,6 +525,35 @@ public class Main extends Application {
             UI.NormalFieldHashMap.get("Longitude").getThing2().setText("0.0");
         }
     } //and in here
+
+    public void LoadingDatabase(){
+        TreeItem rootItem = new TreeItem("Load");
+
+        TreeItem webItem = new TreeItem("Robin Pound");
+        webItem.getChildren().add(new TreeItem("Environment: Light wind, north pole"));
+        webItem.getChildren().add(new TreeItem("Environment: Clear day, UK London"));
+        webItem.getChildren().add(new TreeItem("Environment: Clear day, RUSSIA Moscow"));
+        webItem.getChildren().add(new TreeItem("Rocket: Falcon 9"));
+        rootItem.getChildren().add(webItem);
+
+        TreeItem javaItem = new TreeItem("Sam Kelly");
+        javaItem.getChildren().add(new TreeItem("Environment: Strong wind, CHINA Beijing"));
+        javaItem.getChildren().add(new TreeItem("Rocket: Saturn V"));
+        javaItem.getChildren().add(new TreeItem("Rocket: Soyuz"));
+        rootItem.getChildren().add(javaItem);
+
+        TreeView treeView = new TreeView();
+        treeView.setRoot(rootItem);
+
+        treeView.setShowRoot(false);
+        VBox vbox = new VBox(treeView);
+
+        Scene scene = new Scene(vbox);
+
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
 
     private void OpenHTMLWebsite(){
         File f = new File ("src/code/HelpPage.html");
