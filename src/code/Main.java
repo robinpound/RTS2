@@ -22,15 +22,12 @@ public class Main extends Application {
     private Environment environment;
     private double specificImpulse;
 
-    private double saved_Fuel_Mass; //TURN TO HASHMAP!!!
-    private double saved_Hull_Mass;
-    private double saved_Engine_Mass;
-    private double saved_Payload_Mass;
-    private double saved_Engine_Thrust;
-    private double saved_Burn_Rate;
-    private double saved_Nose_Diameter;
-    private double saved_Drag_Coefficient;
+    //turn to hashmaps(rocket and environment). set default falues list/arraylist.
 
+    private HashMap<String, Double> saved_rocket = new HashMap<>();
+    private HashMap<String, Double> saved_environment = new HashMap<>();
+
+    
     private double saved_Time_Step;  //TURN TO HASHMAP!!!
     private double saved_Playback_Speed;
     private double saved_Simulation_Duration;
@@ -41,6 +38,8 @@ public class Main extends Application {
     private double saved_Latitude;
     private double saved_Longitude;
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -49,6 +48,7 @@ public class Main extends Application {
         Rocket theRocket = CalculateTrajectory();
         SimulationMenu(theRocket); //make theRocket member of the class (private)
     }
+
     private void LoginMenu(){
         NormalUserInterface LoginUI = new NormalUserInterface(500, 650, primaryStage);
         LoginUI.GetStage().setTitle("RTS-2");
@@ -151,12 +151,13 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 RocketParameterMenu(primaryStage);
-                FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(saved_Engine_Mass+saved_Payload_Mass+saved_Hull_Mass+saved_Fuel_Mass);
-                FirstUI.NormalDataHashMap.get("Engine Thrust").setText(saved_Engine_Thrust);
-                FirstUI.NormalDataHashMap.get("Burn Rate").setText(saved_Burn_Rate);
-                FirstUI.NormalDataHashMap.get("Drag Coefficient").setText(saved_Drag_Coefficient);
+                double TotalRocketMass = saved_rocket.get("saved_Engine_Mass")+saved_rocket.get("saved_Payload_Mass")+saved_rocket.get("saved_Hull_Mass")+saved_rocket.get("saved_Fuel_Mass");
+                FirstUI.NormalDataHashMap.get("Total Rocket Mass").setText(TotalRocketMass);
+                FirstUI.NormalDataHashMap.get("Engine Thrust").setText(saved_rocket.get("saved_Engine_Thrust"));
+                FirstUI.NormalDataHashMap.get("Burn Rate").setText(saved_rocket.get("saved_Burn_Rate"));
+                FirstUI.NormalDataHashMap.get("Drag Coefficient").setText(saved_rocket.get("saved_Drag_Coefficient"));
                 FirstUI.NormalDataHashMap.get("Delta-V").setText(CalculateDeltaV());
-                FirstUI.NormalDataHashMap.get("Nose Radius").setText(saved_Nose_Diameter/2);
+                FirstUI.NormalDataHashMap.get("Nose Radius").setText(saved_rocket.get("saved_Nose_Diameter")/2);
                 FirstUI.NormalDataHashMap.get("Specific Impulse").setText(specificImpulse);
 
             }
@@ -322,15 +323,15 @@ public class Main extends Application {
                 inputs.put("Nose Diameter", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue()));
                 inputs.put("Drag Coefficient", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue()));
 
+                saved_rocket.put("saved_Fuel_Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Fuel Mass").getValue()));
+                saved_rocket.put("saved_Hull_Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Hull Mass").getValue()));
+                saved_rocket.put("saved_Engine_Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Mass").getValue()));
+                saved_rocket.put("saved_Payload_Mass", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Payload Mass").getValue()));
+                saved_rocket.put("saved_Engine_Thrust", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Thrust").getValue()));
+                saved_rocket.put("saved_Burn_Rate", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Burn Rate").getValue()));
+                saved_rocket.put("saved_Nose_Diameter", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue()));
+                saved_rocket.put("saved_Drag_Coefficient", Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue()));
 
-                saved_Fuel_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Fuel Mass").getValue());
-                saved_Hull_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Hull Mass").getValue());
-                saved_Engine_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Mass").getValue());
-                saved_Payload_Mass = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Payload Mass").getValue());
-                saved_Engine_Thrust = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Engine Thrust").getValue());
-                saved_Burn_Rate = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Burn Rate").getValue());
-                saved_Nose_Diameter = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Nose Diameter").getValue());
-                saved_Drag_Coefficient = Double.parseDouble(ThirdUI.NormalFieldHashMap.get("Drag Coefficient").getValue());
 
                 ThirdUI.GetStage().close();
             }
@@ -351,50 +352,50 @@ public class Main extends Application {
         UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText("0.8");
     } //default values in here
     private void setSavedDefaultsRocket(NormalUserInterface UI){
-        if (saved_Fuel_Mass != 0){
-            String x = Double.toString(saved_Fuel_Mass);
+        if (saved_rocket.get("saved_Fuel_Mass") != null){
+            String x = Double.toString(saved_rocket.get("saved_Fuel_Mass"));
             UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Fuel Mass").getThing2().setText("500000.0");
         }
-        if (saved_Hull_Mass != 0){
-            String x = Double.toString(saved_Hull_Mass);
+        if (saved_rocket.get("saved_Hull_Mass") != null){
+            String x = Double.toString(saved_rocket.get("saved_Hull_Mass"));
             UI.NormalFieldHashMap.get("Hull Mass").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Hull Mass").getThing2().setText("82657.0");
         }
-        if (saved_Engine_Mass != 0){
-            String x = Double.toString(saved_Engine_Mass);
+        if (saved_rocket.get("saved_Engine_Mass") != null){
+            String x = Double.toString(saved_rocket.get("saved_Engine_Mass"));
             UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Engine Mass").getThing2().setText("8343.0");
         }
-        if (saved_Payload_Mass != 0){
-            String x = Double.toString(saved_Payload_Mass);
+        if (saved_rocket.get("saved_Payload_Mass") != null){
+            String x = Double.toString(saved_rocket.get("saved_Payload_Mass"));
             UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Payload Mass").getThing2().setText("0.0");
         }
-        if (saved_Engine_Thrust != 0){
-            String x = Double.toString(saved_Engine_Thrust);
+        if (saved_rocket.get("saved_Engine_Thrust") != null){
+            String x = Double.toString(saved_rocket.get("saved_Engine_Thrust"));
             UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Engine Thrust").getThing2().setText("12000000.0");
         }
-        if (saved_Burn_Rate != 0){
-            String x = Double.toString(saved_Burn_Rate);
+        if (saved_rocket.get("saved_Burn_Rate") != null){
+            String x = Double.toString(saved_rocket.get("saved_Burn_Rate"));
             UI.NormalFieldHashMap.get("Burn Rate").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Burn Rate").getThing2().setText("3937.0");
         }
-        if (saved_Nose_Diameter != 0){
-            String x = Double.toString(saved_Nose_Diameter);
+        if (saved_rocket.get("saved_Nose_Diameter") != null){
+            String x = Double.toString(saved_rocket.get("saved_Nose_Diameter"));
             UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText("3.71");
         }
-        if (saved_Drag_Coefficient != 0){
-            String x = Double.toString(saved_Drag_Coefficient);
+        if (saved_rocket.get("saved_Drag_Coefficient") != null){
+            String x = Double.toString(saved_rocket.get("saved_Drag_Coefficient"));
             UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText("0.8");
@@ -574,10 +575,10 @@ public class Main extends Application {
 
     }
     private double CalculateDeltaV(){ //https://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation
-        double mf = saved_Engine_Mass + saved_Hull_Mass + saved_Payload_Mass;
-        double m0 = mf + saved_Fuel_Mass;
+        double mf = saved_rocket.get("saved_Engine_Mass") + saved_rocket.get("saved_Hull_Mass") + saved_rocket.get("saved_Payload_Mass");
+        double m0 = mf + saved_rocket.get("saved_Fuel_Mass");
         double gravity = 9.798;
-        double totalImpulse = saved_Engine_Thrust * (saved_Fuel_Mass/saved_Burn_Rate);
+        double totalImpulse = saved_rocket.get("saved_Engine_Thrust") * (saved_rocket.get("saved_Fuel_Mass")/saved_rocket.get("saved_Burn_Rate"));
         specificImpulse = totalImpulse / (m0 * gravity);
         System.out.println(specificImpulse);
         double ve = specificImpulse * m0 * gravity;
