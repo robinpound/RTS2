@@ -56,8 +56,6 @@ public class Main extends Application {
         put("l2",5.5);
         put("m2",5.5);
         put("n2",5.5);
-
-
     }};
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -371,27 +369,24 @@ public class Main extends Application {
         UI.NormalFieldHashMap.get("Nose Diameter").getThing2().setText(default_values.get("Nose Diameter").toString());
         UI.NormalFieldHashMap.get("Drag Coefficient").getThing2().setText(default_values.get("Drag Coefficient").toString());
     } //default values in here
-    private void setSavedDefaultsRocket2(NormalUserInterface UI, String savedname, String fieldname){
-        //get rid of "2" afterwards
+    private void setSavedDefaultsRocketloop(NormalUserInterface UI, String savedname, String fieldname){
         if (saved_rocket.get(savedname) != null){
             String x = Double.toString(saved_rocket.get(savedname));
             UI.NormalFieldHashMap.get(fieldname).getThing2().setText(x);
         }else{
             UI.NormalFieldHashMap.get(fieldname).getThing2().setText(default_values.get(fieldname).toString());
-            saved_rocket.put(savedname, default_values.get(fieldname));//yes...
+            saved_rocket.put(savedname, default_values.get(fieldname));
         }
     }
     private void setSavedDefaultsRocket(NormalUserInterface UI){
-        setSavedDefaultsRocket2(UI,"saved_Fuel_Mass", "Fuel Mass");
-        setSavedDefaultsRocket2(UI,"saved_Hull_Mass", "Hull Mass");
-        setSavedDefaultsRocket2(UI,"saved_Engine_Mass", "Engine Mass");
-        setSavedDefaultsRocket2(UI,"saved_Payload_Mass", "Payload Mass");
-        setSavedDefaultsRocket2(UI,"saved_Engine_Thrust", "Engine Thrust");
-        setSavedDefaultsRocket2(UI,"saved_Burn_Rate", "Burn Rate");
-        setSavedDefaultsRocket2(UI,"saved_Nose_Diameter", "Nose Diameter");
-        setSavedDefaultsRocket2(UI,"saved_Drag_Coefficient", "Drag Coefficient");
-
-
+        setSavedDefaultsRocketloop(UI,"saved_Fuel_Mass", "Fuel Mass");
+        setSavedDefaultsRocketloop(UI,"saved_Hull_Mass", "Hull Mass");
+        setSavedDefaultsRocketloop(UI,"saved_Engine_Mass", "Engine Mass");
+        setSavedDefaultsRocketloop(UI,"saved_Payload_Mass", "Payload Mass");
+        setSavedDefaultsRocketloop(UI,"saved_Engine_Thrust", "Engine Thrust");
+        setSavedDefaultsRocketloop(UI,"saved_Burn_Rate", "Burn Rate");
+        setSavedDefaultsRocketloop(UI,"saved_Nose_Diameter", "Nose Diameter");
+        setSavedDefaultsRocketloop(UI,"saved_Drag_Coefficient", "Drag Coefficient");
     }
 
     private void EnvironmentParameterMenu(Stage primaryStage) {
