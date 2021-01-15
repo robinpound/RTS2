@@ -57,6 +57,7 @@ public class Main extends Application {
         put("m2",5.5);
         put("n2",5.5);
     }};
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;

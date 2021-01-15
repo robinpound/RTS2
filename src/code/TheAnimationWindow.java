@@ -334,6 +334,9 @@ public class TheAnimationWindow extends NormalUserInterface{
             List<Double> current = arraylist2D.get(i);
             highest = Math.max(highest, environment.get_Altitude(new Vector3(current.get(2), current.get(3), current.get(4))));
         }
+        if (highest < 4000){
+            highest = 4000;
+        }
         return highest;
     }
     private void setCameraComparedToAltitude(){
