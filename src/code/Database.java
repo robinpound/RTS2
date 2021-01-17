@@ -50,7 +50,7 @@ public class Database {
         try{
             //Trimming
             String trailing_space = "\\s+$";
-            String leading_space = "^\\s";
+            String leading_space = "^\\s+";
             String trimmed_username = username.replaceAll(trailing_space,"").replaceAll(leading_space,"");
 
             ResultSet result = statement.executeQuery("SELECT COUNT (*) FROM users WHERE username = '" + trimmed_username + "'");//check for existence

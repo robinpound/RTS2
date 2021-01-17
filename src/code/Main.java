@@ -61,7 +61,7 @@ public class Main extends Application {
 
     //Database
     private Database database = new Database("jdbc:sqlite:RocketTrajectorySimulatorDatabase.db");
-    String saved_username;
+    String saved_username = "Guest";
 
 
     @Override
