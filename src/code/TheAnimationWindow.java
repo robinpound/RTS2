@@ -348,5 +348,4 @@ public class TheAnimationWindow extends NormalUserInterface{
     public void refocus(){
         subScene.requestFocus();
     }
-
 }

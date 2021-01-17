@@ -23,6 +23,7 @@ public class Main extends Application {
     private Environment environment;
     private double specificImpulse;
 
+
     //turn to hashmaps(rocket and environment). set default falues list/arraylist.
 
     private HashMap<String, Double> saved_rocket = new HashMap<>();
@@ -58,13 +59,20 @@ public class Main extends Application {
         put("n2",5.5);
     }};
 
+    //Database
+    private Database database = new Database("jdbc:sqlite:RocketTrajectorySimulatorDatabase.db");
+    String saved_username;
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         this.primaryStage = primaryStage;
         LoginMenu();
         BuildingMenu();
         Rocket theRocket = CalculateTrajectory();
         SimulationMenu(theRocket); //make theRocket member of the class (private)
+        closeDatabase();
     }
 
     private void LoginMenu(){
@@ -81,7 +89,22 @@ public class Main extends Application {
         LoginUI.addText("Login:", 25, 1, 1);
         LoginUI.addFieldToTheGrid("Username"," ");
         LoginUI.addFieldToTheGrid("Password"," ");
+        LoginUI.NormalFieldHashMap.get("Password").setCoordinatespassword(0,4);
         LoginUI.addButtonToTheGrid("LOGIN",1,1);
+        LoginUI.NormalButtonHashMap.get("LOGIN").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String username = LoginUI.NormalFieldHashMap.get("Username").getThing2().getText();
+                String password = LoginUI.NormalFieldHashMap.get("Password").getThing4().getText();
+                System.out.println(password);
+                Boolean result = database.LoginUserCheck(username, password);
+                System.out.println(result);
+                if (result){ //the continue "if"
+                    saved_username = username;
+                    LoginUI.GetStage().close();
+                }
+            }
+        });
 
         LoginUI.addCoordinateText("Register:", 25,REGISTERCOLUMN,REGISTERROW,1,1);
 
@@ -89,14 +112,26 @@ public class Main extends Application {
         LoginUI.NormalFieldHashMap.get("New Username").setCoordinates(REGISTERCOLUMN, REGISTERROW+1);
 
         LoginUI.addFieldToTheGrid("New Password", " ");
-        LoginUI.NormalFieldHashMap.get("New Password").setCoordinates(REGISTERCOLUMN,REGISTERROW+2);
+        LoginUI.NormalFieldHashMap.get("New Password").setCoordinatespassword(REGISTERCOLUMN,REGISTERROW+2);
 
         LoginUI.addFieldToTheGrid("Re-type New Password"," ");
-        LoginUI.NormalFieldHashMap.get("Re-type New Password").setCoordinates(REGISTERCOLUMN,REGISTERROW+3);
+        LoginUI.NormalFieldHashMap.get("Re-type New Password").setCoordinatespassword(REGISTERCOLUMN,REGISTERROW+3);
 
         LoginUI.addButtonToTheGrid("REGISTER",1,1);
         LoginUI.NormalButtonHashMap.get("REGISTER").setCoordinates(REGISTERCOLUMN, REGISTERROW+4);
-
+        LoginUI.NormalButtonHashMap.get("REGISTER").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String username = LoginUI.NormalFieldHashMap.get("New Username").getThing2().getText();
+                String password1 = LoginUI.NormalFieldHashMap.get("New Password").getThing4().getText();
+                String password2 = LoginUI.NormalFieldHashMap.get("Re-type New Password").getThing4().getText();
+                Boolean result = database.RegisterUser(username,password1,password2);
+                if (result){
+                    saved_username = username;
+                    LoginUI.GetStage().close();
+                }
+            }
+        });
         LoginUI.addButtonToTheGrid("Run as Guest", 1,1);
         LoginUI.NormalButtonHashMap.get("Run as Guest").setCoordinates(4,6);
         LoginUI.NormalButtonHashMap.get("Run as Guest").translateObject(70,52);
@@ -114,6 +149,7 @@ public class Main extends Application {
         LoginUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                closeDatabase();
                 System.exit(0);
             }
         });
@@ -202,6 +238,7 @@ public class Main extends Application {
         FirstUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                closeDatabase();
                 System.exit(0);
             }
         });
@@ -215,7 +252,7 @@ public class Main extends Application {
         environment = sim.Get_environment();
         return sim.getRocket();
     }
-    private void SimulationMenu(Rocket theRocket) {
+    private void SimulationMenu(Rocket theRocket){
         System.out.println("Simulation Menu");
         TheAnimationWindow SecondUI = new TheAnimationWindow(700,1200, primaryStage, theRocket, playback_speed, environment);
         SecondUI.GetStage().setTitle("Simulation");
@@ -289,7 +326,7 @@ public class Main extends Application {
         SecondUI.NormalButtonHashMap.get("Exit").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(SecondUI.NormalButtonHashMap.get("Exit").Gettext() + " was clicked");
+                closeDatabase();
                 System.exit(0);
             }
         });
@@ -575,11 +612,15 @@ public class Main extends Application {
         return DeltaV;
     }
 
+    private void closeDatabase(){
+        database.closeDatabase();
+    }
     public static void main(String[] args) {
         launch(args);
     }
-
 }
+
+
 
 
 
