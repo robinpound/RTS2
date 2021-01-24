@@ -15,8 +15,8 @@ public class Database {
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            statement.executeUpdate("DROP TABLE users");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (id Integer PRIMARY_KEY, username STRING, password STRING)");// IF NOT EXIST users
+            //statement.executeUpdate("DROP TABLE users");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username STRING, password STRING)");// IF NOT EXIST users
             //statement.executeUpdate("CREATE TABLE users (id PRIMARY_KEY, username STRING, password STRING) IF NOT EXIST users");
             //statement.executeUpdate("CREATE TABLE users (id PRIMARY_KEY, username STRING, password STRING) IF NOT EXIST users");
 
@@ -60,7 +60,7 @@ public class Database {
             }else{
                 ResultSet howlongsql = statement.executeQuery("SELECT COUNT (*) FROM users");
                 int key = howlongsql.getInt(1)+1;
-                statement.executeUpdate(String.format("INSERT INTO users VALUES(%d, '%s', '%s')",null,trimmed_username,password1));
+                statement.executeUpdate(String.format("INSERT INTO users VALUES(null, '%s', '%s')",trimmed_username,password1));
                 return true;
             }
         }catch (SQLException e){
