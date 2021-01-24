@@ -68,8 +68,6 @@ public class TheAnimationWindow extends NormalUserInterface{
     }
     public void SetRocketPosition(){
 
-
-
         rocket.translateXProperty().set(vecX);
         rocket.translateYProperty().set(vecY);
         rocket.translateZProperty().set(vecZ);

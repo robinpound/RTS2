@@ -12,7 +12,6 @@ public class Database {
     private Statement statement;
     Database(String url) {
         try {
-
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
             statement.setQueryTimeout(30);
@@ -32,7 +31,6 @@ public class Database {
             if (result.getInt(1) > 0) {
                 return true;
             }
-
         }catch (SQLException e){
             System.out.println(e.getMessage());
             return false;
@@ -69,6 +67,7 @@ public class Database {
         }
     }
 }
+
 
 
 /*
