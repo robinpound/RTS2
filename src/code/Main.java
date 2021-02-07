@@ -347,10 +347,16 @@ public class Main extends Application {
         ThirdUI.NormalButtonHashMap.get("LOAD").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                LoadingDatabase();
+                database.getRocketRecord(primaryStage);
             }
         });
-        ThirdUI.addButtonToTheGrid("SAVE",1,1);
+        ThirdUI.addButtonToTheGrid("SAVE AS",1,1);
+        ThirdUI.NormalButtonHashMap.get("SAVE AS").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                database.insertRocketRecord(primaryStage, ThirdUI.NormalFieldHashMap,saved_username);
+            }
+        });
         ThirdUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         ThirdUI.NormalButtonHashMap.get("SET TO DEFAULT").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -513,38 +519,6 @@ public class Main extends Application {
         setSavedDefaultsEnvironmentLoop(UI,"saved_Longitude", "Longitude");
     }
 
-    private void LoadingDatabase(){
-        //change to be in the Normal User Interface
-        TreeItem rootItem = new TreeItem("Load");
-
-        TreeItem webItem = new TreeItem("Robin Pound");
-        webItem.getChildren().add(new TreeItem("Environment: Light wind, north pole"));
-        webItem.getChildren().add(new TreeItem("Environment: Clear day, UK London"));
-        webItem.getChildren().add(new TreeItem("Environment: Clear day, RUSSIA Moscow"));
-        webItem.getChildren().add(new TreeItem("Rocket: Falcon 9"));
-        rootItem.getChildren().add(webItem);
-
-        TreeItem javaItem = new TreeItem("Sam Kelly");
-        javaItem.getChildren().add(new TreeItem("Environment: Strong wind, CHINA Beijing"));
-        javaItem.getChildren().add(new TreeItem("Rocket: Saturn V"));
-        javaItem.getChildren().add(new TreeItem("Rocket: Soyuz"));
-        rootItem.getChildren().add(javaItem);
-
-        TreeView treeView = new TreeView();
-        treeView.setRoot(rootItem);
-
-        treeView.setShowRoot(false);
-        VBox vbox = new VBox(treeView);
-
-        Scene scene = new Scene(vbox);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-    }
-    private void SavingLogToDatabase(){
-
-    }
     private void OpenHTMLWebsite(){
         File f = new File ("src/code/HelpPage.html");
         try{

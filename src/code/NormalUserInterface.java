@@ -3,6 +3,7 @@ package code;
 import com.sun.rowset.internal.Row;
 import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -122,4 +123,10 @@ public class NormalUserInterface {
     //get functions for hashmaps, to check for invalid data types
 
     //-----------------------------------------------------------------------------------------------
+    //DATABASE STUFF
+
+    public void createTable(){
+        TreeTableView<> treeTableView = new TreeTableView<>();
+
+    }
 }
