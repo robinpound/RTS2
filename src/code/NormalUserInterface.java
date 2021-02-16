@@ -3,7 +3,10 @@ package code;
 import com.sun.rowset.internal.Row;
 import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -123,10 +126,84 @@ public class NormalUserInterface {
     //get functions for hashmaps, to check for invalid data types
 
     //-----------------------------------------------------------------------------------------------
-    //DATABASE STUFF
-
     public void createTable(){
-        TreeTableView<> treeTableView = new TreeTableView<>();
+
+        TreeTableView<theRecord> treeTableView = new TreeTableView<>();
+
+        TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("UserID");
+        TreeTableColumn<theRecord, String> usercolumn = new TreeTableColumn<>("User");
+        TreeTableColumn<theRecord, String> titlecolumn = new TreeTableColumn<>("Title");
+        TreeTableColumn<theRecord, String> datecolumn = new TreeTableColumn<>("Date");
+        TreeTableColumn<theRecord, String> viewstatuscolumn = new TreeTableColumn<>("Password Protection");
+
+        useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("userid"));
+        usercolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("username"));
+        titlecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
+        datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("date"));
+        viewstatuscolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("passwordprotection"));
+
+        //this is not working, something to do with the names. 
+
+        treeTableView.getColumns().add(useridcolumn);
+        treeTableView.getColumns().add(usercolumn);
+        treeTableView.getColumns().add(titlecolumn);
+        treeTableView.getColumns().add(datecolumn);
+        treeTableView.getColumns().add(viewstatuscolumn);
+
+        TreeItem rocket1 = new TreeItem(new theRecord(1, "Robin", "Rocket1", "15/02/2021", true));
+        TreeItem robin = new TreeItem(new theRecord(null, "Robin"," "," ",null));
+        TreeItem rocket2 = new TreeItem(new theRecord(1, "Sam", "Rocket2", "15/02/2021", false));
+        TreeItem sam = new TreeItem(new theRecord(null, "Sam"," "," ",null));
+
+        robin.getChildren().add(rocket1);
+        sam.getChildren().add(rocket2);
+
+        TreeItem records = new TreeItem(new theRecord(null, "RECORDS"," "," ",null));
+        records.getChildren().add(robin);
+        records.getChildren().add(sam);
+
+        treeTableView.setRoot(records);
+        theGrid.add(treeTableView,0,0);
+
+
+        /*
+        TreeTableView<theRecord> treeTableView = new TreeTableView<>();
+
+        TreeTableColumn<theRecord, String> treeTableColumn1 = new TreeTableColumn<>("Brand");
+        TreeTableColumn<theRecord, String> treeTableColumn2 = new TreeTableColumn<>("Model");
+
+        treeTableColumn1.setCellValueFactory(new TreeItemPropertyValueFactory<>("brand"));
+        treeTableColumn2.setCellValueFactory(new TreeItemPropertyValueFactory<>("model"));
+
+        treeTableView.getColumns().add(treeTableColumn1);
+        treeTableView.getColumns().add(treeTableColumn2);
+
+        TreeItem mercedes1 = new TreeItem(new theRecord("Mercedes", "SL500"));
+        TreeItem mercedes2 = new TreeItem(new theRecord("Mercedes", "SL500 AMG"));
+        TreeItem mercedes3 = new TreeItem(new theRecord("Mercedes", "CLA 200"));
+
+        TreeItem mercedes = new TreeItem(new theRecord("Mercedes", "..."));
+        mercedes.getChildren().add(mercedes1);
+        mercedes.getChildren().add(mercedes2);
+
+        TreeItem audi1 = new TreeItem(new theRecord("Audi", "A1"));
+        TreeItem audi2 = new TreeItem(new theRecord("Audi", "A5"));
+        TreeItem audi3 = new TreeItem(new theRecord("Audi", "A7"));
+
+        TreeItem audi = new TreeItem(new theRecord("Audi", "..."));
+        audi.getChildren().add(audi1);
+        audi.getChildren().add(audi2);
+        audi.getChildren().add(audi3);
+
+        TreeItem cars = new TreeItem(new theRecord("Cars", "..."));
+        cars.getChildren().add(audi);
+        cars.getChildren().add(mercedes);
+
+        treeTableView.setRoot(cars);
+        theGrid.add(treeTableView,0,0);
+
+         */
 
     }
+
 }

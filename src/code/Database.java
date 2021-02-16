@@ -122,17 +122,19 @@ public class Database {
         SavingUI.GetStage().showAndWait();
 
     }
+
+
+
     public HashMap<String, Double> getRocketRecord(Stage primaryStage){
+
         NormalUserInterface LoadingUI = new NormalUserInterface(300, 400, primaryStage);
         LoadingUI.GetStage().setTitle("Rocket Records");
-        LoadingUI.createGridPane(250, 2, 2);
         LoadingUI.addStageDimensions();
-
-
-
-
+        LoadingUI.createGridPane(400,1,1);
+        LoadingUI.createTable();
         LoadingUI.Configure2D();
         LoadingUI.GetStage().showAndWait();
+
         return null;
     }
     public void closeDatabase(){
