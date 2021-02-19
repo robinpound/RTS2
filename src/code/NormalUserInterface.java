@@ -1,6 +1,5 @@
 package code;
 
-import com.sun.rowset.internal.Row;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.TreeItem;
@@ -8,7 +7,6 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +14,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NormalUserInterface {
@@ -126,84 +128,111 @@ public class NormalUserInterface {
     //get functions for hashmaps, to check for invalid data types
 
     //-----------------------------------------------------------------------------------------------
-    public void createTable(){
+    public void createRocketTable(Statement statement){
 
         TreeTableView<theRecord> treeTableView = new TreeTableView<>();
 
-        TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("UserID");
-        TreeTableColumn<theRecord, String> usercolumn = new TreeTableColumn<>("User");
+        TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("RecordID");
+        TreeTableColumn<theRecord, String> usercolumn = new TreeTableColumn<>("Username");
         TreeTableColumn<theRecord, String> titlecolumn = new TreeTableColumn<>("Title");
-        TreeTableColumn<theRecord, String> datecolumn = new TreeTableColumn<>("Date");
+        TreeTableColumn<theRecord, String> datecolumn = new TreeTableColumn<>("Creation Date");
         TreeTableColumn<theRecord, String> viewstatuscolumn = new TreeTableColumn<>("Password Protection");
 
-        useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("userid"));
+        useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("recordID"));
         usercolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("username"));
         titlecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
-        datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("date"));
+        datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("creationdate"));
         viewstatuscolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("passwordprotection"));
-
-        //this is not working, something to do with the names. 
-
+        //this is not working, something to do with the names.
+        useridcolumn.setMinWidth(100);
+        usercolumn.setMinWidth(100);
+        titlecolumn.setMinWidth(100);
+        datecolumn.setMinWidth(100);
+        viewstatuscolumn.setMinWidth(100);
         treeTableView.getColumns().add(useridcolumn);
         treeTableView.getColumns().add(usercolumn);
         treeTableView.getColumns().add(titlecolumn);
         treeTableView.getColumns().add(datecolumn);
         treeTableView.getColumns().add(viewstatuscolumn);
 
-        TreeItem rocket1 = new TreeItem(new theRecord(1, "Robin", "Rocket1", "15/02/2021", true));
-        TreeItem robin = new TreeItem(new theRecord(null, "Robin"," "," ",null));
-        TreeItem rocket2 = new TreeItem(new theRecord(1, "Sam", "Rocket2", "15/02/2021", false));
-        TreeItem sam = new TreeItem(new theRecord(null, "Sam"," "," ",null));
+        ArrayList<HashMap<String, String>> rocketTable = getRocketTable(statement);
 
+        HashMap<String, TreeItem> usertree = new HashMap<>();
+
+        for(int i=0; i<rocketTable.size(); i++) {
+            String username = rocketTable.get(i).get("username");
+            if(!usertree.containsKey(username)) {
+                usertree.put(username, new TreeItem(new theRecord(null, username," "," ",null)));
+            }
+            String recordID = rocketTable.get(i).get("recordID");
+            String title = rocketTable.get(i).get("title");
+            String creationdate = rocketTable.get(i).get("creationdate");
+            String password = rocketTable.get(i).get("password");
+            usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID, username, title, creationdate, password)));
+        }
+
+        //-------------------------------------------------------------------------------
+        /*
+        TreeItem robin = new TreeItem(new theRecord(null, "Robin"," "," ",null));
+        TreeItem rocket1 = new TreeItem(new theRecord("1", "Robin", "Rocket1", "15/02/2021", "true"));
         robin.getChildren().add(rocket1);
+
+        TreeItem sam = new TreeItem(new theRecord(null, "Sam"," "," ",null));
+        TreeItem rocket2 = new TreeItem(new theRecord("2", "Sam", "Rocket2", "15/02/2021", "false"));
         sam.getChildren().add(rocket2);
 
-        TreeItem records = new TreeItem(new theRecord(null, "RECORDS"," "," ",null));
+         */
+
+        TreeItem<theRecord> records = new TreeItem<>(new theRecord(null, "RECORDS"," "," ",null));
+
+        for(TreeItem useritem : usertree.values()){
+            records.getChildren().add(useritem);
+        }
+
+        /*
         records.getChildren().add(robin);
         records.getChildren().add(sam);
+
+         */
+
+
 
         treeTableView.setRoot(records);
         theGrid.add(treeTableView,0,0);
 
 
-        /*
-        TreeTableView<theRecord> treeTableView = new TreeTableView<>();
 
-        TreeTableColumn<theRecord, String> treeTableColumn1 = new TreeTableColumn<>("Brand");
-        TreeTableColumn<theRecord, String> treeTableColumn2 = new TreeTableColumn<>("Model");
+    }
+    private ArrayList getRocketTable(Statement statement){
+        ArrayList<HashMap<String, String>> rocketTable = new ArrayList<>();
+        try{
+            ResultSet result = statement.executeQuery("SELECT * FROM rockets");
+            while(result.next()){
+                HashMap<String,String> record = new HashMap<>();
+                record.put("recordID", result.getString("recordID"));
+                record.put("username", result.getString("username"));
+                record.put("title", result.getString("title"));
+                record.put("creationdate", result.getString("creationdate"));
+                record.put("password", result.getString("password"));
+                record.put("fuelmass", result.getString("fuelmass"));
+                record.put("hullmass", result.getString("hullmass"));
+                record.put("enginemass", result.getString("enginemass"));
+                record.put("payloadmass", result.getString("payloadmass"));
+                record.put("enginethrust", result.getString("enginethrust"));
+                record.put("burnrate", result.getString("burnrate"));
+                record.put("nosediameter", result.getString("nosediameter"));
+                record.put("dragcoefficient", result.getString("dragcoefficient"));
+                rocketTable.add(record);
+            }
+        }catch (Exception e){System.out.println(e.getMessage());}
 
-        treeTableColumn1.setCellValueFactory(new TreeItemPropertyValueFactory<>("brand"));
-        treeTableColumn2.setCellValueFactory(new TreeItemPropertyValueFactory<>("model"));
+        for (int i = 0; i < rocketTable.size(); i++){
+            System.out.println(rocketTable.get(i));
 
-        treeTableView.getColumns().add(treeTableColumn1);
-        treeTableView.getColumns().add(treeTableColumn2);
+        }
 
-        TreeItem mercedes1 = new TreeItem(new theRecord("Mercedes", "SL500"));
-        TreeItem mercedes2 = new TreeItem(new theRecord("Mercedes", "SL500 AMG"));
-        TreeItem mercedes3 = new TreeItem(new theRecord("Mercedes", "CLA 200"));
 
-        TreeItem mercedes = new TreeItem(new theRecord("Mercedes", "..."));
-        mercedes.getChildren().add(mercedes1);
-        mercedes.getChildren().add(mercedes2);
-
-        TreeItem audi1 = new TreeItem(new theRecord("Audi", "A1"));
-        TreeItem audi2 = new TreeItem(new theRecord("Audi", "A5"));
-        TreeItem audi3 = new TreeItem(new theRecord("Audi", "A7"));
-
-        TreeItem audi = new TreeItem(new theRecord("Audi", "..."));
-        audi.getChildren().add(audi1);
-        audi.getChildren().add(audi2);
-        audi.getChildren().add(audi3);
-
-        TreeItem cars = new TreeItem(new theRecord("Cars", "..."));
-        cars.getChildren().add(audi);
-        cars.getChildren().add(mercedes);
-
-        treeTableView.setRoot(cars);
-        theGrid.add(treeTableView,0,0);
-
-         */
-
+        return rocketTable;
     }
 
 }

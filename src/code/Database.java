@@ -31,7 +31,7 @@ public class Database {
             statement.executeUpdate("" +
 
                     "CREATE TABLE IF NOT EXISTS rockets (" +
-                    "   rocketid INTEGER PRIMARY KEY AUTOINCREMENT," + //rocketid
+                    "   recordID INTEGER PRIMARY KEY AUTOINCREMENT," + //recordID
                     "   username STRING," +   //username
                     "   title STRING," +      //title
                     "   creationdate DATE," + //date
@@ -127,11 +127,11 @@ public class Database {
 
     public HashMap<String, Double> getRocketRecord(Stage primaryStage){
 
-        NormalUserInterface LoadingUI = new NormalUserInterface(300, 400, primaryStage);
+        NormalUserInterface LoadingUI = new NormalUserInterface(300, 600, primaryStage);
         LoadingUI.GetStage().setTitle("Rocket Records");
         LoadingUI.addStageDimensions();
         LoadingUI.createGridPane(400,1,1);
-        LoadingUI.createTable();
+        LoadingUI.createRocketTable(statement);
         LoadingUI.Configure2D();
         LoadingUI.GetStage().showAndWait();
 
