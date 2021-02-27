@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class Database {
     private Connection connection = null;
     private Statement statement;
+    private HashMap<String, Double> returningrocketinputs = new HashMap<>();
     Database(String url) {
         try {
             connection = DriverManager.getConnection(url);
@@ -127,15 +128,25 @@ public class Database {
 
     public HashMap<String, Double> getRocketRecord(Stage primaryStage){
 
-        NormalUserInterface LoadingUI = new NormalUserInterface(300, 600, primaryStage);
+        NormalUserInterface LoadingUI = new NormalUserInterface(500, 800, primaryStage);
         LoadingUI.GetStage().setTitle("Rocket Records");
         LoadingUI.addStageDimensions();
         LoadingUI.createGridPane(400,1,1);
         LoadingUI.createRocketTable(statement);
+        LoadingUI.addButtonToTheGrid("LOAD",1,2);
+        LoadingUI.NormalButtonHashMap.get("LOAD").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                returningrocketinputs = LoadingUI.getSelectedRocketHashmap();
+                if (returningrocketinputs.size() != 0){
+                    LoadingUI.GetStage().close();
+                }
+            }
+        });
         LoadingUI.Configure2D();
         LoadingUI.GetStage().showAndWait();
 
-        return null;
+        return returningrocketinputs;
     }
     public void closeDatabase(){
 

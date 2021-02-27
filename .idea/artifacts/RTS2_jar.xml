@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="RTS2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RTS2_jar</output-path>
+    <root id="archive" name="RTS2.jar">
+      <element id="module-output" name="RTS2" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/sqlite-jdbc-3.34.0.jar" path-in-jar="/" />
+      <element id="library" level="project" name="sqlite-jdbc" />
+    </root>
+  </artifact>
+</component>

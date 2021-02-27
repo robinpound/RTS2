@@ -120,7 +120,7 @@ abstract class Environment {
     public void setState(double timestep, double latitude, double longitude, double altitude, double azimuth,
                          double wind_speed, double wind_angle) {
         set_Timestep(timestep);
-        //et_Playback_speed(playback_speed);
+        //set_Playback_speed(playback_speed);
         set_LaunchPosition(latitude, longitude);
         set_LaunchOrientation(altitude, azimuth);
         set_Wind(wind_speed, wind_angle);

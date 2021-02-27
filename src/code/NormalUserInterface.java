@@ -2,10 +2,14 @@ package code;
 
 import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -14,6 +18,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sun.reflect.generics.tree.Tree;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -38,6 +43,9 @@ public class NormalUserInterface {
     protected Group root;
     protected SubScene subScene;
     protected Scene scene;
+
+    protected TreeTableView<theRecord> treeTableView = new TreeTableView<>();
+    protected ArrayList<HashMap<String, String>> rocketTable = null;
 
 //-----------------------------------------------------------------------------------------------
     NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
@@ -122,6 +130,37 @@ public class NormalUserInterface {
         NormalTextHashMap.put(text,title);
         rowCounter++;
     }
+    public void addgraph(int column){
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("e.g. time");
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("e.g. velocity");
+        ScatterChart scatterChart = new ScatterChart(xAxis, yAxis);
+
+        XYChart.Series dataSeries1 = new XYChart.Series();
+        dataSeries1.setName("2014");
+
+        dataSeries1.getData().add(new XYChart.Data( 1, 567));
+        dataSeries1.getData().add(new XYChart.Data( 5, 612));
+        dataSeries1.getData().add(new XYChart.Data(10, 800));
+        dataSeries1.getData().add(new XYChart.Data(20, 780));
+        dataSeries1.getData().add(new XYChart.Data(40, 810));
+        dataSeries1.getData().add(new XYChart.Data(80, 850));
+
+        XYChart.Series dataSeries2 = new XYChart.Series();
+        dataSeries2.setName("2015");
+        dataSeries2.getData().add(new XYChart.Data( 2, 557));
+        dataSeries2.getData().add(new XYChart.Data( 6, 652));
+        dataSeries2.getData().add(new XYChart.Data(11, 850));
+        dataSeries2.getData().add(new XYChart.Data(21, 750));
+        dataSeries2.getData().add(new XYChart.Data(41, 850));
+        dataSeries2.getData().add(new XYChart.Data(81, 850));
+
+        scatterChart.getData().add(dataSeries1);
+        scatterChart.getData().add(dataSeries2);
+        theGrid.add(scatterChart, column, rowCounter);
+        rowCounter++;
+    }
     public Stage GetStage(){
         return theStage;
     }
@@ -130,80 +169,62 @@ public class NormalUserInterface {
     //-----------------------------------------------------------------------------------------------
     public void createRocketTable(Statement statement){
 
-        TreeTableView<theRecord> treeTableView = new TreeTableView<>();
 
-        TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("RecordID");
+
+        //TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("RecordID");
         TreeTableColumn<theRecord, String> usercolumn = new TreeTableColumn<>("Username");
         TreeTableColumn<theRecord, String> titlecolumn = new TreeTableColumn<>("Title");
         TreeTableColumn<theRecord, String> datecolumn = new TreeTableColumn<>("Creation Date");
-        TreeTableColumn<theRecord, String> viewstatuscolumn = new TreeTableColumn<>("Password Protection");
+        TreeTableColumn<theRecord, String> viewstatuscolumn = new TreeTableColumn<>("Protected");
 
-        useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("recordID"));
+        //useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("recordID"));
         usercolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("username"));
         titlecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
         datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("creationdate"));
         viewstatuscolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("passwordprotection"));
         //this is not working, something to do with the names.
-        useridcolumn.setMinWidth(100);
-        usercolumn.setMinWidth(100);
-        titlecolumn.setMinWidth(100);
+        //useridcolumn.setMinWidth(100);
+        usercolumn.setMinWidth(150);
+        titlecolumn.setMinWidth(300);
         datecolumn.setMinWidth(100);
         viewstatuscolumn.setMinWidth(100);
-        treeTableView.getColumns().add(useridcolumn);
+        //treeTableView.getColumns().add(useridcolumn);
         treeTableView.getColumns().add(usercolumn);
         treeTableView.getColumns().add(titlecolumn);
         treeTableView.getColumns().add(datecolumn);
         treeTableView.getColumns().add(viewstatuscolumn);
 
-        ArrayList<HashMap<String, String>> rocketTable = getRocketTable(statement);
+        rocketTable = getRocketTableValues(statement);
 
         HashMap<String, TreeItem> usertree = new HashMap<>();
 
         for(int i=0; i<rocketTable.size(); i++) {
             String username = rocketTable.get(i).get("username");
             if(!usertree.containsKey(username)) {
-                usertree.put(username, new TreeItem(new theRecord(null, username," "," ",null)));
+                usertree.put(username, new TreeItem(new theRecord( " ", username," "," ",null)));
             }
             String recordID = rocketTable.get(i).get("recordID");
             String title = rocketTable.get(i).get("title");
             String creationdate = rocketTable.get(i).get("creationdate");
             String password = rocketTable.get(i).get("password");
-            usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID, username, title, creationdate, password)));
+            usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID," ",  title, creationdate, password)));
         }
 
-        //-------------------------------------------------------------------------------
-        /*
-        TreeItem robin = new TreeItem(new theRecord(null, "Robin"," "," ",null));
-        TreeItem rocket1 = new TreeItem(new theRecord("1", "Robin", "Rocket1", "15/02/2021", "true"));
-        robin.getChildren().add(rocket1);
-
-        TreeItem sam = new TreeItem(new theRecord(null, "Sam"," "," ",null));
-        TreeItem rocket2 = new TreeItem(new theRecord("2", "Sam", "Rocket2", "15/02/2021", "false"));
-        sam.getChildren().add(rocket2);
-
-         */
-
-        TreeItem<theRecord> records = new TreeItem<>(new theRecord(null, "RECORDS"," "," ",null));
+        TreeItem<theRecord> records = new TreeItem<>(new theRecord(" ","Users"," "," ",null));
 
         for(TreeItem useritem : usertree.values()){
             records.getChildren().add(useritem);
         }
 
-        /*
-        records.getChildren().add(robin);
-        records.getChildren().add(sam);
-
-         */
-
-
 
         treeTableView.setRoot(records);
-        theGrid.add(treeTableView,0,0);
+        theGrid.add(treeTableView,0,rowCounter);
+        rowCounter ++;
 
 
 
     }
-    private ArrayList getRocketTable(Statement statement){
+    private ArrayList getRocketTableValues(Statement statement){
         ArrayList<HashMap<String, String>> rocketTable = new ArrayList<>();
         try{
             ResultSet result = statement.executeQuery("SELECT * FROM rockets");
@@ -233,6 +254,26 @@ public class NormalUserInterface {
 
 
         return rocketTable;
+    }
+    public HashMap<String, Double> getSelectedRocketHashmap(){
+        HashMap<String, Double> returningrocketinputs = new HashMap<>();
+        int index = treeTableView.getSelectionModel().getFocusedIndex();
+        String SelectedrecordID = treeTableView.getSelectionModel().getModelItem(index).getValue().getRecordID();
+        //get hashmap
+        for (int i = 0; i < rocketTable.size(); i++){
+            if(rocketTable.get(i).get("recordID") == SelectedrecordID){
+                returningrocketinputs.put("fuelmass",Double.parseDouble(rocketTable.get(i).get("fuelmass")));
+                returningrocketinputs.put("hullmass",Double.parseDouble(rocketTable.get(i).get("hullmass")));
+                returningrocketinputs.put("enginemass",Double.parseDouble(rocketTable.get(i).get("enginemass")));
+                returningrocketinputs.put("payloadmass",Double.parseDouble(rocketTable.get(i).get("payloadmass")));
+                returningrocketinputs.put("enginethrust",Double.parseDouble(rocketTable.get(i).get("enginethrust")));
+                returningrocketinputs.put("burnrate",Double.parseDouble(rocketTable.get(i).get("burnrate")));
+                returningrocketinputs.put("nosediameter",Double.parseDouble(rocketTable.get(i).get("nosediameter")));
+                returningrocketinputs.put("dragcoefficient",Double.parseDouble(rocketTable.get(i).get("dragcoefficient")));
+            }
+        }
+
+        return returningrocketinputs;
     }
 
 }
