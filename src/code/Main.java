@@ -2,15 +2,19 @@ package code;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,36 +27,14 @@ public class Main extends Application {
     private double specificImpulse;
     private Environment environment;
     private Rocket theRocket;
+    private String xaxis;
+    private String yaxis;
 
 
     //turn to hashmaps(rocket and environment). set default falues list/arraylist.
 
     private HashMap<String, Double> saved_rocket = new HashMap<>();
     private HashMap<String, Double> saved_environment = new HashMap<>();
-    /*Map<String, Double> default_values = new HashMap<String, Double>() {{
-        put("Fuel Mass",500000.0);
-        put("Hull Mass",82657.0);
-        put("Engine Mass",8343.0);
-        put("Payload Mass",0.0);
-        put("Engine Thrust",12000000.0);
-        put("Burn Rate",3937.0);
-        put("Nose Diameter",3.71);
-        put("Drag Coefficient",0.8);
-
-        put("Time Step",0.01);
-        put("Playback Speed",1.0);
-        put("Simulation Duration",6000.0);
-        put("Wind Speed",0.0);
-        put("Wind Angle",0.0);
-        put("Altitude",90.0);
-        put("Azimuth",0.0);
-        put("Latitude",42.0);
-        put("Longitude",-1.0);
-    }};
-
-     */
-
-
     Map<String, Double> default_values = new HashMap<String, Double>() {{
         put("Fuel Mass",500000.0);
         put("Hull Mass",82657.0);
@@ -65,7 +47,7 @@ public class Main extends Application {
 
         put("Time Step",0.01);
         put("Playback Speed",50.0);
-        put("Simulation Duration",6000.0);
+        put("Simulation Duration",10000.0);
         put("Wind Speed",3.0);
         put("Wind Angle",45.0);
         put("Altitude",87.0);
@@ -270,7 +252,6 @@ public class Main extends Application {
         sim.run_simulation(inputs);
         environment = sim.Get_environment();
         theRocket = sim.getRocket();
-
     }
     private void SimulationMenu(){
         System.out.println("Simulation Menu");
@@ -297,9 +278,11 @@ public class Main extends Application {
         SecondUI.addText("Real Time Data:", 30, 3, 1);
         SecondUI.addNormalDataToTheGrid("Time", "s");
         SecondUI.addNormalDataToTheGrid("Location", "km");
+        SecondUI.addNormalDataToTheGrid("Altitude", "km");
         SecondUI.addNormalDataToTheGrid("Velocity", "m/s");
         SecondUI.addNormalDataToTheGrid("Acceleration", "m/s^2");
         SecondUI.addNormalDataToTheGrid("Fuel", "kg");
+        SecondUI.addProgressBar(0);
         SecondUI.addNormalDataToTheGrid("Atmospheric Density", "kg/m^3"); // do later
         SecondUI.addNormalDataToTheGrid("Gravity", "kg/m^3"); // do later
         SecondUI.addNormalDataToTheGrid("Drag", "N"); // do later
@@ -562,11 +545,132 @@ public class Main extends Application {
         GraphUI.createGridPane(250,2,2);
         GraphUI.addStageDimensions();
 
-        GraphUI.addgraph(0, theRocket.get_Arraylist());
+        GraphUI.addDropDown("x-axis",0);
+        GraphUI.addDropDown("y-axis",0);
 
+        GraphUI.addButtonToTheGrid("Generate",1,1);
+        GraphUI.addProgressBar(0);
+        GraphUI.NormalButtonHashMap.get("Generate").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (GraphUI.NormalDropDownMenuHashMap.get("x-axis").getValue() != null && GraphUI.NormalDropDownMenuHashMap.get("y-axis").getValue().toString() != null){
+                    HashMap<String, Integer> indexforvalue = new HashMap<String, Integer>() {{
+                        put("Time Elapsed", 0);
+                        put("Fuel Mass", 1);
+                        put("Atmospheric Density", 26);
+                        put("Altitude", -1);
+                        put("PositionX", 2);put("PositionY", 3);put("PositionZ", 4);
+                        put("OrientationX", 5);put("OrientationY", 6);put("OrientationZ", 7);
+                        put("VelocityX", 8);put("VelocityY", 9);put("VelocityZ", 10);
+                        put("AccelerationX", 11);put("AccelerationY", 12);put("AccelerationZ", 13);
+                        put("ThrustX", 14);put("ThrustY", 15);put("ThrustZ", 16);
+                        put("DragX", 17);put("DragY", 18);put("DragZ", 19);
+                        put("WindX", 20);put("WindY", 21);put("WindZ", 22);
+                        put("GravityX", 23);put("GravityY", 24);put("GravityZ", 25);
+                        put("Velocity Magnitude", -2);put("Acceleration Magnitude", -3);put("Drag Magnitude", -4);put("Thrust Magnitude", -5);put("Gravity Magnitude", -6);
+                    }};
+                    xaxis = GraphUI.NormalDropDownMenuHashMap.get("x-axis").getValue().toString();
+                    yaxis = GraphUI.NormalDropDownMenuHashMap.get("y-axis").getValue().toString();
+                    System.out.println(xaxis + yaxis);
+                    GraphUI.getScatterChart();
+
+                    NumberAxis xAxis = new NumberAxis();
+                    xAxis.setLabel(xaxis);
+                    NumberAxis yAxis = new NumberAxis();
+                    yAxis.setLabel(yaxis);
+
+                    XYChart.Series dataSeries1 = new XYChart.Series();
+                    dataSeries1.setName(saved_username+"'s data");
+
+
+                    for (int i = 0; i < theRocket.get_Arraylist().size(); i+=1+theRocket.get_Arraylist().size()/10000){
+                        //System.out.println(i + "/" + theRocket.get_Arraylist().size());
+                        GraphUI.progressBar.setProgress(i/(float)theRocket.get_Arraylist().size());
+                        double xaxisplot= getplot(indexforvalue,i,xaxis);
+                        double yaxisplot= getplot(indexforvalue,i,yaxis);
+                        dataSeries1.getData().add(new XYChart.Data( xaxisplot, yaxisplot));
+
+                    }
+                    System.out.println(theRocket.get_Arraylist().size());
+
+                    GraphUI.addgraph(0, xAxis, yAxis,dataSeries1);
+                }
+            }
+        });
+        GraphUI.addButtonToTheGrid("Export",1,1);
+        GraphUI.NormalButtonHashMap.get("Export").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                java.util.List<String> columnnames = new ArrayList<String>();
+                columnnames.add("Time");
+                columnnames.add("Fuel Mass");
+                columnnames.add("PositionX");columnnames.add("PositionX");columnnames.add("PositionZ");
+                columnnames.add("OrientationX");columnnames.add("OrientationY");columnnames.add("OrientationZ");
+                columnnames.add("VelocityX");columnnames.add("VelocityY");columnnames.add("VelocityX");
+                columnnames.add("AccelerationX");columnnames.add("AccelerationY");columnnames.add("AccelerationZ");
+                columnnames.add("ThrustX");columnnames.add("ThrustY");columnnames.add("ThrustZ");
+                columnnames.add("DragX");columnnames.add("DragY");columnnames.add("DragZ");
+                columnnames.add("WindX");columnnames.add("WindY");columnnames.add("WindZ");
+                columnnames.add("GravityX");columnnames.add("GravityY");columnnames.add("GravityZ");
+                columnnames.add("Atmospheric Density");
+                saveascsv(columnnames, theRocket.get_Arraylist(), "exportedfile.csv");
+            }
+        });
         GraphUI.Configure2D();
         GraphUI.GetStage().showAndWait();
     }
+    private void saveascsv(java.util.List<String> columnnames, java.util.List<java.util.List<Double>> arraylist, String csvfile){
+        try {
+            FileWriter filewriter = new FileWriter(csvfile);
+            CSVPrinter csvPrinter = new CSVPrinter(filewriter, CSVFormat.DEFAULT.withHeader((ResultSet) columnnames));
+            csvPrinter.printRecords(arraylist);
+            csvPrinter.flush();
+            csvPrinter.close();
+        } catch (Exception e) {
+            System.out.println("Error writing to CSV file: "+e.toString());
+        }
+    }
+    private Double getplot(HashMap<String, Integer> indexforvalue, int i, String axis){
+        double axisplot = 0;
+        if(indexforvalue.get(axis) >= 0) {
+            axisplot = theRocket.get_Arraylist().get(i).get(indexforvalue.get(axis));
+
+        }else if(indexforvalue.get(axis) < 0 ){
+            if (indexforvalue.get(axis) == -1){ //Altitude
+                double positionx = theRocket.get_Arraylist().get(i).get(2);
+                double positiony = theRocket.get_Arraylist().get(i).get(3);
+                double positionz = theRocket.get_Arraylist().get(i).get(4);
+                axisplot = environment.get_Altitude(new Vector3(positionx,positiony,positionz));
+            }else if(indexforvalue.get(axis) == -2){ //Velocity Magnitude
+                double velocityX = theRocket.get_Arraylist().get(i).get(8);
+                double velocityY = theRocket.get_Arraylist().get(i).get(9);
+                double velocityZ = theRocket.get_Arraylist().get(i).get(10);
+                axisplot = Math.sqrt(velocityX*velocityX+velocityY*velocityY+velocityZ*velocityZ);
+            }else if(indexforvalue.get(axis) == -3){ //Acceleration Magnitude
+                double AccelerationX = theRocket.get_Arraylist().get(i).get(11);
+                double AccelerationY = theRocket.get_Arraylist().get(i).get(12);
+                double AccelerationZ = theRocket.get_Arraylist().get(i).get(13);
+                axisplot = Math.sqrt(AccelerationX*AccelerationX+AccelerationY*AccelerationY+AccelerationZ*AccelerationZ);
+            }else if(indexforvalue.get(axis) == -4){//Drag Magnitude
+                double DragX = theRocket.get_Arraylist().get(i).get(17);
+                double DragY = theRocket.get_Arraylist().get(i).get(18);
+                double DragZ = theRocket.get_Arraylist().get(i).get(19);
+                axisplot = Math.sqrt(DragX*DragX+DragY*DragY+DragZ*DragZ);
+            }else if(indexforvalue.get(axis) == -5){//Thrust Magnitude
+                double ThrustX = theRocket.get_Arraylist().get(i).get(14);
+                double ThrustY = theRocket.get_Arraylist().get(i).get(15);
+                double ThrustZ = theRocket.get_Arraylist().get(i).get(16);
+                axisplot = Math.sqrt(ThrustX*ThrustX+ThrustY*ThrustY+ThrustZ*ThrustZ);
+            }else if(indexforvalue.get(axis) == -6) {//Gravity Magnitude
+                double GravX = theRocket.get_Arraylist().get(i).get(23);
+                double GravY = theRocket.get_Arraylist().get(i).get(24);
+                double GravZ = theRocket.get_Arraylist().get(i).get(25);
+                axisplot = Math.sqrt(GravX*GravX+GravY*GravY+GravZ*GravZ);
+            }
+        }
+        return axisplot;
+    }
+
 
     private void OpenHTMLWebsite(){
         File f = new File ("src/code/HelpPage.html");

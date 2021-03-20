@@ -1,14 +1,16 @@
 package code;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +38,7 @@ public class NormalUserInterface {
     HashMap<String, NormalButton> NormalButtonHashMap = new HashMap<>();
     HashMap<String, NormalTextBox> NormalFieldHashMap = new HashMap<>();
     HashMap<String, Text> NormalTextHashMap = new HashMap<>();
+    HashMap<String, ComboBox> NormalDropDownMenuHashMap = new HashMap<>();
 
     protected Stage theStage;
     protected GridPane theGrid;
@@ -46,6 +49,8 @@ public class NormalUserInterface {
 
     protected TreeTableView<theRecord> treeTableView = new TreeTableView<>();
     protected ArrayList<HashMap<String, String>> rocketTable = null;
+    protected ScatterChart scatterChart;
+    protected ProgressBar progressBar;
 
 //-----------------------------------------------------------------------------------------------
     NormalUserInterface(int windowHeight, int windowWidth, Stage theStage){ //constructor
@@ -130,37 +135,43 @@ public class NormalUserInterface {
         NormalTextHashMap.put(text,title);
         rowCounter++;
     }
-    public void addgraph(int column){
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("e.g. time");
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("e.g. velocity");
-        ScatterChart scatterChart = new ScatterChart(xAxis, yAxis);
+    public void addDropDown(String text, int column){
+        Text title = new Text("                                    "+text);
+        title.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
 
-        XYChart.Series dataSeries1 = new XYChart.Series();
-        dataSeries1.setName("2014");
+                        "Time Elapsed", "Fuel Mass", "Atmospheric Density","Altitude",
+                        "PositionX", "PositionY", "PositionZ",
+                        "OrientationX", "OrientationY", "OrientationZ",
+                        "VelocityX", "VelocityY", "VelocityZ",
+                        "AccelerationX", "AccelerationY", "AccelerationZ",
+                        "ThrustX", "ThrustY", "ThrustZ",
+                        "DragX", "DragY", "DragZ",
+                        "WindX", "WindY", "WindZ",
+                        "GravityX","GravityY","GravityZ",
+                        "Velocity Magnitude", "Acceleration Magnitude", "Drag Magnitude", "Thrust Magnitude", "Gravity Magnitude"
 
-        dataSeries1.getData().add(new XYChart.Data( 1, 567));
-        dataSeries1.getData().add(new XYChart.Data( 5, 612));
-        dataSeries1.getData().add(new XYChart.Data(10, 800));
-        dataSeries1.getData().add(new XYChart.Data(20, 780));
-        dataSeries1.getData().add(new XYChart.Data(40, 810));
-        dataSeries1.getData().add(new XYChart.Data(80, 850));
+                );
+        final ComboBox Dropdown = new ComboBox(options);
+        theGrid.add(title, column, rowCounter);
+        theGrid.add(Dropdown, column, rowCounter);
+        NormalDropDownMenuHashMap.put(text,Dropdown);
+        rowCounter++;
 
-        XYChart.Series dataSeries2 = new XYChart.Series();
-        dataSeries2.setName("2015");
-        dataSeries2.getData().add(new XYChart.Data( 2, 557));
-        dataSeries2.getData().add(new XYChart.Data( 6, 652));
-        dataSeries2.getData().add(new XYChart.Data(11, 850));
-        dataSeries2.getData().add(new XYChart.Data(21, 750));
-        dataSeries2.getData().add(new XYChart.Data(41, 850));
-        dataSeries2.getData().add(new XYChart.Data(81, 850));
-
+    }
+    public void addgraph(int column, NumberAxis xAxis, NumberAxis yAxis, XYChart.Series dataSeries1 ){
+        scatterChart = new ScatterChart(xAxis, yAxis);
         scatterChart.getData().add(dataSeries1);
-        scatterChart.getData().add(dataSeries2);
         theGrid.add(scatterChart, column, rowCounter);
         rowCounter++;
     }
+    public void addProgressBar(int column){
+        progressBar = new ProgressBar(0);
+        theGrid.add(progressBar,column,rowCounter);
+        rowCounter++;
+    }
+
     public Stage GetStage(){
         return theStage;
     }
@@ -273,6 +284,9 @@ public class NormalUserInterface {
         }
 
         return returningrocketinputs;
+    }
+    public ScatterChart getScatterChart(){
+        return scatterChart;
     }
 
 }

@@ -48,7 +48,6 @@ public class Rocket {
 
     public void update_Arraylist(Environment environment){
         List<Double> current = new ArrayList<>();
-        //USE HASHMAP!!!
         current.add(time_elapsed);
         current.add(fuel_mass);
         current.add(position.getXVec());

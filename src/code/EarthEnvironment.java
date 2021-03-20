@@ -37,7 +37,8 @@ public class EarthEnvironment extends Environment {
          https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
          */
         double height = get_Altitude(coordinates);
-        double magnitude = 9.798 * (1.0 - height / planet_radius);
+        double magnitude = planet_radius / (planet_radius + height);
+        magnitude = 9.798 * magnitude * magnitude;
         Vector3 direction = coordinates.getVector3();
         direction = direction.div(direction.mag());
         return direction.times(magnitude);

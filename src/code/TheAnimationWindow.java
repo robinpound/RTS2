@@ -29,7 +29,6 @@ public class TheAnimationWindow extends NormalUserInterface{
     private boolean drop_pebble = false;
     private double rr;
 
-    private Rocket theRocket;
     private final List<List<Double>> arraylist2D;
     private final double vecX, vecY, vecZ;
     private final double planetradius;
@@ -39,7 +38,6 @@ public class TheAnimationWindow extends NormalUserInterface{
 
     TheAnimationWindow(int windowHeight, int windowWidth, Stage theStage, Rocket theRocket, double playback_speed, Environment environment) {
         super(windowHeight, windowWidth, theStage);
-        this.theRocket =theRocket;
         this.arraylist2D = theRocket.get_Arraylist();
         this.playback_speed = playback_speed;
         this.environment = environment;
@@ -219,6 +217,7 @@ public class TheAnimationWindow extends NormalUserInterface{
                 int pebbley = 0;
                 int pebblez = 0;
                 int array_index = 0;
+                double maxfuel = arraylist2D.get(0).get(1);
 
                 @Override
                 public void handle(long now) {
@@ -277,11 +276,18 @@ public class TheAnimationWindow extends NormalUserInterface{
                     double CurrentGravityMag = Math.sqrt(current.get(23)*current.get(23)+current.get(24)*current.get(24)+current.get(25)*current.get(25));
                     double CurrentDragMag = Math.sqrt(current.get(17)*current.get(17)+current.get(18)*current.get(18)+current.get(19)*current.get(19));
 
+                    double positionx = current.get(2);
+                    double positiony = current.get(3);
+                    double positionz = current.get(4);
+
+
                     NormalDataHashMap.get("Time").setText(current.get(0));
                     NormalDataHashMap.get("Location").setText(current.get(2)/1000,current.get(3)/1000,current.get(4)/1000);
+                    NormalDataHashMap.get("Altitude").setText(environment.get_Altitude(new Vector3(positionx,positiony,positionz))/1000);
                     NormalDataHashMap.get("Velocity").setText(CurrentVelocityMag);
                     NormalDataHashMap.get("Acceleration").setText(CurrentAccelerationMag);
                     NormalDataHashMap.get("Fuel").setText(current.get(1));
+                    progressBar.setProgress(current.get(1)/maxfuel);
                     NormalDataHashMap.get("Atmospheric Density").setText(current.get(26));   //17-19, 23-25,  26
                     NormalDataHashMap.get("Gravity").setText(CurrentGravityMag);
                     NormalDataHashMap.get("Drag").setText(CurrentDragMag);
@@ -339,9 +345,9 @@ public class TheAnimationWindow extends NormalUserInterface{
     }
     private void setCameraComparedToAltitude(){
         double highest = Math.min(10 * planetradius, getHighestAltitude());
-        movementSpeed = highest * 0.01;
+        movementSpeed = highest * 0.05;
         camera_start_distance = highest *2;
-        rr = (highest/1000);
+        rr = (highest/50);
     }
     public void refocus(){
         subScene.requestFocus();
