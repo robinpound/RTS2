@@ -29,7 +29,7 @@ public class Main extends Application {
 
     private HashMap<String, Double> saved_rocket = new HashMap<>();
     private HashMap<String, Double> saved_environment = new HashMap<>();
-    Map<String, Double> default_values = new HashMap<String, Double>() {{
+    /*Map<String, Double> default_values = new HashMap<String, Double>() {{
         put("Fuel Mass",500000.0);
         put("Hull Mass",82657.0);
         put("Engine Mass",8343.0);
@@ -45,6 +45,30 @@ public class Main extends Application {
         put("Wind Speed",0.0);
         put("Wind Angle",0.0);
         put("Altitude",90.0);
+        put("Azimuth",0.0);
+        put("Latitude",42.0);
+        put("Longitude",-1.0);
+    }};
+
+     */
+
+
+    Map<String, Double> default_values = new HashMap<String, Double>() {{
+        put("Fuel Mass",500000.0);
+        put("Hull Mass",82657.0);
+        put("Engine Mass",8343.0);
+        put("Payload Mass",0.0);
+        put("Engine Thrust",20000000.0);
+        put("Burn Rate",3937.0);
+        put("Nose Diameter",3.71);
+        put("Drag Coefficient",0.8);
+
+        put("Time Step",0.01);
+        put("Playback Speed",50.0);
+        put("Simulation Duration",6000.0);
+        put("Wind Speed",3.0);
+        put("Wind Angle",45.0);
+        put("Altitude",87.0);
         put("Azimuth",0.0);
         put("Latitude",42.0);
         put("Longitude",-1.0);
@@ -538,7 +562,7 @@ public class Main extends Application {
         GraphUI.createGridPane(250,2,2);
         GraphUI.addStageDimensions();
 
-        GraphUI.addgraph(0);
+        GraphUI.addgraph(0, theRocket.get_Arraylist());
 
         GraphUI.Configure2D();
         GraphUI.GetStage().showAndWait();

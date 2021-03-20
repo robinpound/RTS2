@@ -182,7 +182,6 @@ public class NormalUserInterface {
         titlecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
         datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("creationdate"));
         viewstatuscolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("passwordprotection"));
-        //this is not working, something to do with the names.
         //useridcolumn.setMinWidth(100);
         usercolumn.setMinWidth(150);
         titlecolumn.setMinWidth(300);
