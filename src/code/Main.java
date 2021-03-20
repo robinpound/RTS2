@@ -316,13 +316,34 @@ public class Main extends Application {
                 SecondUI.refocus();
             }
         });
+        SecondUI.addButtonToTheGrid("Export",1,1);
+        SecondUI.NormalButtonHashMap.get("Export").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                java.util.List<String> columnnames = new ArrayList<String>();
+                columnnames.add("Time");
+                columnnames.add("Fuel Mass");
+                columnnames.add("PositionX");columnnames.add("PositionX");columnnames.add("PositionZ");
+                columnnames.add("OrientationX");columnnames.add("OrientationY");columnnames.add("OrientationZ");
+                columnnames.add("VelocityX");columnnames.add("VelocityY");columnnames.add("VelocityX");
+                columnnames.add("AccelerationX");columnnames.add("AccelerationY");columnnames.add("AccelerationZ");
+                columnnames.add("ThrustX");columnnames.add("ThrustY");columnnames.add("ThrustZ");
+                columnnames.add("DragX");columnnames.add("DragY");columnnames.add("DragZ");
+                columnnames.add("WindX");columnnames.add("WindY");columnnames.add("WindZ");
+                columnnames.add("GravityX");columnnames.add("GravityY");columnnames.add("GravityZ");
+                columnnames.add("Atmospheric Density");
+                saveascsv(columnnames, theRocket.get_Arraylist(), "exportedfile.csv");
+                SecondUI.refocus();
+            }
+        });
         SecondUI.addButtonToTheGrid("Restart", 3,1);
         SecondUI.NormalButtonHashMap.get("Restart").SetColumn(0);
         SecondUI.NormalButtonHashMap.get("Restart").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(SecondUI.NormalButtonHashMap.get("Restart").Gettext() + " was clicked");
-                //restart here
+                SecondUI.refocus();
+
             }
         });
         SecondUI.addButtonToTheGrid("Exit", 3,1);
@@ -597,25 +618,7 @@ public class Main extends Application {
                 }
             }
         });
-        GraphUI.addButtonToTheGrid("Export",1,1);
-        GraphUI.NormalButtonHashMap.get("Export").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                java.util.List<String> columnnames = new ArrayList<String>();
-                columnnames.add("Time");
-                columnnames.add("Fuel Mass");
-                columnnames.add("PositionX");columnnames.add("PositionX");columnnames.add("PositionZ");
-                columnnames.add("OrientationX");columnnames.add("OrientationY");columnnames.add("OrientationZ");
-                columnnames.add("VelocityX");columnnames.add("VelocityY");columnnames.add("VelocityX");
-                columnnames.add("AccelerationX");columnnames.add("AccelerationY");columnnames.add("AccelerationZ");
-                columnnames.add("ThrustX");columnnames.add("ThrustY");columnnames.add("ThrustZ");
-                columnnames.add("DragX");columnnames.add("DragY");columnnames.add("DragZ");
-                columnnames.add("WindX");columnnames.add("WindY");columnnames.add("WindZ");
-                columnnames.add("GravityX");columnnames.add("GravityY");columnnames.add("GravityZ");
-                columnnames.add("Atmospheric Density");
-                saveascsv(columnnames, theRocket.get_Arraylist(), "exportedfile.csv");
-            }
-        });
+
         GraphUI.Configure2D();
         GraphUI.GetStage().showAndWait();
     }
