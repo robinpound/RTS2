@@ -30,6 +30,9 @@ public class createSphere {
     public void setcolourgreen(){
         phong.setDiffuseColor(Color.LIGHTGREEN);
     }
+    public void setcolouryellow(){
+        phong.setDiffuseColor(Color.YELLOW);
+    }
     public void setcolourred(){
         phong.setDiffuseColor(Color.RED);
     }
@@ -42,6 +45,7 @@ public class createSphere {
     public void setillumination(String name){
         phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream(name)));
     }
+
     public void spheresetmaterial(){
         sphere.setMaterial(phong);
     }

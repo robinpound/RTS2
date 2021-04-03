@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -168,7 +169,7 @@ public class Main extends Application {
 
         //set up Stage
 
-        NormalUserInterface FirstUI = new NormalUserInterface(650, 950, primaryStage);
+        TheAnimationWindow2 FirstUI = new TheAnimationWindow2(650, 950, primaryStage);
         FirstUI.GetStage().setTitle("Building Menu");
         //Initial configurations
         FirstUI.createGridPane(250, 0, 2);
@@ -177,6 +178,15 @@ public class Main extends Application {
         FirstUI.setSimulation();
         FirstUI.Configure();
 
+        FirstUI.SetRocketPosition(20,-5,600);
+        FirstUI.addRocket();
+        FirstUI.createPad(20,-1,600, 20,20,1);
+        FirstUI.SetCameraPositiion(0,-5,500);
+        FirstUI.createSun(0,0,2500, 50);
+        FirstUI.createGround(0,0,0,5000,5000,1);
+        FirstUI.createAmbientLight();
+        //movement
+        FirstUI.movement();
         FirstUI.addText("Launch Statistics:", 30, 3, 1);
         FirstUI.addNormalDataToTheGrid("Total Rocket Mass", "kg");
         FirstUI.addNormalDataToTheGrid("Engine Thrust", "N");
@@ -185,12 +195,12 @@ public class Main extends Application {
         FirstUI.addNormalDataToTheGrid("Delta-V", "m/s");
         FirstUI.addNormalDataToTheGrid("Nose Radius", "m");
         FirstUI.addNormalDataToTheGrid("Specific Impulse", "s");
-        FirstUI.addNormalDataToTheGrid("X", "?");
-        FirstUI.addNormalDataToTheGrid("X", "?");
-        FirstUI.addNormalDataToTheGrid("X", "?");
-        FirstUI.addNormalDataToTheGrid("X", "?");
-        FirstUI.addNormalDataToTheGrid("X", "?");
-        FirstUI.addNormalDataToTheGrid("X", "?");
+        FirstUI.addNormalDataToTheGrid("Wind Speed", "m/s");   //!
+        FirstUI.addNormalDataToTheGrid("Wind Angle", "*");     //!
+        FirstUI.addNormalDataToTheGrid("Launch Altitude", "*");//!
+        FirstUI.addNormalDataToTheGrid("Launch Azimuth", "*"); //!
+        FirstUI.addNormalDataToTheGrid("Latitude", "*");       //!
+        FirstUI.addNormalDataToTheGrid("Longitude", "*");      //!
         FirstUI.addNormalDataToTheGrid("Time Step", "s");
         FirstUI.addNormalDataToTheGrid("Playback Speed", "s/s");
         FirstUI.addNormalDataToTheGrid("Simulation Duration", "s");
@@ -211,7 +221,8 @@ public class Main extends Application {
                 FirstUI.NormalDataHashMap.get("Delta-V").setText(CalculateDeltaV());
                 FirstUI.NormalDataHashMap.get("Nose Radius").setText(saved_rocket.get("saved_Nose_Diameter")/2);
                 FirstUI.NormalDataHashMap.get("Specific Impulse").setText(specificImpulse);
-
+                FirstUI.SetRocketSize(saved_rocket.get("saved_Nose_Diameter")/2);
+                FirstUI.refocus();
             }
         });
         FirstUI.addButtonToTheGrid("Environment", 1,1);
@@ -219,19 +230,27 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 EnvironmentParameterMenu();
-
+                FirstUI.NormalDataHashMap.get("Wind Speed").setText(saved_environment.get("saved_Wind_Speed"));
+                FirstUI.NormalDataHashMap.get("Wind Angle").setText(saved_environment.get("saved_Wind_Angle"));
+                FirstUI.NormalDataHashMap.get("Launch Altitude").setText(saved_environment.get("saved_Altitude"));
+                FirstUI.NormalDataHashMap.get("Launch Azimuth").setText(saved_environment.get("saved_Azimuth"));
+                FirstUI.NormalDataHashMap.get("Latitude").setText(saved_environment.get("saved_Latitude"));
+                FirstUI.NormalDataHashMap.get("Longitude").setText(saved_environment.get("saved_Longitude"));
                 FirstUI.NormalDataHashMap.get("Time Step").setText(saved_environment.get("saved_Time_Step"));
                 FirstUI.NormalDataHashMap.get("Playback Speed").setText(saved_environment.get("saved_Playback_Speed"));
                 FirstUI.NormalDataHashMap.get("Simulation Duration").setText(saved_environment.get("saved_Simulation_Duration"));
+                FirstUI.SetRocketOrientation(saved_environment.get("saved_Altitude"),saved_environment.get("saved_Azimuth"));
+                FirstUI.refocus();
             }
         });
         FirstUI.addButtonToTheGrid("Launch", 1,1);
         FirstUI.NormalButtonHashMap.get("Launch").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (saved_rocket.size() != 0 && saved_environment.size() != 0){
+                if (saved_rocket.size() != 0 && saved_environment.size() != 0 && inputs.containsKey("Drag Coefficient") && inputs.containsKey("Longitude")){
                     FirstUI.GetStage().close();
                 }
+                FirstUI.refocus();
             }
         });
         FirstUI.addButtonToTheGrid("Exit", 1,1);
@@ -480,14 +499,35 @@ public class Main extends Application {
         FourthUI.addFieldToTheGrid("Wind Speed","m/s");
         FourthUI.addFieldToTheGrid("Wind Angle","*");
         FourthUI.addText("Orientation:", 20, 3, 1);
-        FourthUI.addFieldToTheGrid("Altitude","y-axis");
-        FourthUI.addFieldToTheGrid("Azimuth","x-axis");
+        FourthUI.addFieldToTheGrid("Altitude","*");
+        FourthUI.addFieldToTheGrid("Azimuth","*");
         FourthUI.addText("Position:", 20, 3, 1);
         FourthUI.addFieldToTheGrid("Latitude","*");
         FourthUI.addFieldToTheGrid("Longitude","*");
 
         FourthUI.addButtonToTheGrid("LOAD",1,1);
-        FourthUI.addButtonToTheGrid("SAVE",1,1);
+        FourthUI.NormalButtonHashMap.get("LOAD").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                HashMap<String, Double> returningenvironmentinputs = database.getEnvironmentRecord(primaryStage);
+                FourthUI.NormalFieldHashMap.get("Time Step").getThing2().setText(returningenvironmentinputs.get("timestep").toString());
+                FourthUI.NormalFieldHashMap.get("Playback Speed").getThing2().setText(returningenvironmentinputs.get("playbackspeed").toString());
+                FourthUI.NormalFieldHashMap.get("Simulation Duration").getThing2().setText(returningenvironmentinputs.get("simulationduration").toString());
+                FourthUI.NormalFieldHashMap.get("Wind Speed").getThing2().setText(returningenvironmentinputs.get("windspeed").toString());
+                FourthUI.NormalFieldHashMap.get("Wind Angle").getThing2().setText(returningenvironmentinputs.get("windangle").toString());
+                FourthUI.NormalFieldHashMap.get("Altitude").getThing2().setText(returningenvironmentinputs.get("altitude").toString());
+                FourthUI.NormalFieldHashMap.get("Azimuth").getThing2().setText(returningenvironmentinputs.get("azimuth").toString());
+                FourthUI.NormalFieldHashMap.get("Latitude").getThing2().setText(returningenvironmentinputs.get("latitude").toString());
+                FourthUI.NormalFieldHashMap.get("Longitude").getThing2().setText(returningenvironmentinputs.get("longitude").toString());
+            }
+        });
+        FourthUI.addButtonToTheGrid("SAVE AS",1,1);
+        FourthUI.NormalButtonHashMap.get("SAVE AS").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                database.insertEnvironmentRecord(primaryStage, FourthUI.NormalFieldHashMap,saved_username);
+            }
+        });
         FourthUI.addButtonToTheGrid("SET TO DEFAULT",1,1);
         FourthUI.NormalButtonHashMap.get("SET TO DEFAULT").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -625,7 +665,7 @@ public class Main extends Application {
     private void saveascsv(java.util.List<String> columnnames, java.util.List<java.util.List<Double>> arraylist, String csvfile){
         try {
             FileWriter filewriter = new FileWriter(csvfile);
-            CSVPrinter csvPrinter = new CSVPrinter(filewriter, CSVFormat.DEFAULT.withHeader((ResultSet) columnnames));
+            CSVPrinter csvPrinter = new CSVPrinter(filewriter, CSVFormat.DEFAULT.withHeader(columnnames.toArray(new String[columnnames.size()])));
             csvPrinter.printRecords(arraylist);
             csvPrinter.flush();
             csvPrinter.close();

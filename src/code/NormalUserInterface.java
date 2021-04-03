@@ -49,6 +49,7 @@ public class NormalUserInterface {
 
     protected TreeTableView<theRecord> treeTableView = new TreeTableView<>();
     protected ArrayList<HashMap<String, String>> rocketTable = null;
+    protected ArrayList<HashMap<String, String>> environmentTable = null;
     protected ScatterChart scatterChart;
     protected ProgressBar progressBar;
 
@@ -178,7 +179,7 @@ public class NormalUserInterface {
     //get functions for hashmaps, to check for invalid data types
 
     //-----------------------------------------------------------------------------------------------
-    public void createRocketTable(Statement statement){
+    public void createrocketTable(Statement statement){
 
 
 
@@ -217,6 +218,62 @@ public class NormalUserInterface {
             String title = rocketTable.get(i).get("title");
             String creationdate = rocketTable.get(i).get("creationdate");
             String password = rocketTable.get(i).get("password");
+            usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID," ",  title, creationdate, password)));
+        }
+
+        TreeItem<theRecord> records = new TreeItem<>(new theRecord(" ","Users"," "," ",null));
+
+        for(TreeItem useritem : usertree.values()){
+            records.getChildren().add(useritem);
+        }
+
+
+        treeTableView.setRoot(records);
+        theGrid.add(treeTableView,0,rowCounter);
+        rowCounter ++;
+
+
+
+    }
+    public void createenvironmentTable(Statement statement){
+
+
+
+        //TreeTableColumn<theRecord, String> useridcolumn = new TreeTableColumn<>("RecordID");
+        TreeTableColumn<theRecord, String> usercolumn = new TreeTableColumn<>("Username");
+        TreeTableColumn<theRecord, String> titlecolumn = new TreeTableColumn<>("Title");
+        TreeTableColumn<theRecord, String> datecolumn = new TreeTableColumn<>("Creation Date");
+        TreeTableColumn<theRecord, String> viewstatuscolumn = new TreeTableColumn<>("Protected");
+
+        //useridcolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("recordID"));
+        usercolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("username"));
+        titlecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("title"));
+        datecolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("creationdate"));
+        viewstatuscolumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("passwordprotection"));
+        //useridcolumn.setMinWidth(100);
+        usercolumn.setMinWidth(150);
+        titlecolumn.setMinWidth(300);
+        datecolumn.setMinWidth(100);
+        viewstatuscolumn.setMinWidth(100);
+        //treeTableView.getColumns().add(useridcolumn);
+        treeTableView.getColumns().add(usercolumn);
+        treeTableView.getColumns().add(titlecolumn);
+        treeTableView.getColumns().add(datecolumn);
+        treeTableView.getColumns().add(viewstatuscolumn);
+
+        environmentTable = getEnvironmentTableValues(statement);
+
+        HashMap<String, TreeItem> usertree = new HashMap<>();
+
+        for(int i=0; i<environmentTable.size(); i++) {
+            String username = environmentTable.get(i).get("username");
+            if(!usertree.containsKey(username)) {
+                usertree.put(username, new TreeItem(new theRecord( " ", username," "," ",null)));
+            }
+            String recordID = environmentTable.get(i).get("recordID");
+            String title = environmentTable.get(i).get("title");
+            String creationdate = environmentTable.get(i).get("creationdate");
+            String password = environmentTable.get(i).get("password");
             usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID," ",  title, creationdate, password)));
         }
 
@@ -285,8 +342,66 @@ public class NormalUserInterface {
 
         return returningrocketinputs;
     }
+
+    private ArrayList getEnvironmentTableValues(Statement statement){
+        ArrayList<HashMap<String, String>> EnvironmentTable = new ArrayList<>();
+        try{
+            ResultSet result = statement.executeQuery("SELECT * FROM environments");
+            while(result.next()){
+                HashMap<String,String> record = new HashMap<>();
+                record.put("recordID", result.getString("recordID"));
+                record.put("username", result.getString("username"));
+                record.put("title", result.getString("title"));
+                record.put("creationdate", result.getString("creationdate"));
+                record.put("password", result.getString("password"));
+                record.put("timestep", result.getString("timestep"));
+                record.put("playbackspeed", result.getString("playbackspeed"));
+                record.put("simulationduration", result.getString("simulationduration"));
+                record.put("windspeed", result.getString("windspeed"));
+                record.put("windangle", result.getString("windangle"));
+                record.put("altitude", result.getString("altitude"));
+                record.put("azimuth", result.getString("azimuth"));
+                record.put("latitude", result.getString("latitude"));
+                record.put("longitude", result.getString("longitude"));
+                EnvironmentTable.add(record);
+            }
+        }catch (Exception e){System.out.println(e.getMessage());}
+
+        for (int i = 0; i < EnvironmentTable.size(); i++){
+            System.out.println(EnvironmentTable.get(i));
+
+        }
+
+
+        return EnvironmentTable;
+    }
+    public HashMap<String, Double> getSelectedEnvironmentHashmap(){
+        HashMap<String, Double> returningenvironmentinputs = new HashMap<>();
+        int index = treeTableView.getSelectionModel().getFocusedIndex();
+        String SelectedrecordID = treeTableView.getSelectionModel().getModelItem(index).getValue().getRecordID();
+        //get hashmap
+        for (int i = 0; i < environmentTable.size(); i++){
+            if(environmentTable.get(i).get("recordID") == SelectedrecordID){
+                returningenvironmentinputs.put("timestep",Double.parseDouble(environmentTable.get(i).get("timestep")));
+                returningenvironmentinputs.put("playbackspeed",Double.parseDouble(environmentTable.get(i).get("playbackspeed")));
+                returningenvironmentinputs.put("simulationduration",Double.parseDouble(environmentTable.get(i).get("simulationduration")));
+                returningenvironmentinputs.put("windspeed",Double.parseDouble(environmentTable.get(i).get("windspeed")));
+                returningenvironmentinputs.put("windangle",Double.parseDouble(environmentTable.get(i).get("windangle")));
+                returningenvironmentinputs.put("altitude",Double.parseDouble(environmentTable.get(i).get("altitude")));
+                returningenvironmentinputs.put("azimuth",Double.parseDouble(environmentTable.get(i).get("azimuth")));
+                returningenvironmentinputs.put("latitude",Double.parseDouble(environmentTable.get(i).get("latitude")));
+                returningenvironmentinputs.put("longitude",Double.parseDouble(environmentTable.get(i).get("longitude")));
+            }
+        }
+
+        return returningenvironmentinputs;
+    }
+    //------------------------------------------------------------------------------------------------
     public ScatterChart getScatterChart(){
         return scatterChart;
+    }
+    public void refocus(){
+        subScene.requestFocus();
     }
 
 }

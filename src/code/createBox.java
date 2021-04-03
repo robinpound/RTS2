@@ -41,7 +41,7 @@ public class createBox {
         phong.setDiffuseColor(Color.GREY);
     }
     public void settexture(){
-        phong.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/multigrass.png")));
+        phong.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/4k Earth.jpg")));
     }
     public void setillumination(){
         phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("../pictures/white.png")));

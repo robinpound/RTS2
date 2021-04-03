@@ -349,7 +349,6 @@ public class TheAnimationWindow extends NormalUserInterface{
         camera_start_distance = highest *2;
         rr = (highest/50);
     }
-    public void refocus(){
-        subScene.requestFocus();
-    }
+
+
 }

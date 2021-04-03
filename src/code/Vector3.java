@@ -22,14 +22,6 @@ public class Vector3 {
     public double getYVec(){ return VecY; }
     public double getZVec(){ return VecZ; }
 
-    public void addXVec(double amount){ VecX = VecX + amount;}
-    public void addYVec(double amount){ VecY = VecY + amount;}
-    public void addZVec(double amount){ VecZ = VecZ + amount;}
-
-    public void setXVec(double amount){ VecX = amount;}
-    public void setYVec(double amount){ VecY = amount;}
-    public void setZVec(double amount){ VecZ = amount;}
-
     //create vector from separate xyz coordinates
     public void setState(double VecX, double VecY, double VecZ){
         this.VecX = VecX;
