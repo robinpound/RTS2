@@ -45,6 +45,9 @@ public class createSphere {
     public void setillumination(String name){
         phong.setSelfIlluminationMap(new Image(getClass().getResourceAsStream(name)));
     }
+    public void setRadius(double radius){
+        sphere.setRadius(radius);
+    }
 
     public void spheresetmaterial(){
         sphere.setMaterial(phong);

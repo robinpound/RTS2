@@ -1,5 +1,6 @@
 package code;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -76,7 +77,7 @@ public class NormalUserInterface {
         theStage.setMaxWidth(windowWidth);
 
     }
-    public void addCameraAndSubscene() {//if 3d
+    public void addCameraAndSubscene() {
         //3D
         camera = new PerspectiveCamera(true);
         root = new Group();
@@ -172,6 +173,9 @@ public class NormalUserInterface {
         theGrid.add(progressBar,column,rowCounter);
         rowCounter++;
     }
+    public void incrementrowcounter(){
+        rowCounter+=1;
+    }
 
     public Stage GetStage(){
         return theStage;
@@ -217,7 +221,11 @@ public class NormalUserInterface {
             String recordID = rocketTable.get(i).get("recordID");
             String title = rocketTable.get(i).get("title");
             String creationdate = rocketTable.get(i).get("creationdate");
-            String password = rocketTable.get(i).get("password");
+            String password = "";
+            if(rocketTable.get(i).get("password").length() != 0){
+                password = "          *****";
+            }
+
             usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID," ",  title, creationdate, password)));
         }
 
@@ -273,7 +281,10 @@ public class NormalUserInterface {
             String recordID = environmentTable.get(i).get("recordID");
             String title = environmentTable.get(i).get("title");
             String creationdate = environmentTable.get(i).get("creationdate");
-            String password = environmentTable.get(i).get("password");
+            String password = "";
+            if(environmentTable.get(i).get("password").length() != 0){
+                password = "          *****";
+            }
             usertree.get(username).getChildren().add(new TreeItem(new theRecord(recordID," ",  title, creationdate, password)));
         }
 
@@ -341,6 +352,26 @@ public class NormalUserInterface {
         }
 
         return returningrocketinputs;
+    }
+    public String getSelectedRocketPassword(){
+        int index = treeTableView.getSelectionModel().getFocusedIndex();
+        String SelectedrecordID = treeTableView.getSelectionModel().getModelItem(index).getValue().getRecordID();
+        for (int i = 0; i < rocketTable.size(); i++){
+            if(rocketTable.get(i).get("recordID") == SelectedrecordID){
+                return rocketTable.get(i).get("password");
+            }
+        }
+        return null;
+    }
+    public String getSelectedEnvironmentPassword(){
+        int index = treeTableView.getSelectionModel().getFocusedIndex();
+        String SelectedrecordID = treeTableView.getSelectionModel().getModelItem(index).getValue().getRecordID();
+        for (int i = 0; i < environmentTable.size(); i++){
+            if(environmentTable.get(i).get("recordID") == SelectedrecordID){
+                return environmentTable.get(i).get("password");
+            }
+        }
+        return null;
     }
 
     private ArrayList getEnvironmentTableValues(Statement statement){

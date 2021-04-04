@@ -3,6 +3,7 @@ package code;
 
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -15,46 +16,61 @@ public class TheAnimationWindow2 extends NormalUserInterface{
     private double ROCKETHEIGHT;
 
     private final PhongMaterial rocketMat = new PhongMaterial();
+    private final PhongMaterial rocketMat2 = new PhongMaterial();
     private Cylinder rocket = new Cylinder(ROCKETRADIUS,ROCKETHEIGHT);
+    private createSphere nose = new createSphere(ROCKETRADIUS,0,0,0);
+    private Group fullrocket = new Group();
 
     private double mouse_x = 0;
     private double mouse_y = 0;
     private double horizontal_cam = 0;
     private double vertical_cam = 0;
+    private int rocketx,rockety,rocketz;
 
     TheAnimationWindow2(int windowHeight, int windowWidth, Stage theStage) {
         super(windowHeight, windowWidth, theStage);
-    }
-    public void SetRocketPosition(int x, int y, int z){
+        fullrocket.getChildren().add(rocket);
+        fullrocket.getChildren().add(nose.getobject());
 
-        rocket.translateXProperty().set(x);
-        rocket.translateYProperty().set(y);
-        rocket.translateZProperty().set(z);
-        rocketMat.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/rocketmaterial.jfif")));
-        rocket.setMaterial(rocketMat);
     }
-    public void addRocket(){
-        root.getChildren().add(rocket);
+    public void SetRocketPosition(int rocketx, int rockety, int rocketz){
+        this.rocketx = rocketx;
+        this.rockety = rockety;
+        this.rocketz = rocketz;
+        fullrocket.translateXProperty().set(rocketx);
+        fullrocket.translateYProperty().set(rockety);
+        fullrocket.translateZProperty().set(rocketz);
+        rocketMat.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/rocketmaterial.jfif")));
+        rocketMat2.setDiffuseMap(new Image(getClass().getResourceAsStream( "../pictures/rockettexture.jpg")));
+        nose.getobject().setMaterial(rocketMat);
+        rocket.setMaterial(rocketMat2);
+    }
+    public void addfullRocket(){
+        root.getChildren().add(fullrocket);
     }
     public void SetRocketOrientation(double altitude, double azimuth){
         System.out.println(altitude);
         System.out.println(azimuth);
         Vector3 v3 = new Vector3(altitude,azimuth);
 
-        Point3D target_orientation = new Point3D(v3.getYVec(),v3.getXVec(),v3.getZVec()).normalize();          //converting to Point3D
-        Point3D original_orientation = new Point3D(0,-1,0).normalize();                                //original orientation of rocket
+        Point3D target_orientation = new Point3D(v3.getYVec(),v3.getXVec(),v3.getZVec()).normalize();           //converting to Point3D
+        Point3D original_orientation = new Point3D(0,1,0).normalize();                                  //original orientation of rocket
         double rotation_angle = Math.toDegrees(Math.acos(original_orientation.dotProduct(target_orientation))); // finds angle between the two 3D vectors
         Point3D rotation_axis = original_orientation.crossProduct(target_orientation).normalize();              // finds axis that is orthogonal (right angles) to both origonal and target orientation vectors
-        rocket.setRotationAxis(rotation_axis);
-        rocket.setRotate(rotation_angle);
+        fullrocket.setRotationAxis(rotation_axis);
+        fullrocket.setRotate(rotation_angle);
 
     }
     public void SetRocketSize(double radius){
+
         ROCKETRADIUS = radius;
         ROCKETHEIGHT = radius*10;
         rocket.setRadius(ROCKETRADIUS);
         rocket.setHeight(ROCKETHEIGHT);
+        nose.setRadius(ROCKETRADIUS-0.1);
+        nose.getobject().setTranslateY((-ROCKETHEIGHT/2));
         SetRocketPosition(20,(int)((-ROCKETHEIGHT/2)-1),600);
+
     }
 
     public void SetCameraPositiion(int x, int y, int z){

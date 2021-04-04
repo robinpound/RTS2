@@ -1,9 +1,11 @@
 package code;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 public class Database {
     private Connection connection = null;
     private Statement statement;
+    private Boolean CorrectPassword = true;
     private HashMap<String, Double> returningrocketinputs = new HashMap<>();
     private HashMap<String, Double> returningenvironmentinputs = new HashMap<>();
     Database(String url) {
@@ -156,7 +159,13 @@ public class Database {
             public void handle(MouseEvent event) {
                 returningrocketinputs = LoadingUI.getSelectedRocketHashmap();
                 if (returningrocketinputs.size() != 0){
-                    LoadingUI.GetStage().close();
+                    if (LoadingUI.getSelectedRocketPassword().length() != 0) {
+                        String password = LoadingUI.getSelectedRocketPassword();
+                        passwordcheck(primaryStage, password);
+                    }
+                    if (CorrectPassword){
+                        LoadingUI.GetStage().close();
+                    }
                 }
             }
         });
@@ -220,7 +229,13 @@ public class Database {
             public void handle(MouseEvent event) {
                 returningenvironmentinputs = LoadingUI.getSelectedEnvironmentHashmap();
                 if (returningenvironmentinputs.size() != 0){
-                    LoadingUI.GetStage().close();
+                    if (LoadingUI.getSelectedEnvironmentPassword().length() != 0) {
+                        String password = LoadingUI.getSelectedEnvironmentPassword();
+                        passwordcheck(primaryStage, password);
+                    }
+                    if (CorrectPassword){
+                        LoadingUI.GetStage().close();
+                    }
                 }
             }
         });
@@ -230,10 +245,41 @@ public class Database {
         return returningenvironmentinputs;
     }
 
+
+
     public void closeDatabase(){
 
         try{if(connection != null) connection.close();}
         catch(SQLException e){System.err.println(e.getMessage());}
     }
 
+
+
+    public void passwordcheck(Stage primaryStage, String password){
+        CorrectPassword = false;
+        NormalUserInterface setPasswordUI = new NormalUserInterface(150,300, primaryStage);
+        setPasswordUI.GetStage().setTitle("Password:");
+        setPasswordUI.addStageDimensions();
+        setPasswordUI.createGridPane(400,1,1);
+        setPasswordUI.addText("    Enter Password   ",30,3,1);
+        setPasswordUI.addFieldToTheGrid("Password"," ");
+        setPasswordUI.NormalFieldHashMap.get("Password").setCoordinatespassword(0,2);
+        setPasswordUI.addButtonToTheGrid("Enter",3,1);
+        setPasswordUI.NormalButtonHashMap.get("Enter").setCoordinates(1,3);
+        setPasswordUI.NormalButtonHashMap.get("Enter").translateObject(0,20);
+        setPasswordUI.NormalButtonHashMap.get("Enter").GetButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
+                if (password.equals(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText())){
+                    System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
+                    CorrectPassword = true;
+                    setPasswordUI.GetStage().close();
+                }
+            }
+        });
+        setPasswordUI.Configure2D();
+        setPasswordUI.GetStage().showAndWait();
+    }
 }

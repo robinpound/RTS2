@@ -179,7 +179,7 @@ public class Main extends Application {
         FirstUI.Configure();
 
         FirstUI.SetRocketPosition(20,-5,600);
-        FirstUI.addRocket();
+        FirstUI.addfullRocket();
         FirstUI.createPad(20,-1,600, 20,20,1);
         FirstUI.SetCameraPositiion(0,-5,500);
         FirstUI.createSun(0,0,2500, 50);
