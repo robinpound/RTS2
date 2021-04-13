@@ -9,12 +9,12 @@ public class Rocket {
     private Vector3 velocity = new Vector3();    //Velocity of rocket
     private Vector3 acceleration = new Vector3();//Acceleration of rocket
     private Vector3 thrust = new Vector3();      //Thrust of rocket - it's the force(N) in:  F = ma
-    private Vector3 drag = new Vector3();        //Drag(N) of rocket    (3.14 * atmospheric_density * drag_coefficient * (nose_diameter)^2)/8
+    private Vector3 drag = new Vector3();        //Drag(N) of rocket (3.14 * atmospheric_density * drag_coefficient * (nose_diameter)^2)/8
 
     private double time_elapsed = 0;             //flight time
     private double fuel_mass = 0;                //mass(Kg) of rocket
     private double dry_mass = 0;                 //dry_mass (Kg) of rocket
-    private double drag_factor = 0;              //How un-aerodynamic the rocket nose is (?) e.g. ?
+    private double drag_factor = 0;              //How un-aerodynamic the rocket nose is (?)
     private double nose_diameter = 0;            //How large the rocket nose diameter is (m)
     private double engine_thrust = 0;            //Engine thrust(N) of rocket engine
     private double burn_rate = 0;                //fuel used (Kg/second)
@@ -90,13 +90,7 @@ public class Rocket {
 
         arraylist.add(current);
     }
-    public void setEngine_on(Boolean b){
-        engine_on = b;
-    }
-    public Vector3 getPosition(){
-        return position;
-    }
-    public void run(Environment environment){//PUT INTO DIFFERENT FUNCTIONS!!!!!!
+    public void run(Environment environment){
         double fuel_used;
         double time_step = environment.get_Timestep();
 
@@ -143,5 +137,11 @@ public class Rocket {
     }
     public List<List<Double>> get_Arraylist() {
         return arraylist;
+    }
+    public void setEngine_on(Boolean b){
+        engine_on = b;
+    }
+    public Vector3 getPosition(){
+        return position;
     }
 }
