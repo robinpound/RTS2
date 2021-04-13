@@ -3,23 +3,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rocket {
-    //CHANGE TO PRIVATE!!!
-    public Vector3 position = new Vector3();    //Position of rocket
-    public Vector3 orientation = new Vector3(); //Orientation of rocket
-    public Vector3 velocity = new Vector3();    //Velocity of rocket
-    public Vector3 acceleration = new Vector3();//Acceleration of rocket
-    public Vector3 thrust = new Vector3();      //Thrust of rocket - it's the force(N) in:  F = ma
-    public Vector3 drag = new Vector3();        //Drag(N) of rocket    (3.14 * atmospheric_density * drag_coefficient * (nose_diameter)^2)/8
 
-    public double time_elapsed = 0;             //flight time
-    public double fuel_mass = 0;                //mass(Kg) of rocket
-    public double dry_mass = 0;                 //dry_mass (Kg) of rocket
-    public double drag_factor = 0;              //How un-aerodynamic the rocket nose is (?) e.g. ?
-    public double nose_diameter = 0;            //How large the rocket nose diameter is (m)
-    public double engine_thrust = 0;            //Engine thrust(N) of rocket engine
-    public double burn_rate = 0;                //fuel used (Kg/second)
+    private Vector3 position = new Vector3();    //Position of rocket
+    private Vector3 orientation = new Vector3(); //Orientation of rocket
+    private Vector3 velocity = new Vector3();    //Velocity of rocket
+    private Vector3 acceleration = new Vector3();//Acceleration of rocket
+    private Vector3 thrust = new Vector3();      //Thrust of rocket - it's the force(N) in:  F = ma
+    private Vector3 drag = new Vector3();        //Drag(N) of rocket    (3.14 * atmospheric_density * drag_coefficient * (nose_diameter)^2)/8
 
-    public boolean engine_on = false;           //is engine burning (engine will only burn if this is true && enough fuel)
+    private double time_elapsed = 0;             //flight time
+    private double fuel_mass = 0;                //mass(Kg) of rocket
+    private double dry_mass = 0;                 //dry_mass (Kg) of rocket
+    private double drag_factor = 0;              //How un-aerodynamic the rocket nose is (?) e.g. ?
+    private double nose_diameter = 0;            //How large the rocket nose diameter is (m)
+    private double engine_thrust = 0;            //Engine thrust(N) of rocket engine
+    private double burn_rate = 0;                //fuel used (Kg/second)
+
+    private boolean engine_on = false;           //is engine burning (engine will only burn if this is true && enough fuel)
 
     List<List<Double>> arraylist = new ArrayList<>(); // 2D list of results
 
@@ -50,38 +50,52 @@ public class Rocket {
         List<Double> current = new ArrayList<>();
         current.add(time_elapsed);
         current.add(fuel_mass);
+
         current.add(position.getXVec());
         current.add(position.getYVec());
         current.add(position.getZVec());
+
         current.add(orientation.getXVec());
         current.add(orientation.getYVec());
         current.add(orientation.getZVec());
+
         current.add(velocity.getXVec());
         current.add(velocity.getYVec());
-        current.add(velocity.getZVec()); //10
+        current.add(velocity.getZVec());
+
         current.add(acceleration.getXVec());
         current.add(acceleration.getYVec());
         current.add(acceleration.getZVec());
+
         current.add(thrust.getXVec());
         current.add(thrust.getYVec());
         current.add(thrust.getZVec());
-        current.add(drag.getXVec()); //17
-        current.add(drag.getYVec()); //18
-        current.add(drag.getZVec()); //19
+
+        current.add(drag.getXVec());
+        current.add(drag.getYVec());
+        current.add(drag.getZVec());
+
         Vector3 wind = environment.get_Wind(position);
-        current.add(wind.getXVec()); //20
+        current.add(wind.getXVec());
         current.add(wind.getYVec());
         current.add(wind.getZVec());
+
         Vector3 gravity = environment.get_Gravity(position);
-        current.add(gravity.getXVec()); //23
+        current.add(gravity.getXVec());
         current.add(gravity.getYVec());
         current.add(gravity.getZVec());
+
         double atmospheric_density = environment.get_AtmosphericDensity(position);
-        current.add(atmospheric_density); //26
+        current.add(atmospheric_density);
 
         arraylist.add(current);
     }
-
+    public void setEngine_on(Boolean b){
+        engine_on = b;
+    }
+    public Vector3 getPosition(){
+        return position;
+    }
     public void run(Environment environment){//PUT INTO DIFFERENT FUNCTIONS!!!!!!
         double fuel_used;
         double time_step = environment.get_Timestep();
@@ -127,7 +141,6 @@ public class Rocket {
         //update 2D array
         update_Arraylist(environment);
     }
-
     public List<List<Double>> get_Arraylist() {
         return arraylist;
     }

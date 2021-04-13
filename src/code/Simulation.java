@@ -29,12 +29,12 @@ public class Simulation {
         environment.setState(time_step, launch_latitude,launch_longitude,launch_altitude,launch_azimuth,wind_speed,wind_angle);
 
         rocket.set_State(fuel_mass,dry_mass,drag_coefficient,nose_diameter,engine_thrust,burn_rate,environment);
-        rocket.engine_on = true;
+        rocket.setEngine_on(true);
 
         while (time_elapsed < simulation_duration){
             rocket.run(environment);
             time_elapsed += environment.get_Timestep();
-            if(environment.get_Altitude(rocket.position) <= 0.0){
+            if(environment.get_Altitude(rocket.getPosition()) <= 0.0){
                 break;
             }
         }
