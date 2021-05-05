@@ -1,23 +1,15 @@
 package code;
-
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.event.EventHandler;
-import javafx.scene.control.TreeTableView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 
 public class Database {
     private Connection connection = null;
-    private Statement statement;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
     private Boolean CorrectPassword = true;
     private HashMap<String, Double> returningrocketinputs = new HashMap<>();
     private HashMap<String, Double> returningenvironmentinputs = new HashMap<>();
@@ -73,8 +65,17 @@ public class Database {
     }
     public Boolean LoginUserCheck(String username, String password){
         try {
-            ResultSet result = statement.executeQuery("SELECT COUNT (*) FROM users WHERE username = '" + username + "' AND password = '" + password + "'");
-            System.out.println(result.getInt(1));
+            String trimmed_username = username.trim();
+            if (trimmed_username.length() == 0 || password.length() == 0) {
+                return false;
+            }
+            String query = "SELECT COUNT (*) FROM users WHERE username=? AND password=?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, trimmed_username);
+            preparedStatement.setString(2, password);
+            //System.out.println(preparedStatement.toString());
+            ResultSet result = preparedStatement.executeQuery();
+            //System.out.println(result.getString(1));
             if (result.getInt(1) > 0) {
                 return true;
             }
@@ -86,21 +87,27 @@ public class Database {
     }
     public Boolean RegisterUser(String username, String password1, String password2){
         try{
-            //Trimming
-            String trailing_space = "\\s+$";
-            String leading_space = "^\\s+";
-            String trimmed_username = username.replaceAll(trailing_space,"").replaceAll(leading_space,"");
-
-            ResultSet result = statement.executeQuery("SELECT COUNT (*) FROM users WHERE username = '" + trimmed_username + "'");//check for existence
-            System.out.println(trimmed_username.length());
-            if (result.getInt(1) > 0 || !password1.equals(password2) || trimmed_username.length() == 0 || password1.length() == 0) {
+            String trimmed_username = username.trim();
+            if (trimmed_username.length() == 0 || password1.length() == 0 || !password1.equals(password2)) {
                 return false;
-            }else{
-                statement.executeUpdate(String.format("INSERT INTO users VALUES(null, '%s', '%s')",trimmed_username,password1));
-                return true;
             }
+            String query = "SELECT COUNT (*) FROM users WHERE username=?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, trimmed_username);
+            //System.out.println(preparedStatement.toString());
+            ResultSet result = preparedStatement.executeQuery();
+            if (result.getInt(1) > 0) {
+                return false;
+            }
+            String update = "INSERT INTO users VALUES(null, ?, ?)";
+            preparedStatement = connection.prepareStatement(update);
+            preparedStatement.setString(1, trimmed_username);
+            preparedStatement.setString(2, password1);
+            preparedStatement.executeUpdate();
+            //System.out.println(preparedStatement.toString());
+            return true;
         }catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -133,8 +140,17 @@ public class Database {
                     String title = SavingUI.NormalFieldHashMap.get("Title").getValue();
                     String password = SavingUI.NormalFieldHashMap.get("Record Password").getThing4().getText();
                     String date = statement.executeQuery("SELECT date('now')").getString(1);
-                    System.out.println(title + "   " + date + " !!!!!!!!!!");
-                    statement.executeUpdate(String.format("INSERT INTO rockets VALUES(null, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", saved_username, title, date, password, fuelmass, hullmass, enginemass, payloadmass, enginethrust, burnrate, nosediameter, dragcoefficient));
+                    //System.out.println(title + "   " + date + " !!!!!!!!!!");
+                    String update = String.format("INSERT INTO rockets VALUES(null, ?, ?, ?, ?," +
+                                    " '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f')",
+                            fuelmass, hullmass, enginemass, payloadmass, enginethrust,
+                            burnrate, nosediameter, dragcoefficient);
+                    preparedStatement = connection.prepareStatement(update);
+                    preparedStatement.setString(1, saved_username.trim());
+                    preparedStatement.setString(2, title);
+                    preparedStatement.setString(3, date);
+                    preparedStatement.setString(4, password);
+                    preparedStatement.executeUpdate();
                     SavingUI.GetStage().close();
                 }catch (Exception e){
                     System.out.println(e.getMessage());
@@ -204,7 +220,16 @@ public class Database {
                     String title = SavingUI.NormalFieldHashMap.get("Title").getValue();
                     String password = SavingUI.NormalFieldHashMap.get("Record Password").getThing4().getText();
                     String date = statement.executeQuery("SELECT date('now')").getString(1);
-                    statement.executeUpdate(String.format("INSERT INTO environments VALUES(null, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", saved_username, title, date, password, timestep, playbackspeed, simulationduration, windspeed, windangle, altitude, azimuth, latitude, longitude));
+                    String update = String.format("INSERT INTO environments VALUES(null, ?, ?, ?, ?," +
+                                    " '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f')",
+                            timestep, playbackspeed, simulationduration, windspeed,
+                            windangle, altitude, azimuth, latitude, longitude);
+                    preparedStatement = connection.prepareStatement(update);
+                    preparedStatement.setString(1, saved_username.trim());
+                    preparedStatement.setString(2, title);
+                    preparedStatement.setString(3, date);
+                    preparedStatement.setString(4, password);
+                    preparedStatement.executeUpdate();
                     SavingUI.GetStage().close();
                 }catch (Exception e){
                     System.out.println(e.getMessage());
@@ -245,15 +270,11 @@ public class Database {
         return returningenvironmentinputs;
     }
 
-
-
     public void closeDatabase(){
 
         try{if(connection != null) connection.close();}
         catch(SQLException e){System.err.println(e.getMessage());}
     }
-
-
 
     public void passwordcheck(Stage primaryStage, String password){
         CorrectPassword = false;
@@ -271,9 +292,9 @@ public class Database {
             @Override
             public void handle(MouseEvent event) {
 
-                System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
+                //System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
                 if (password.equals(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText())){
-                    System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
+                    //System.out.println(setPasswordUI.NormalFieldHashMap.get("Password").getThing4().getText() + password);
                     CorrectPassword = true;
                     setPasswordUI.GetStage().close();
                 }

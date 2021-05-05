@@ -7,28 +7,71 @@
 	</style>
 	<title>3D-Rocket Trajectory Simulator</title>
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
-	<h1>RTS-2: HOME</h1>
-	<h3>About:</h3>
-	<p style="margin-left:5pt">This website is used to help users navigate 3D Rocket Trajectory Simulator 2,
-		give helpful tips, and inform them of important features that can be used to more accurately simulate rockets.
-		Below is a list of links of all the different menus you may encounter. You may find a
-		<img src="../pictures/QuestionMark.PNG" width="13" height="13" alt=""> at the very bottom corners of most
-		pages throughout the program, which will link you to the relevant menu resources.
-	</p>
-	<h3>Links:</h3>
-	<ul>
-		<li><a href="RLMenu.html">Register & Login</a></li>
-		<li><a href="BMenu">Building</a></li>
-		<li><a href="SMenu">Simulation</a></li>
-		<li><a href="DMenu">Documentation</a></li>
-		<li><a href="OMenu">Other Information</a></li>
-	</ul>
+	<div class="w3-container">
+		<div class="w3-panel w3-border">
+			<h1>RTS-2: HOME</h1>
+		</div>
+		<div class="w3-panel w3-border">
+			<h3>About:</h3>
+			
+			<div class="w3-panel w3-border-left">
+				<p style="margin-left:5pt">This website is used to help users navigate 3D Rocket Trajectory Simulator 2,
+					give helpful tips, and inform them of important features that can be used to more accurately simulate rockets.
+					Below is a list of links of all the different menus you may encounter. You may find a
+					<img src="../pictures/QuestionMark.PNG" width="13" height="13" alt=""> at the very bottom corners of most
+					pages throughout the program, which will link you to the relevant menu resources.
+				</p>
+			</div>
+			
+			<h3>Links:</h3>
+			<div class="w3-panel w3-border-left">
+				<ul>
+					<li><a href="RLMenu.html">Register & Login</a></li>
+					<li><a href="BMenu">Building</a></li>
+					<li><a href="SMenu">Simulation</a></li>
+					<li><a href="DMenu">Documentation</a></li>
+					<li><a href="OMenu">Other Information</a></li>
+				</ul>
+			</div>
+			<p>The Problem I have chosen is to avoid having to test rockets by building and launching prototypes, through the use of software, for both aerospace engineers and model rocket hobbyists. The main problems with building and launching prototypes are:</p>
+			<div class="w3-panel w3-border-left">
+				<ul>
+					<li>Rockets can be expensive. The cost of materials and construction are normally extremely high, but there are also many other costs which must be taken into account, including fuel and even legal costs and insurance. All rocket programmes, whether for aerospace or hobbyist users, need to work to limited budgets, so unnecessary launches must always be avoided.</li>
+					<li>Rockets can be time consuming to both build and launch. Designing the rocket alone, is a long and skillful task, let alone building it to prototype. Every time there is a design change, and the engineer wants to test the new design, they would have to order the construction and launch of the rocket, which is inefficient and time consuming. </li>
+					<li>Rockets can be affected by uncontrollable events in the environment, which may skew data, such as a gust of wind. This means that changes to the rocket's trajectory can't be confirmed to be the result of a change in design, as it is not tested in a controlled environment / a closed space.</li>
+					<li>Rockets will need a suitable launch and recovery site. Depending upon the scale of the rocket, the user may need to hire a launch site such as a field or a designated launch pad such as at the Kennedy Space Center, which would lead to the recovery site being in the ocean, where you would have to keep ships away from an area of sea. Furthermore depending upon how high the user's rocket flies, they may need to register airspace and they will need permission and certification if they want to launch a high-power rocket.</li>
+					<li>Rockets may be damaged or destroyed. Launching rockets can be hazardous due to the explosive nature of their fuel and the huge amounts of energy involved. However, launching prototype rockets has additional risk factors because the design is still being developed, and may be defective. Any serious fault in the rocket or the launch process will usually result in the destruction of the rocket and any payload it may contain.</li>
+					<li>Rockets may have manufacturing errors. Even if an error is not serious enough to cause the rocket to be destroyed, it is very likely that the flight would be cut short and aborted. This would then mean that the flight would need to be repeated, with additional costs and delays.</li>
+					<li>Rockets are usually designed by teams but there is no unified way to share and record experiments and results. This can lead to miscommunication and misunderstanding between members of the team.</li>
+				</ul>
+			</div>
+			<p>A solution through the use of software would tackle all these problems in one go, and fix inefficiency issues such as having to manually calculate each flight trajectory which means it'll avoid human mathematical errors and increase productivity.</p>
+			<p>The functionality offered by this software is summarised below:</p>
+			<div class="w3-panel w3-border-left">
+				<ul>
+					<li>Simulates the flight of a ground-launched rocket (anything from a small sounding rocket to a large satellite booster rocket).</li>
+					<li>Provides separate GUIs to specify parameter sets describing the launch characteristics of the rocket and its environment.</li>
+					<li>Displays a 3-D visual representation of the rocket before launch, to confirm that the characteristics are reasonable.</li>
+					<li>Shows an animated 3-D display of the trajectory, including live display of flight data.</li>
+					<li>Plots graphs for analysis of flight parameters.</li>
+					<li>Exports flight trajectory in CSV format for analysis in standard spreadsheet software.</li>
+					<li>Stores initial flight parameter sets in an SQL database for later re-use and for sharing with other users.</li>
+					<li>Provides access to stored flight parameter sets via a tree-view list.</li>
+					<li>Controls access to flight parameter sets via individual passwords.</li>
+					<li>Controls access to the system as a whole via usernames and passwords.</li>
+					<li>Allows limited guest access without registering.</li>
+					<li>Provides appropriate help and guidance during use, via standard HTML web pages.</li>
+				</ul>
+			</div>
+		</div>	
+		<div class="w3-panel w3-leftbar w3-light-grey">
+			<p class="w3-xlarge w3-serif"><i>"When you launch in a rocket, you're not really flying that rocket. You're just sort of hanging on."</i></p>
+			<p>Michael P.Anderson</p>
+		</div>
 
-
-	<p></p>
+	</div>
 </body>
 </html>
-
-<!--This is a comment-->
-<!--   <a href="Purpose.html">projects</a>   -->

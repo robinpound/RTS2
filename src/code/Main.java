@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -14,14 +13,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Main extends Application {
 
-    private Boolean CloseClicked = false; //need to use to close windows using X
+    private Boolean CloseClicked = false; //used to check is x button is clicked
     private HashMap<String, Double> inputs = new HashMap<String, Double>();
     private Stage primaryStage;
     private double playback_speed;
@@ -30,9 +28,6 @@ public class Main extends Application {
     private Rocket theRocket;
     private String xaxis;
     private String yaxis;
-
-
-    //turn to hashmaps(rocket and environment). set default falues list/arraylist.
 
     private HashMap<String, Double> saved_rocket = new HashMap<>();
     private HashMap<String, Double> saved_environment = new HashMap<>();
@@ -69,8 +64,10 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         LoginMenu();
         BuildingMenu();
-        CalculateTrajectory();
-        SimulationMenu(); //make theRocket member of the class (private)
+        if(inputs.containsKey("Drag Coefficient") && inputs.containsKey("Longitude")) {
+            CalculateTrajectory();
+            SimulationMenu();
+        }
         closeDatabase();
     }
 
@@ -302,9 +299,9 @@ public class Main extends Application {
         SecondUI.addNormalDataToTheGrid("Acceleration", "m/s^2");
         SecondUI.addNormalDataToTheGrid("Fuel", "kg");
         SecondUI.addProgressBar(0);
-        SecondUI.addNormalDataToTheGrid("Atmospheric Density", "kg/m^3"); // do later
-        SecondUI.addNormalDataToTheGrid("Gravity", "kg/m^3"); // do later
-        SecondUI.addNormalDataToTheGrid("Drag", "N"); // do later
+        SecondUI.addNormalDataToTheGrid("Atmospheric Density", "kg/m^3");
+        SecondUI.addNormalDataToTheGrid("Gravity", "m/s^2");
+        SecondUI.addNormalDataToTheGrid("Drag", "N");
 
         SecondUI.addText("________________________", 20, 3, 1);
         SecondUI.addText("Options:", 30, 3, 1);

@@ -43,20 +43,20 @@ public class NormalData {
         thing2.setMaxWidth(145);
         thing2.setMinWidth(145);
 
-        grid.getColumnConstraints().removeAll();                          // tidy up any previous constraints that may have been set up
+        grid.getColumnConstraints().removeAll();// tidy up any previous constraints that may have been set up
         grid.add(thing, column, row);
         grid.add(thing2,column+1, row);
         grid.add(thing3,column+2, row);
-        ColumnConstraints defaultconstraints = new ColumnConstraints();   // default constraints
-        ColumnConstraints thing2constraints = new ColumnConstraints();    // constraints to right justify data fields
+        ColumnConstraints defaultconstraints = new ColumnConstraints();// default constraints
+        ColumnConstraints thing2constraints = new ColumnConstraints();// constraints to right justify data fields
 
 
-        thing2constraints.setFillWidth(true);                           //
-        thing2constraints.setHalignment(HPos.RIGHT);                      //
+        thing2constraints.setFillWidth(true);
+        thing2constraints.setHalignment(HPos.RIGHT);
 
         for(int i=0; i<column+2; i++) {
-            grid.getColumnConstraints().add(i, defaultconstraints);     // add empty constraints for preceding columns
+            grid.getColumnConstraints().add(i, defaultconstraints);// add empty constraints for preceding columns
         }
-        grid.getColumnConstraints().add(1, thing2constraints);          // add special constraints for data column
+        grid.getColumnConstraints().add(1, thing2constraints);// add special constraints for data column
     }
 }

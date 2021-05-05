@@ -1,11 +1,6 @@
 package code;
-
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-
-import javax.swing.*;
 
 public class NormalButton {
     private Button btn;
@@ -38,7 +33,7 @@ public class NormalButton {
         removeAndAdd();
 
     }
-    private void removeAndAdd(){
+    private void removeAndAdd(){//if you want to change the location of the button
         grid.getChildren().remove(btn);
         grid.add(btn,column,row,columnSpan,rowSpan);
     }

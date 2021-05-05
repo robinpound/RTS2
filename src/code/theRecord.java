@@ -22,6 +22,5 @@ public class theRecord {
     public String getCreationdate(){return creationdate;}
     public String getPasswordprotection(){return passwordprotection;}
 
-    //may have to do setters as well as getters! not sure yet...
 
 }

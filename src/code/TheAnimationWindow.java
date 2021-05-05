@@ -197,7 +197,6 @@ public class TheAnimationWindow extends NormalUserInterface{
             mouse_x = event.getSceneX();
             mouse_y = event.getSceneY();
             event.consume();
-            //System.out.println(String.format("%.3f",event.getSceneX()));
 
         });
     }
@@ -349,6 +348,4 @@ public class TheAnimationWindow extends NormalUserInterface{
         camera_start_distance = highest *2;
         rr = (highest/50);
     }
-
-
 }
