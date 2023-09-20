@@ -1,5 +1,4 @@
 # RTS2
-3D-Rocket Trajectory Simulator v2
 ![image](https://github.com/robinpound/RTS2/assets/54936470/3fbc7f14-7f9d-41c7-9187-20d85762c94f)
 
 
